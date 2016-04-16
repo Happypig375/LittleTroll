@@ -27,6 +27,7 @@ Partial Class Main
         Me.SoundEmitter = New System.Windows.Forms.TabPage()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.Settings = New System.Windows.Forms.TabPage()
+        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
         Me.Tabs.SuspendLayout()
         Me.SoundEmitter.SuspendLayout()
         Me.SuspendLayout()
@@ -44,6 +45,7 @@ Partial Class Main
         '
         'SoundEmitter
         '
+        Me.SoundEmitter.Controls.Add(Me.DateTimePicker1)
         Me.SoundEmitter.Controls.Add(Me.CheckBox1)
         Me.SoundEmitter.Location = New System.Drawing.Point(4, 22)
         Me.SoundEmitter.Name = "SoundEmitter"
@@ -56,7 +58,7 @@ Partial Class Main
         'CheckBox1
         '
         Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(27, 86)
+        Me.CheckBox1.Location = New System.Drawing.Point(8, 6)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(81, 17)
         Me.CheckBox1.TabIndex = 0
@@ -72,6 +74,13 @@ Partial Class Main
         Me.Settings.TabIndex = 1
         Me.Settings.Text = "Settings"
         Me.Settings.UseVisualStyleBackColor = True
+        '
+        'DateTimePicker1
+        '
+        Me.DateTimePicker1.Location = New System.Drawing.Point(8, 30)
+        Me.DateTimePicker1.Name = "DateTimePicker1"
+        Me.DateTimePicker1.Size = New System.Drawing.Size(183, 20)
+        Me.DateTimePicker1.TabIndex = 1
         '
         'Main
         '
@@ -93,5 +102,6 @@ Partial Class Main
     Friend WithEvents SoundEmitter As System.Windows.Forms.TabPage
     Friend WithEvents Settings As System.Windows.Forms.TabPage
     Friend WithEvents CheckBox1 As System.Windows.Forms.CheckBox
+    Friend WithEvents DateTimePicker1 As System.Windows.Forms.DateTimePicker
 
 End Class
