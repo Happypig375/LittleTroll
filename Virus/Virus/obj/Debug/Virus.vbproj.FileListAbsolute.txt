@@ -30,3 +30,12 @@ C:\Users\user\Source\Workspaces\LittleTroll\Virus\Virus\obj\Debug\Virus.vbproj.R
 C:\Users\user\Source\Workspaces\LittleTroll\Virus\Virus\obj\Debug\Virus.exe
 C:\Users\user\Source\Workspaces\LittleTroll\Virus\Virus\obj\Debug\Virus.xml
 C:\Users\user\Source\Workspaces\LittleTroll\Virus\Virus\obj\Debug\Virus.pdb
+C:\Users\user\Source\Workspaces\LittleTroll\Virus\Virus\bin\Debug\Virus.exe
+C:\Users\user\Source\Workspaces\LittleTroll\Virus\Virus\bin\Debug\Virus.pdb
+C:\Users\user\Source\Workspaces\LittleTroll\Virus\Virus\bin\Debug\Virus.xml
+C:\Users\user\Source\Workspaces\LittleTroll\Virus\Virus\bin\Debug\Interop.ShockwaveFlashObjects.dll
+C:\Users\user\Source\Workspaces\LittleTroll\Virus\Virus\bin\Debug\AxInterop.ShockwaveFlashObjects.dll
+C:\Users\user\Source\Workspaces\LittleTroll\Virus\Virus\obj\Debug\Virus.Form1.resources
+C:\Users\user\Source\Workspaces\LittleTroll\Virus\Virus\obj\Debug\Virus.Form2.resources
+C:\Users\user\Source\Workspaces\LittleTroll\Virus\Virus\obj\Debug\Virus.Resources.resources
+C:\Users\user\Source\Workspaces\LittleTroll\Virus\Virus\obj\Debug\Virus.vbproj.GenerateResource.Cache
