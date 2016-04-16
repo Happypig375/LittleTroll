@@ -1,8 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
-MinimumVisualStudioVersion = 10.0.40219.1
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Basic Express 2008
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Virus", "Virus\Virus.vbproj", "{664304FF-57EE-4B43-B3D4-29C564C34F07}"
 EndProject
 Global

@@ -24,3 +24,9 @@ C:\Users\Alexander\Documents\Visual Studio 2008\Projects\Virus\Virus\obj\Debug\V
 C:\Users\Alexander\Documents\Visual Studio 2008\Projects\Virus\Virus\bin\Debug\AxInterop.ShockwaveFlashObjects.dll
 C:\Users\Alexander\Documents\Visual Studio 2008\Projects\Virus\Virus\obj\Debug\AxInterop.ShockwaveFlashObjects.dll
 C:\Users\Alexander\Documents\Visual Studio 2008\Projects\Virus\Virus\obj\Debug\Virus.Form2.resources
+C:\Users\user\Source\Workspaces\LittleTroll\Virus\Virus\obj\Debug\Interop.ShockwaveFlashObjects.dll
+C:\Users\user\Source\Workspaces\LittleTroll\Virus\Virus\obj\Debug\AxInterop.ShockwaveFlashObjects.dll
+C:\Users\user\Source\Workspaces\LittleTroll\Virus\Virus\obj\Debug\Virus.vbproj.ResolveComReference.cache
+C:\Users\user\Source\Workspaces\LittleTroll\Virus\Virus\obj\Debug\Virus.exe
+C:\Users\user\Source\Workspaces\LittleTroll\Virus\Virus\obj\Debug\Virus.xml
+C:\Users\user\Source\Workspaces\LittleTroll\Virus\Virus\obj\Debug\Virus.pdb
