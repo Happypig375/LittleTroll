@@ -1,0 +1,26 @@
+C:\Users\Alexander\AppData\Local\Temporary Projects\Virus\bin\Debug\Virus.exe
+C:\Users\Alexander\AppData\Local\Temporary Projects\Virus\bin\Debug\Virus.pdb
+C:\Users\Alexander\AppData\Local\Temporary Projects\Virus\bin\Debug\Virus.xml
+C:\Users\Alexander\AppData\Local\Temporary Projects\Virus\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Alexander\AppData\Local\Temporary Projects\Virus\obj\Debug\Virus.Form1.resources
+C:\Users\Alexander\AppData\Local\Temporary Projects\Virus\obj\Debug\Virus.Resources.resources
+C:\Users\Alexander\AppData\Local\Temporary Projects\Virus\obj\Debug\Virus.vbproj.GenerateResource.Cache
+C:\Users\Alexander\AppData\Local\Temporary Projects\Virus\obj\Debug\Virus.exe
+C:\Users\Alexander\AppData\Local\Temporary Projects\Virus\obj\Debug\Virus.xml
+C:\Users\Alexander\AppData\Local\Temporary Projects\Virus\obj\Debug\Virus.pdb
+C:\Users\Alexander\Documents\Visual Studio 2008\Projects\Virus\Virus\obj\Debug\Virus.exe
+C:\Users\Alexander\Documents\Visual Studio 2008\Projects\Virus\Virus\obj\Debug\Virus.xml
+C:\Users\Alexander\Documents\Visual Studio 2008\Projects\Virus\Virus\obj\Debug\Virus.pdb
+C:\Users\Alexander\Documents\Visual Studio 2008\Projects\Virus\Virus\bin\Debug\Virus.exe
+C:\Users\Alexander\Documents\Visual Studio 2008\Projects\Virus\Virus\bin\Debug\Virus.pdb
+C:\Users\Alexander\Documents\Visual Studio 2008\Projects\Virus\Virus\bin\Debug\Virus.xml
+C:\Users\Alexander\Documents\Visual Studio 2008\Projects\Virus\Virus\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Alexander\Documents\Visual Studio 2008\Projects\Virus\Virus\obj\Debug\Virus.Form1.resources
+C:\Users\Alexander\Documents\Visual Studio 2008\Projects\Virus\Virus\obj\Debug\Virus.Resources.resources
+C:\Users\Alexander\Documents\Visual Studio 2008\Projects\Virus\Virus\obj\Debug\Virus.vbproj.GenerateResource.Cache
+C:\Users\Alexander\Documents\Visual Studio 2008\Projects\Virus\Virus\bin\Debug\Interop.ShockwaveFlashObjects.dll
+C:\Users\Alexander\Documents\Visual Studio 2008\Projects\Virus\Virus\obj\Debug\Interop.ShockwaveFlashObjects.dll
+C:\Users\Alexander\Documents\Visual Studio 2008\Projects\Virus\Virus\obj\Debug\Virus.vbproj.ResolveComReference.cache
+C:\Users\Alexander\Documents\Visual Studio 2008\Projects\Virus\Virus\bin\Debug\AxInterop.ShockwaveFlashObjects.dll
+C:\Users\Alexander\Documents\Visual Studio 2008\Projects\Virus\Virus\obj\Debug\AxInterop.ShockwaveFlashObjects.dll
+C:\Users\Alexander\Documents\Visual Studio 2008\Projects\Virus\Virus\obj\Debug\Virus.Form2.resources
