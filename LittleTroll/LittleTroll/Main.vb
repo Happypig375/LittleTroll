@@ -1,9 +1,112 @@
 ﻿Public Class Main
+#Region "Inherited from MMLCHelper"
+    Dim EnteringPassword As Boolean
+    Dim EnteringPasswordCode As Integer
+    Private RestoreSize As New Size
+    Enum HotkeyModifier As UShort
+        None = &H0
+        Alt = &H1 'Alt key
+        Control = &H2
+        Shift = &H4
+        Windows = &H8
+        WM_HOTKEY = &H312
+        Norepeat = &H4000
+    End Enum
+    <Runtime.InteropServices.DllImport("User32.dll")> _
+    Public Shared Function RegisterHotKey(ByVal hwnd As IntPtr, ByVal id As Integer, _
+                                    ByVal fsModifiers As Integer, ByVal vk As Integer) As Integer
+    End Function
+    <Runtime.InteropServices.DllImport("User32.dll")> _
+    Public Shared Function UnregisterHotKey(ByVal hwnd As IntPtr, ByVal id As Integer) As Integer
+    End Function
+    Protected Overrides Sub WndProc(ByRef m As System.Windows.Forms.Message)
+        If m.Msg = HotkeyModifier.WM_HOTKEY Then
+            Dim id As IntPtr = m.WParam
+            Select Case (id.ToInt32)
+                Case 400
+                    If Not EnteringPassword Then
+                        RegisterHotKey(Me.Handle, 401, HotkeyModifier.None, Keys.D1)
+                        RegisterHotKey(Me.Handle, 402, HotkeyModifier.None, Keys.D2)
+                        RegisterHotKey(Me.Handle, 403, HotkeyModifier.None, Keys.D3)
+                        RegisterHotKey(Me.Handle, 404, HotkeyModifier.None, Keys.D4)
+                        RegisterHotKey(Me.Handle, 405, HotkeyModifier.None, Keys.D5)
+                        RegisterHotKey(Me.Handle, 406, HotkeyModifier.None, Keys.D6)
+                        RegisterHotKey(Me.Handle, 407, HotkeyModifier.None, Keys.D7)
+                        RegisterHotKey(Me.Handle, 408, HotkeyModifier.None, Keys.D8)
+                        RegisterHotKey(Me.Handle, 409, HotkeyModifier.None, Keys.D9)
+                        RegisterHotKey(Me.Handle, 410, HotkeyModifier.None, Keys.D0)
+                        RegisterHotKey(Me.Handle, 411, HotkeyModifier.None, Keys.NumPad1)
+                        RegisterHotKey(Me.Handle, 412, HotkeyModifier.None, Keys.NumPad2)
+                        RegisterHotKey(Me.Handle, 413, HotkeyModifier.None, Keys.NumPad3)
+                        RegisterHotKey(Me.Handle, 414, HotkeyModifier.None, Keys.NumPad4)
+                        RegisterHotKey(Me.Handle, 415, HotkeyModifier.None, Keys.NumPad5)
+                        RegisterHotKey(Me.Handle, 416, HotkeyModifier.None, Keys.NumPad6)
+                        RegisterHotKey(Me.Handle, 417, HotkeyModifier.None, Keys.NumPad7)
+                        RegisterHotKey(Me.Handle, 418, HotkeyModifier.None, Keys.NumPad8)
+                        RegisterHotKey(Me.Handle, 419, HotkeyModifier.None, Keys.NumPad9)
+                        RegisterHotKey(Me.Handle, 420, HotkeyModifier.None, Keys.NumPad0)
+                        RegisterHotKey(Me.Handle, 421, HotkeyModifier.None, Keys.Back)
+                        RegisterHotKey(Me.Handle, 422, HotkeyModifier.None, Keys.Enter)
+                        RegisterHotKey(Me.Handle, 423, HotkeyModifier.None, Keys.Escape)
+                        RegisterHotKey(Me.Handle, 424, HotkeyModifier.None, Keys.OemMinus)
+                        RegisterHotKey(Me.Handle, 425, HotkeyModifier.None, Keys.Subtract)
+                    End If
+                    EnteringPassword = True
+                    EnteringPasswordCode = 0
+                Case 401 To 409
+                    EnteringPasswordCode = CInt(Str(EnteringPasswordCode) & Str(id.ToInt32 - 400))
+                Case 410 To 419
+                    EnteringPasswordCode = CInt(Str(EnteringPasswordCode) & Str(id.ToInt32 - 410))
+                Case 420
+                    EnteringPasswordCode = CInt(Str(EnteringPasswordCode) & "0")
+                Case 421
+                    EnteringPasswordCode = CInt(Str(EnteringPasswordCode).Reverse.ToString.Remove(0).Reverse.ToString)
+                Case 422
+                    UnregisterInputHotKey()
 
+                Case 423
+                    UnregisterInputHotKey()
+                    EnteringPasswordCode = 0
+                Case 424, 425
+                    EnteringPasswordCode = -EnteringPasswordCode
+                Case 399
+                    ShowHide()
+            End Select
+        End If
+        MyBase.WndProc(m)
 
+    End Sub
+    Friend Sub UnregisterInputHotKey()
+        EnteringPassword = False
+        For i As Integer = 401 To 425
+            UnregisterHotKey(Me.Handle, i)
+        Next
+    End Sub
+    Friend Sub ShowHide()
+        Me.TopMost = Not Me.TopMost
+        If Me.TopMost Then
+            Me.Show()
+            Me.ClientSize = New Size(Me.RestoreBounds.X, Me.RestoreBounds.Y)
+            Me.ClientSize = RestoreSize
+        Else : Me.Hide()
+        End If
+    End Sub
+    Friend Sub Register()
+        RegisterHotKey(Me.Handle, 399, HotkeyModifier.Control Or HotkeyModifier.Alt Or HotkeyModifier.Shift Or HotkeyModifier.Windows, Keys.F12)
+    End Sub
+    Friend Sub Unregister()
+        UnregisterHotKey(Me.Handle, 399)
+    End Sub
+#End Region
+
+    Private Sub Main_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        Unregister()
+    End Sub
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Type.SelectedIndex = 0
-        CreateMyListView()
+        ' CreateMyListView()
+        RestoreSize = Me.ClientSize
+        Register()
     End Sub
 
     Private Sub AddSchedule_Click(sender As Object, e As EventArgs) Handles AddSchedule.Click
