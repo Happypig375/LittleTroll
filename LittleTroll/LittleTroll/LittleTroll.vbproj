@@ -151,6 +151,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="183514608148513772.ico" />
+    <None Include="TD72_Amaryllis.wav" />
+    <None Include="TD72_Amaryllis.mp3" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

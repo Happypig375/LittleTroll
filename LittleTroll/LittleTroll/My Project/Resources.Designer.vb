@@ -59,5 +59,14 @@ Namespace My.Resources
                 resourceCulture = value
             End Set
         End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        '''</summary>
+        Friend ReadOnly Property TD72_Amaryllis() As System.IO.UnmanagedMemoryStream
+            Get
+                Return ResourceManager.GetStream("TD72_Amaryllis", resourceCulture)
+            End Get
+        End Property
     End Module
 End Namespace
