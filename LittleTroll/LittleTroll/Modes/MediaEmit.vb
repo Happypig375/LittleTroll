@@ -10,8 +10,19 @@
     Partial Friend Class MyApplication
         Partial Friend Class MyModes
             Public Class MediaEmitMode
+                Private EArgs As StartEventArgs = Nothing
+                Sub New(EArgs As StartEventArgs)
+                    Me.EArgs = EArgs
+                End Sub
                 Sub Main()
-                    If My.Application.CommandLineArgs Then
+                    If EArgs = Nothing Then Throw New NullReferenceException("New instance method must be used.")
+                    Select Case EArgs.RunMode
+                        Case RunMode.Schoolbell
+                        Case RunMode.TrollSong
+                        Case RunMode.Trollface
+                        Case RunMode.TrollSongAndface
+                        Case Else
+                    End Select
                 End Sub
             End Class
         End Class

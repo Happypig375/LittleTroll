@@ -97,6 +97,12 @@
       <DependentUpon>Main.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="MediaEmit.Designer.vb">
+      <DependentUpon>MediaEmit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MediaEmit.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Modes\Batch.vb" />
     <Compile Include="Modes\MediaEmit.vb" />
     <Compile Include="Modes\Modes.vb" />
@@ -120,6 +126,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MediaEmit.resx">
+      <DependentUpon>MediaEmit.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

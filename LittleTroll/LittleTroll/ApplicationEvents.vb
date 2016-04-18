@@ -1,5 +1,6 @@
 ﻿Namespace My
-    ' The following events are available for MyApplication:
+
+    ' The following events are available for MyApplication:
     ' 
     ' Startup: Raised when the application starts, before the startup form is created.
     ' Shutdown: Raised after all application forms are closed.  This event is not raised if the application terminates abnormally.
@@ -20,13 +21,29 @@
         Public Class StartEventArgs
             Inherits System.EventArgs
             Public ReadOnly RunMode As RunMode
-            Friend Sub New(_RunMode As RunMode)
+            Private NullArguments As Boolean
+            Friend Sub New(_RunMode As RunMode, Optional NullArguments As Boolean = False)
                 RunMode = _RunMode
+                Me.NullArguments = NullArguments
             End Sub
             Friend SpecifiedArguments As New List(Of String)
             Friend Function RunModeHasFlag(Flag As Byte) As Boolean
                 Return (Flag And RunMode) = RunMode
             End Function
+            Public Shared Operator =(A As StartEventArgs, B As StartEventArgs)
+                If A.NullArguments Or B.NullArguments Then
+                    Return A.RunMode = B.RunMode
+                Else
+                    Return A.RunMode = B.RunMode And A.SpecifiedArguments.Equals(B.SpecifiedArguments)
+                End If
+            End Operator
+            Public Shared Operator <>(A As StartEventArgs, B As StartEventArgs)
+                If A.NullArguments Or B.NullArguments Then
+                    Return A.RunMode <> B.RunMode
+                Else
+                    Return A.RunMode = B.RunMode And Not A.SpecifiedArguments.Equals(B.SpecifiedArguments)
+                End If
+            End Operator
         End Class
         Public Event CommandLineRead(sender As Object, e As StartEventArgs)
         Private Sub ReadCommandLine(ByVal sender As Object,
@@ -75,7 +92,7 @@
                 Dim c As New MyModes.BatchMode
                 c.DisplayHelp(EArgs.RunModeHasFlag(RunMode.Interfer))
             ElseIf e.Cancel And EArgs.RunModeHasFlag(RunMode.Schoolbell) Then
-                Dim Mode As New MyModes.MediaEmitMode
+                Dim Mode As New MyModes.MediaEmitMode(EArgs)
                 RaiseEvent CommandLineRead(sender, EArgs)
                 Mode.Main()
             Else

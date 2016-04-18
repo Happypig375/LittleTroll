@@ -214,10 +214,10 @@
                 End Function
                 Friend Sub Startup()
                     Win32.AllocConsole()
-                    Console.WriteLine("MMLCHelper [Version " &
+                    Console.WriteLine("LittleTroll [Version " &
                                       My.Application.Info.Version.ToString & "]")
                     Console.WriteLine("Copyright (c) 2015 Happypig375.    All rights reserved.")
-                    Console.Title = "MMLCHelper"
+                    Console.Title = "LittleTroll"
                     Console.WriteLine()
                 End Sub
                 Private Class Win32
