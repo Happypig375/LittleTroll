@@ -26,6 +26,7 @@ Partial Class Editor
         Me.MenuFile = New System.Windows.Forms.ToolStripMenuItem()
         Me.FileNew = New System.Windows.Forms.ToolStripMenuItem()
         Me.FileOpen = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FileOpenLink = New System.Windows.Forms.ToolStripMenuItem()
         Me.FileReload = New System.Windows.Forms.ToolStripMenuItem()
         Me.FileSave = New System.Windows.Forms.ToolStripMenuItem()
         Me.FileSaveAs = New System.Windows.Forms.ToolStripMenuItem()
@@ -63,7 +64,6 @@ Partial Class Editor
         Me.Print = New System.Windows.Forms.PrintDialog()
         Me.PageSetup = New System.Windows.Forms.PageSetupDialog()
         Me.Open = New System.Windows.Forms.OpenFileDialog()
-        Me.FileOpenLink = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -96,6 +96,14 @@ Partial Class Editor
         Me.FileOpen.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
         Me.FileOpen.Size = New System.Drawing.Size(215, 22)
         Me.FileOpen.Text = "&Open..."
+        '
+        'FileOpenLink
+        '
+        Me.FileOpenLink.Name = "FileOpenLink"
+        Me.FileOpenLink.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
+        Me.FileOpenLink.Size = New System.Drawing.Size(215, 22)
+        Me.FileOpenLink.Text = "Open &Link..."
         '
         'FileReload
         '
@@ -320,6 +328,10 @@ Partial Class Editor
         Me.Edit.Size = New System.Drawing.Size(356, 237)
         Me.Edit.TabIndex = 1
         '
+        'Save
+        '
+        Me.Save.FileName = "375Script File|*.375|Text Document|*.txt|Event Log|*.log|All Files|*.*"
+        '
         'Print
         '
         Me.Print.UseEXDialog = True
@@ -327,14 +339,7 @@ Partial Class Editor
         'Open
         '
         Me.Open.DefaultExt = "375"
-        '
-        'FileOpenLink
-        '
-        Me.FileOpenLink.Name = "FileOpenLink"
-        Me.FileOpenLink.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
-            Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
-        Me.FileOpenLink.Size = New System.Drawing.Size(215, 22)
-        Me.FileOpenLink.Text = "Open &Link..."
+        Me.Open.Filter = "375Script File|*.375|Text Document|*.txt|Event Log|*.log|All Files|*.*"
         '
         'Editor
         '
