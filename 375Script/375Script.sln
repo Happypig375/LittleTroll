@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "375Script", "375Script\375Script.vbproj", "{D4E08882-2A6C-4411-BA12-D424A35177AC}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Open File Test", "Open File Test\Open File Test.vbproj", "{AB6FE75E-D07D-440A-9154-A7C8D5D813D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D4E08882-2A6C-4411-BA12-D424A35177AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4E08882-2A6C-4411-BA12-D424A35177AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4E08882-2A6C-4411-BA12-D424A35177AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB6FE75E-D07D-440A-9154-A7C8D5D813D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB6FE75E-D07D-440A-9154-A7C8D5D813D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB6FE75E-D07D-440A-9154-A7C8D5D813D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB6FE75E-D07D-440A-9154-A7C8D5D813D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

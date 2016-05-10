@@ -53,23 +53,34 @@ Partial Class Editor
         Me.MenuFormat = New System.Windows.Forms.ToolStripMenuItem()
         Me.FormatWordWrap = New System.Windows.Forms.ToolStripMenuItem()
         Me.FormatFont = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FormatRehilight = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuDebug = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DebugOpenCRTFSyntax = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DebugOpenRTFDebug = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DebugOpenForm1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuView = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewStatusBar = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ViewSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.DebugMode = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SyntaxMode = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuHelp = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpViewHelp = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.HelpAbout375Script = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Edit = New System.Windows.Forms.TextBox()
         Me.Save = New System.Windows.Forms.SaveFileDialog()
         Me.Print = New System.Windows.Forms.PrintDialog()
         Me.PageSetup = New System.Windows.Forms.PageSetupDialog()
         Me.Open = New System.Windows.Forms.OpenFileDialog()
+        Me.Edit = New System.Windows.Forms.RichTextBox()
+        Me.Status = New System.Windows.Forms.StatusBar()
+        Me.MenuExecute = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExecuteScriptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip.SuspendLayout()
         Me.SuspendLayout()
         '
         'MenuStrip
         '
-        Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuFile, Me.MenuEdit, Me.MenuFormat, Me.MenuView, Me.MenuHelp})
+        Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuFile, Me.MenuEdit, Me.MenuFormat, Me.MenuExecute, Me.MenuDebug, Me.MenuView, Me.MenuHelp})
         Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip.Name = "MenuStrip"
         Me.MenuStrip.Size = New System.Drawing.Size(356, 24)
@@ -108,7 +119,7 @@ Partial Class Editor
         'FileReload
         '
         Me.FileReload.Name = "FileReload"
-        Me.FileReload.ShortcutKeys = System.Windows.Forms.Keys.F5
+        Me.FileReload.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F5), System.Windows.Forms.Keys)
         Me.FileReload.Size = New System.Drawing.Size(215, 22)
         Me.FileReload.Text = "&Reload"
         '
@@ -138,7 +149,7 @@ Partial Class Editor
         Me.FilePageSetup.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
         Me.FilePageSetup.Size = New System.Drawing.Size(215, 22)
-        Me.FilePageSetup.Text = "Page Setup..."
+        Me.FilePageSetup.Text = "&Page Setup..."
         '
         'FilePrint
         '
@@ -157,7 +168,7 @@ Partial Class Editor
         Me.FileExit.Name = "FileExit"
         Me.FileExit.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
         Me.FileExit.Size = New System.Drawing.Size(215, 22)
-        Me.FileExit.Text = "Exit"
+        Me.FileExit.Text = "&Exit"
         '
         'MenuEdit
         '
@@ -190,7 +201,7 @@ Partial Class Editor
         Me.EditCopy.Name = "EditCopy"
         Me.EditCopy.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
         Me.EditCopy.Size = New System.Drawing.Size(204, 22)
-        Me.EditCopy.Text = "&Copy"
+        Me.EditCopy.Text = "C&opy"
         '
         'EditPaste
         '
@@ -261,7 +272,7 @@ Partial Class Editor
         '
         'MenuFormat
         '
-        Me.MenuFormat.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FormatWordWrap, Me.FormatFont})
+        Me.MenuFormat.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FormatWordWrap, Me.FormatFont, Me.FormatRehilight})
         Me.MenuFormat.Name = "MenuFormat"
         Me.MenuFormat.Size = New System.Drawing.Size(57, 20)
         Me.MenuFormat.Text = "For&mat"
@@ -270,19 +281,51 @@ Partial Class Editor
         '
         Me.FormatWordWrap.Name = "FormatWordWrap"
         Me.FormatWordWrap.ShortcutKeys = System.Windows.Forms.Keys.F12
-        Me.FormatWordWrap.Size = New System.Drawing.Size(159, 22)
+        Me.FormatWordWrap.Size = New System.Drawing.Size(188, 22)
         Me.FormatWordWrap.Text = "&Word Wrap"
         '
         'FormatFont
         '
         Me.FormatFont.Name = "FormatFont"
         Me.FormatFont.ShortcutKeys = System.Windows.Forms.Keys.F6
-        Me.FormatFont.Size = New System.Drawing.Size(159, 22)
+        Me.FormatFont.Size = New System.Drawing.Size(188, 22)
         Me.FormatFont.Text = "&Font..."
+        '
+        'FormatRehilight
+        '
+        Me.FormatRehilight.Name = "FormatRehilight"
+        Me.FormatRehilight.ShortcutKeys = System.Windows.Forms.Keys.F5
+        Me.FormatRehilight.Size = New System.Drawing.Size(188, 22)
+        Me.FormatRehilight.Text = "&Rehilight Syntaxes"
+        '
+        'MenuDebug
+        '
+        Me.MenuDebug.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DebugOpenCRTFSyntax, Me.DebugOpenRTFDebug, Me.DebugOpenForm1})
+        Me.MenuDebug.Name = "MenuDebug"
+        Me.MenuDebug.Size = New System.Drawing.Size(54, 20)
+        Me.MenuDebug.Text = "&Debug"
+        '
+        'DebugOpenCRTFSyntax
+        '
+        Me.DebugOpenCRTFSyntax.Name = "DebugOpenCRTFSyntax"
+        Me.DebugOpenCRTFSyntax.Size = New System.Drawing.Size(165, 22)
+        Me.DebugOpenCRTFSyntax.Text = "Open &cRTFSyntax"
+        '
+        'DebugOpenRTFDebug
+        '
+        Me.DebugOpenRTFDebug.Name = "DebugOpenRTFDebug"
+        Me.DebugOpenRTFDebug.Size = New System.Drawing.Size(165, 22)
+        Me.DebugOpenRTFDebug.Text = "Open &RTFDebug"
+        '
+        'DebugOpenForm1
+        '
+        Me.DebugOpenForm1.Name = "DebugOpenForm1"
+        Me.DebugOpenForm1.Size = New System.Drawing.Size(165, 22)
+        Me.DebugOpenForm1.Text = "Open &Form1"
         '
         'MenuView
         '
-        Me.MenuView.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewStatusBar})
+        Me.MenuView.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewStatusBar, Me.ViewSeparator1, Me.DebugMode, Me.SyntaxMode})
         Me.MenuView.Name = "MenuView"
         Me.MenuView.Size = New System.Drawing.Size(44, 20)
         Me.MenuView.Text = "&View"
@@ -290,8 +333,28 @@ Partial Class Editor
         'ViewStatusBar
         '
         Me.ViewStatusBar.Name = "ViewStatusBar"
-        Me.ViewStatusBar.Size = New System.Drawing.Size(126, 22)
+        Me.ViewStatusBar.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F12), System.Windows.Forms.Keys)
+        Me.ViewStatusBar.Size = New System.Drawing.Size(189, 22)
         Me.ViewStatusBar.Text = "&Status Bar"
+        '
+        'ViewSeparator1
+        '
+        Me.ViewSeparator1.Name = "ViewSeparator1"
+        Me.ViewSeparator1.Size = New System.Drawing.Size(186, 6)
+        '
+        'DebugMode
+        '
+        Me.DebugMode.Name = "DebugMode"
+        Me.DebugMode.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F3), System.Windows.Forms.Keys)
+        Me.DebugMode.Size = New System.Drawing.Size(189, 22)
+        Me.DebugMode.Text = "&Debug Mode"
+        '
+        'SyntaxMode
+        '
+        Me.SyntaxMode.Name = "SyntaxMode"
+        Me.SyntaxMode.ShortcutKeys = System.Windows.Forms.Keys.F3
+        Me.SyntaxMode.Size = New System.Drawing.Size(189, 22)
+        Me.SyntaxMode.Text = "S&yntax Mode"
         '
         'MenuHelp
         '
@@ -319,15 +382,6 @@ Partial Class Editor
         Me.HelpAbout375Script.Size = New System.Drawing.Size(204, 22)
         Me.HelpAbout375Script.Text = "&About 375Script"
         '
-        'Edit
-        '
-        Me.Edit.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Edit.Location = New System.Drawing.Point(0, 24)
-        Me.Edit.Multiline = True
-        Me.Edit.Name = "Edit"
-        Me.Edit.Size = New System.Drawing.Size(356, 237)
-        Me.Edit.TabIndex = 1
-        '
         'Save
         '
         Me.Save.FileName = "375Script File|*.375|Text Document|*.txt|Event Log|*.log|All Files|*.*"
@@ -341,11 +395,41 @@ Partial Class Editor
         Me.Open.DefaultExt = "375"
         Me.Open.Filter = "375Script File|*.375|Text Document|*.txt|Event Log|*.log|All Files|*.*"
         '
+        'Edit
+        '
+        Me.Edit.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Edit.Location = New System.Drawing.Point(0, 24)
+        Me.Edit.Name = "Edit"
+        Me.Edit.Size = New System.Drawing.Size(356, 237)
+        Me.Edit.TabIndex = 3
+        Me.Edit.Text = ""
+        '
+        'Status
+        '
+        Me.Status.Location = New System.Drawing.Point(0, 239)
+        Me.Status.Name = "Status"
+        Me.Status.Size = New System.Drawing.Size(356, 22)
+        Me.Status.TabIndex = 8
+        '
+        'MenuExecute
+        '
+        Me.MenuExecute.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExecuteScriptToolStripMenuItem})
+        Me.MenuExecute.Name = "MenuExecute"
+        Me.MenuExecute.Size = New System.Drawing.Size(59, 20)
+        Me.MenuExecute.Text = "&Execute"
+        '
+        'ExecuteScriptToolStripMenuItem
+        '
+        Me.ExecuteScriptToolStripMenuItem.Name = "ExecuteScriptToolStripMenuItem"
+        Me.ExecuteScriptToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ExecuteScriptToolStripMenuItem.Text = "&Execute Script"
+        '
         'Editor
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(356, 261)
+        Me.Controls.Add(Me.Status)
         Me.Controls.Add(Me.Edit)
         Me.Controls.Add(Me.MenuStrip)
         Me.MainMenuStrip = Me.MenuStrip
@@ -392,12 +476,23 @@ Partial Class Editor
     Friend WithEvents HelpViewHelp As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents HelpSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents HelpAbout375Script As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents Edit As System.Windows.Forms.TextBox
     Friend WithEvents FileReload As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Save As System.Windows.Forms.SaveFileDialog
     Friend WithEvents Print As System.Windows.Forms.PrintDialog
     Friend WithEvents PageSetup As System.Windows.Forms.PageSetupDialog
     Friend WithEvents Open As System.Windows.Forms.OpenFileDialog
     Friend WithEvents FileOpenLink As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MenuDebug As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DebugOpenCRTFSyntax As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DebugOpenRTFDebug As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DebugOpenForm1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents Edit As System.Windows.Forms.RichTextBox
+    Friend WithEvents Status As System.Windows.Forms.StatusBar
+    Friend WithEvents DebugMode As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SyntaxMode As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ViewSeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents FormatRehilight As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MenuExecute As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ExecuteScriptToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

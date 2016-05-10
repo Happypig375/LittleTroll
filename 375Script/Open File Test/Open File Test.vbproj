@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D4E08882-2A6C-4411-BA12-D424A35177AC}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <StartupObject>_375Script.My.MyApplication</StartupObject>
-    <RootNamespace>_375Script</RootNamespace>
-    <AssemblyName>375Script</AssemblyName>
+    <ProjectGuid>{AB6FE75E-D07D-440A-9154-A7C8D5D813D1}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <StartupObject>Open_File_Test.Module1</StartupObject>
+    <RootNamespace>Open_File_Test</RootNamespace>
+    <AssemblyName>Open File Test</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <MyType>WindowsForms</MyType>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
+    <MyType>Console</MyType>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -21,9 +20,8 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>375Script.xml</DocumentationFile>
+    <DocumentationFile>Open File Test.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,7 +30,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>375Script.xml</DocumentationFile>
+    <DocumentationFile>Open File Test.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -51,8 +49,6 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -64,29 +60,13 @@
     <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />
     <Import Include="System.Data" />
-    <Import Include="System.Drawing" />
     <Import Include="System.Diagnostics" />
-    <Import Include="System.Windows.Forms" />
     <Import Include="System.Linq" />
     <Import Include="System.Xml.Linq" />
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationEvents.vb" />
-    <Compile Include="cRTBWrapper.vb" />
-    <Compile Include="cRTFSyntax.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Editor.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Editor.Designer.vb">
-      <DependentUpon>Editor.vb</DependentUpon>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Module1.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -102,23 +82,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="RTFDebug.vb">
-      <SubType>Form</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="cRTFSyntax.resx" />
-    <EmbeddedResource Include="Editor.resx">
-      <DependentUpon>Editor.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx" />
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="RTFDebug.resx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="My Project\Application.myapp">

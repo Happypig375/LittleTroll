@@ -3,44 +3,53 @@
     Friend Writer As System.IO.StreamWriter
     Friend Changed As Boolean
 
-    Private Sub Edit_TextChanged(sender As Object, e As EventArgs) Handles Edit.TextChanged
+    Private Sub Edit_TextChanged(sender As Object, e As EventArgs)
         Changed = True
     End Sub
     Private Sub FileNew_Click(sender As Object, e As EventArgs) Handles FileNew.Click
+        Edit.Text = ""
+        Edit.Rtf = ""
         Edit.Clear()
     End Sub
 
     Private Sub FileOpen_Click(sender As Object, e As EventArgs) Handles FileOpen.Click
         Open.DereferenceLinks = True
         If Open.ShowDialog() = Windows.Forms.DialogResult.OK Then
-            Reader = New System.IO.StreamReader(Open.FileName)
-            Edit.Text = Reader.ReadToEnd
-            Reader.Close()
+            Edit.LoadFile(Open.FileName, RichTextBoxStreamType.PlainText)
+            RTBWrapper.colorDocument()
         End If
     End Sub
 
     Private Sub FileOpenLink_Click(sender As Object, e As EventArgs) Handles FileOpenLink.Click
         Open.DereferenceLinks = False
         If Open.ShowDialog() = Windows.Forms.DialogResult.OK Then
+#If True Then
+            Edit.LoadFile(Open.FileName, RichTextBoxStreamType.PlainText)
+            RTBWrapper.colorDocument()
+#Else
             Reader = New System.IO.StreamReader(Open.FileName)
             Edit.Text = Reader.ReadToEnd
             Reader.Close()
+#End If
         End If
     End Sub
 
     Private Sub FileReload_Click(sender As Object, e As EventArgs) Handles FileReload.Click
-        Reader = New System.IO.StreamReader(Open.OpenFile)
-        Edit.Text = Reader.ReadToEnd
-        Reader.Close()
+            Edit.LoadFile(Open.FileName, RichTextBoxStreamType.PlainText)
+        RTBWrapper.colorDocument()
     End Sub
 
     Private Sub FileSave_Click(sender As Object, e As EventArgs) Handles FileSave.Click
         If Not Changed Then Exit Sub
         If Not Open.FileName = "" Then
+#If True Then
+            Edit.SaveFile(Save.FileName, RichTextBoxStreamType.PlainText)
+#Else
             Writer = New System.IO.StreamWriter(Open.FileName, False)
             Writer.Write(Edit.Text)
             Writer.Flush()
             Writer.Close()
+#End If
         Else
             FileSaveAs_Click(sender, e)
         End If
@@ -50,10 +59,7 @@
         If Not Changed Then Exit Sub
         If Save.ShowDialog = Windows.Forms.DialogResult.OK Then
             Open.FileName = Save.FileName
-            Writer = New System.IO.StreamWriter(Open.FileName, False)
-            Writer.Write(Edit.Text)
-            Writer.Flush()
-            Writer.Close()
+           Edit.SaveFile(Save.FileName, RichTextBoxStreamType.PlainText)
         End If
     End Sub
     Private printFont As Font
@@ -106,4 +112,70 @@
         End If
     End Sub
 
+    Private Sub FilePageSetup_Click(sender As Object, e As EventArgs) Handles FilePageSetup.Click
+
+    End Sub
+
+    Private Sub OpenCRTFSyntaxToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DebugOpenCRTFSyntax.Click
+        cRTFSyntax.Show()
+    End Sub
+
+    Private Sub OpenRTFDebugToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DebugOpenRTFDebug.Click
+        cRTFDebug.Show()
+    End Sub
+
+    Private Sub OpenForm1ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DebugOpenForm1.Click
+        Form1.Show()
+    End Sub
+    Private WithEvents RTBWrapper As New cRTBWrapper
+
+    Private Sub Editor_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        With RTBWrapper
+            .bind(Edit)
+            .rtfSyntax.add("<span.*?>", True, True, Color.Red.ToArgb)
+            .rtfSyntax.add("<p.*>", True, True, Color.DarkCyan.ToArgb)
+            .rtfSyntax.add("<a.*?>", True, True, Color.Blue.ToArgb)
+            .rtfSyntax.add("<table.*?>", True, True, Color.Tan.ToArgb)
+            .rtfSyntax.add("<tr.*?>", True, True, Color.Brown.ToArgb)
+            .rtfSyntax.add("<td.*?>", True, True, Color.Brown.ToArgb)
+            .rtfSyntax.add("<img.*?>", True, True, Color.Red.ToArgb)
+        End With
+    End Sub
+
+    Private Sub RTBWrapper_position(ByVal PositionInfo As cRTBWrapper.cPosition) Handles RTBWrapper.position
+        Status.Text = "Cursor: " & PositionInfo.Cursor & "  |  Line: " & PositionInfo.CurrentLine & "  | Position: " & PositionInfo.LinePosition
+    End Sub
+
+    Private Sub DebugMode_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        sender.checked = RTBWrapper.toggleDebug()
+    End Sub
+
+    Private Sub FileExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FileExit.Click
+        Me.Close()
+    End Sub
+
+    Private Sub SyntaxMode_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SyntaxMode.Click
+        Dim syntaxView As New cRTFSyntax
+        syntaxView.colSyntax = RTBWrapper.rtfSyntax
+
+        If syntaxView.ShowDialog = DialogResult.OK Then
+            RTBWrapper.rtfSyntax = syntaxView.colSyntax
+        End If
+
+        RTBWrapper.colorDocument()
+    End Sub
+
+    Private Sub FormatRehilight_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FormatRehilight.Click
+        RTBWrapper.colorDocument()
+    End Sub
+
+    Private Sub ViewStatusBar_Click(sender As Object, e As EventArgs) Handles ViewStatusBar.Click
+        Status.Visible = Not Status.Visible
+        sender.checked = Status.Visible
+    End Sub
+
+    Private Sub FormatWordWrap_Click(sender As Object, e As EventArgs) Handles FormatWordWrap.Click
+        Edit.WordWrap = Not Edit.WordWrap
+        sender.checked = Edit.WordWrap
+    End Sub
 End Class
