@@ -3,8 +3,9 @@
     Friend Writer As System.IO.StreamWriter
     Friend Changed As Boolean
 
-    Private Sub Edit_TextChanged(sender As Object, e As EventArgs)
+    Private Sub Edit_TextChanged(sender As Object, e As EventArgs) Handles Edit.TextChanged
         Changed = True
+        EditUndo.Enabled = Edit.CanUndo
     End Sub
     Private Sub FileNew_Click(sender As Object, e As EventArgs) Handles FileNew.Click
         Edit.Text = ""
@@ -146,7 +147,7 @@
         Status.Text = "Cursor: " & PositionInfo.Cursor & "  |  Line: " & PositionInfo.CurrentLine & "  | Position: " & PositionInfo.LinePosition
     End Sub
 
-    Private Sub DebugMode_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub DebugMode_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DebugMode.Click
         sender.checked = RTBWrapper.toggleDebug()
     End Sub
 
@@ -177,5 +178,87 @@
     Private Sub FormatWordWrap_Click(sender As Object, e As EventArgs) Handles FormatWordWrap.Click
         Edit.WordWrap = Not Edit.WordWrap
         sender.checked = Edit.WordWrap
+    End Sub
+
+    Private Sub ExecuteScript_Click(sender As Object, e As EventArgs) Handles ExecuteScript.Click
+        My.Application.ExecuteScript(Edit.Text)
+    End Sub
+
+    Private Sub EditUndo_Click(sender As Object, e As EventArgs) Handles EditUndo.Click
+        If Edit.CanUndo Then Edit.Undo()
+        EditUndo.Enabled = Edit.CanUndo
+    End Sub
+
+    Private Sub EditUndo_MouseEnter(sender As Object, e As EventArgs) Handles EditUndo.MouseEnter
+        EditUndo.Enabled = Edit.CanUndo
+    End Sub
+
+    Private Sub Editor_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        If Changed Then
+            Select Case MsgBox("There are unsaved changes. Do you want to save now?", MsgBoxStyle.Question Or MsgBoxStyle.YesNoCancel)
+                Case MsgBoxResult.Yes
+                    FileSave_Click(sender, e)
+                Case MsgBoxResult.No
+                Case MsgBoxResult.Cancel
+                    e.Cancel = True
+            End Select
+        End If
+    End Sub
+
+    Private Sub EditCut_Click(sender As Object, e As EventArgs) Handles EditCut.Click
+        Edit.Cut()
+    End Sub
+
+    Private Sub EditCopy_Click(sender As Object, e As EventArgs) Handles EditCopy.Click
+        Edit.Copy()
+    End Sub
+
+    Private Sub EditPaste_Click(sender As Object, e As EventArgs) Handles EditPaste.Click
+        Edit.Paste()
+    End Sub
+
+    Private Sub DebugTestSelectedText_Click(sender As Object, e As EventArgs) Handles DebugTestSelectedText.Click
+        ' Clear all text from the RichTextBox;
+        Edit.Clear()
+        ' Set the font for the opening text to a larger Arial font;
+        Edit.SelectionFont = New Font("Arial", 16)
+        ' Assign the introduction text to the RichTextBox control.
+        Edit.SelectedText = "The following is a list of bulleted items:" + ControlChars.Cr
+        ' Set the Font for the first item to a smaller size Arial font.
+        Edit.SelectionFont = New Font("Arial", 12)
+        ' Specify that the following items are to be added to a bulleted list.
+        Edit.SelectionBullet = True
+        ' Set the color of the item text.
+        Edit.SelectionColor = Color.Red
+        ' Assign the text to the bulleted item.
+        Edit.SelectedText = "Apples" + ControlChars.Cr
+        ' Apply same font since font settings do not carry to next line.
+        Edit.SelectionFont = New Font("Arial", 12)
+        Edit.SelectionColor = Color.Orange
+        Edit.SelectedText = "Oranges" + ControlChars.Cr
+        Edit.SelectionFont = New Font("Arial", 12)
+        Edit.SelectionColor = Color.Purple
+        Edit.SelectedText = "Grapes" + ControlChars.Cr
+        ' End the bulleted list.
+        Edit.SelectionBullet = False
+        ' Specify the font size and string for text displayed below bulleted list.
+        Edit.SelectionFont = New Font("Arial", 16)
+        Edit.SelectedText = "Bulleted Text Complete!"
+    End Sub
+    Private FindWord As String
+    Private Sub EditFind_Click(sender As Object, e As EventArgs) Handles EditFind.Click
+        Dim Find As New Find(Find.FindMode.Find)
+        If Find.ShowDialog() = Windows.Forms.DialogResult.OK Then Edit.
+                      Find(Find.Settings.FindText, If(Edit.SelectedText = "", 0, Edit.SelectionStart),
+                      If(Edit.SelectedText = "", -1, Edit.SelectionStart + Edit.SelectionLength),
+                      If(Find.Settings.MatchCase, RichTextBoxFinds.MatchCase, RichTextBoxFinds.None) Or
+                      If(Find.Settings.Highlight, RichTextBoxFinds.None, RichTextBoxFinds.NoHighlight) Or
+                      If(Find.Settings.WholeWord, RichTextBoxFinds.WholeWord, RichTextBoxFinds.None) Or
+                      If(Find.Settings.StartBottom, RichTextBoxFinds.Reverse, RichTextBoxFinds.None))
+        EditFindNext.Enabled = True
+    End Sub
+
+    Private Sub EditFindNext_Click(sender As Object, e As EventArgs) Handles EditFindNext.Click
+
     End Sub
 End Class

@@ -84,6 +84,12 @@
       <DependentUpon>Editor.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Find.Designer.vb">
+      <DependentUpon>Find.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Find.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +116,9 @@
     <EmbeddedResource Include="cRTFSyntax.resx" />
     <EmbeddedResource Include="Editor.resx">
       <DependentUpon>Editor.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Find.resx">
+      <DependentUpon>Find.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx" />
     <EmbeddedResource Include="My Project\Resources.resx">

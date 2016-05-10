@@ -54,10 +54,13 @@ Partial Class Editor
         Me.FormatWordWrap = New System.Windows.Forms.ToolStripMenuItem()
         Me.FormatFont = New System.Windows.Forms.ToolStripMenuItem()
         Me.FormatRehilight = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuExecute = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExecuteScript = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuDebug = New System.Windows.Forms.ToolStripMenuItem()
         Me.DebugOpenCRTFSyntax = New System.Windows.Forms.ToolStripMenuItem()
         Me.DebugOpenRTFDebug = New System.Windows.Forms.ToolStripMenuItem()
         Me.DebugOpenForm1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DebugTestSelectedText = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuView = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewStatusBar = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewSeparator1 = New System.Windows.Forms.ToolStripSeparator()
@@ -73,8 +76,6 @@ Partial Class Editor
         Me.Open = New System.Windows.Forms.OpenFileDialog()
         Me.Edit = New System.Windows.Forms.RichTextBox()
         Me.Status = New System.Windows.Forms.StatusBar()
-        Me.MenuExecute = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ExecuteScriptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -231,6 +232,7 @@ Partial Class Editor
         '
         'EditFindNext
         '
+        Me.EditFindNext.Enabled = False
         Me.EditFindNext.Name = "EditFindNext"
         Me.EditFindNext.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.F), System.Windows.Forms.Keys)
@@ -298,9 +300,23 @@ Partial Class Editor
         Me.FormatRehilight.Size = New System.Drawing.Size(188, 22)
         Me.FormatRehilight.Text = "&Rehilight Syntaxes"
         '
+        'MenuExecute
+        '
+        Me.MenuExecute.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExecuteScript})
+        Me.MenuExecute.Name = "MenuExecute"
+        Me.MenuExecute.Size = New System.Drawing.Size(59, 20)
+        Me.MenuExecute.Text = "&Execute"
+        '
+        'ExecuteScript
+        '
+        Me.ExecuteScript.Name = "ExecuteScript"
+        Me.ExecuteScript.ShortcutKeys = System.Windows.Forms.Keys.F2
+        Me.ExecuteScript.Size = New System.Drawing.Size(166, 22)
+        Me.ExecuteScript.Text = "&Execute Script"
+        '
         'MenuDebug
         '
-        Me.MenuDebug.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DebugOpenCRTFSyntax, Me.DebugOpenRTFDebug, Me.DebugOpenForm1})
+        Me.MenuDebug.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DebugOpenCRTFSyntax, Me.DebugOpenRTFDebug, Me.DebugOpenForm1, Me.DebugTestSelectedText})
         Me.MenuDebug.Name = "MenuDebug"
         Me.MenuDebug.Size = New System.Drawing.Size(54, 20)
         Me.MenuDebug.Text = "&Debug"
@@ -322,6 +338,12 @@ Partial Class Editor
         Me.DebugOpenForm1.Name = "DebugOpenForm1"
         Me.DebugOpenForm1.Size = New System.Drawing.Size(165, 22)
         Me.DebugOpenForm1.Text = "Open &Form1"
+        '
+        'DebugTestSelectedText
+        '
+        Me.DebugTestSelectedText.Name = "DebugTestSelectedText"
+        Me.DebugTestSelectedText.Size = New System.Drawing.Size(165, 22)
+        Me.DebugTestSelectedText.Text = "Test &SelectedText"
         '
         'MenuView
         '
@@ -397,7 +419,9 @@ Partial Class Editor
         '
         'Edit
         '
-        Me.Edit.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Edit.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Edit.Location = New System.Drawing.Point(0, 24)
         Me.Edit.Name = "Edit"
         Me.Edit.Size = New System.Drawing.Size(356, 237)
@@ -410,19 +434,6 @@ Partial Class Editor
         Me.Status.Name = "Status"
         Me.Status.Size = New System.Drawing.Size(356, 22)
         Me.Status.TabIndex = 8
-        '
-        'MenuExecute
-        '
-        Me.MenuExecute.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExecuteScriptToolStripMenuItem})
-        Me.MenuExecute.Name = "MenuExecute"
-        Me.MenuExecute.Size = New System.Drawing.Size(59, 20)
-        Me.MenuExecute.Text = "&Execute"
-        '
-        'ExecuteScriptToolStripMenuItem
-        '
-        Me.ExecuteScriptToolStripMenuItem.Name = "ExecuteScriptToolStripMenuItem"
-        Me.ExecuteScriptToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.ExecuteScriptToolStripMenuItem.Text = "&Execute Script"
         '
         'Editor
         '
@@ -493,6 +504,7 @@ Partial Class Editor
     Friend WithEvents ViewSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents FormatRehilight As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MenuExecute As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ExecuteScriptToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ExecuteScript As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DebugTestSelectedText As System.Windows.Forms.ToolStripMenuItem
 
 End Class
