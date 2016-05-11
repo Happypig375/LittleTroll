@@ -310,9 +310,39 @@ The characters CHARACTER TABULATION (U+0009), LINE FEED (U+000A), LINE TABULATIO
         Do
             Dim Response As String = InputBox("Go to line number:", "Go To Line", Nothing)
             If Response = Nothing Then Exit Sub
-            If IsNumeric(Response) Then
+            If IsNumeric(Response) Then' Contains the desired line number
+                Dim lineStr As String ' a string which will hold each line
+                Dim totLen As Int64   ' the total length
+                Dim counter As Integer = 1 ' the current line number
 
+                For Each lineStr In Edit.Lines
+                    If counter = Response Then Exit For
+                    totLen += lineStr.Length
+                    counter += 1
+                Next
+
+                Edit.SelectionStart = totLen + Response - 1
+                Edit.Focus()
             End If
         Loop
+    End Sub
+
+    Private Sub EditSelectAll_Click(sender As Object, e As EventArgs) Handles EditSelectAll.Click
+        Edit.SelectAll()
+    End Sub
+
+    Private Sub EditInsertTimeDate_Click(sender As Object, e As EventArgs) Handles EditInsertTimeDate.Click
+        Edit.AppendText(Now.ToString)
+    End Sub
+
+    Private Sub FormatFont_Click(sender As Object, e As EventArgs) Handles FormatFont.Click
+        If SetFont.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            Edit.Font = SetFont.Font
+            Edit.ForeColor = SetFont.Color
+        End If
+    End Sub
+
+    Private Sub BackgroundColourToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BackgroundColourToolStripMenuItem.Click
+        If Background.ShowDialog() = Windows.Forms.DialogResult.OK Then Edit.BackColor = Background.Color
     End Sub
 End Class

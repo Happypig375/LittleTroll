@@ -132,4 +132,10 @@
   <metadata name="Open.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>389, 17</value>
   </metadata>
+  <metadata name="SetFont.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>471, 17</value>
+  </metadata>
+  <metadata name="Background.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>564, 17</value>
+  </metadata>
 </root>

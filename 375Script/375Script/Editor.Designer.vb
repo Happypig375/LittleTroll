@@ -66,6 +66,10 @@ Partial Class Editor
         Me.ViewSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.DebugMode = New System.Windows.Forms.ToolStripMenuItem()
         Me.SyntaxMode = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ViewSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ViewZoomIn = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ViewZoomOut = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ViewZoomReset = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuHelp = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpViewHelp = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpSeparator1 = New System.Windows.Forms.ToolStripSeparator()
@@ -76,10 +80,9 @@ Partial Class Editor
         Me.Open = New System.Windows.Forms.OpenFileDialog()
         Me.Edit = New System.Windows.Forms.RichTextBox()
         Me.Status = New System.Windows.Forms.StatusBar()
-        Me.ViewSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.ViewZoomIn = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ViewZoomOut = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ViewZoomReset = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SetFont = New System.Windows.Forms.FontDialog()
+        Me.BackgroundColourToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Background = New System.Windows.Forms.ColorDialog()
         Me.MenuStrip.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -278,7 +281,7 @@ Partial Class Editor
         '
         'MenuFormat
         '
-        Me.MenuFormat.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FormatWordWrap, Me.FormatFont, Me.FormatRehilight})
+        Me.MenuFormat.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FormatWordWrap, Me.FormatFont, Me.FormatRehilight, Me.BackgroundColourToolStripMenuItem})
         Me.MenuFormat.Name = "MenuFormat"
         Me.MenuFormat.Size = New System.Drawing.Size(57, 20)
         Me.MenuFormat.Text = "For&mat"
@@ -287,21 +290,21 @@ Partial Class Editor
         '
         Me.FormatWordWrap.Name = "FormatWordWrap"
         Me.FormatWordWrap.ShortcutKeys = System.Windows.Forms.Keys.F12
-        Me.FormatWordWrap.Size = New System.Drawing.Size(188, 22)
+        Me.FormatWordWrap.Size = New System.Drawing.Size(232, 22)
         Me.FormatWordWrap.Text = "&Word Wrap"
         '
         'FormatFont
         '
         Me.FormatFont.Name = "FormatFont"
         Me.FormatFont.ShortcutKeys = System.Windows.Forms.Keys.F6
-        Me.FormatFont.Size = New System.Drawing.Size(188, 22)
+        Me.FormatFont.Size = New System.Drawing.Size(232, 22)
         Me.FormatFont.Text = "&Font..."
         '
         'FormatRehilight
         '
         Me.FormatRehilight.Name = "FormatRehilight"
         Me.FormatRehilight.ShortcutKeys = System.Windows.Forms.Keys.F5
-        Me.FormatRehilight.Size = New System.Drawing.Size(188, 22)
+        Me.FormatRehilight.Size = New System.Drawing.Size(232, 22)
         Me.FormatRehilight.Text = "&Rehilight Syntaxes"
         '
         'MenuExecute
@@ -360,27 +363,55 @@ Partial Class Editor
         '
         Me.ViewStatusBar.Name = "ViewStatusBar"
         Me.ViewStatusBar.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F12), System.Windows.Forms.Keys)
-        Me.ViewStatusBar.Size = New System.Drawing.Size(189, 22)
+        Me.ViewStatusBar.Size = New System.Drawing.Size(254, 22)
         Me.ViewStatusBar.Text = "&Status Bar"
         '
         'ViewSeparator1
         '
         Me.ViewSeparator1.Name = "ViewSeparator1"
-        Me.ViewSeparator1.Size = New System.Drawing.Size(186, 6)
+        Me.ViewSeparator1.Size = New System.Drawing.Size(251, 6)
         '
         'DebugMode
         '
         Me.DebugMode.Name = "DebugMode"
         Me.DebugMode.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F3), System.Windows.Forms.Keys)
-        Me.DebugMode.Size = New System.Drawing.Size(189, 22)
+        Me.DebugMode.Size = New System.Drawing.Size(254, 22)
         Me.DebugMode.Text = "&Debug Mode"
         '
         'SyntaxMode
         '
         Me.SyntaxMode.Name = "SyntaxMode"
         Me.SyntaxMode.ShortcutKeys = System.Windows.Forms.Keys.F3
-        Me.SyntaxMode.Size = New System.Drawing.Size(189, 22)
+        Me.SyntaxMode.Size = New System.Drawing.Size(254, 22)
         Me.SyntaxMode.Text = "S&yntax Mode"
+        '
+        'ViewSeparator2
+        '
+        Me.ViewSeparator2.Name = "ViewSeparator2"
+        Me.ViewSeparator2.Size = New System.Drawing.Size(251, 6)
+        '
+        'ViewZoomIn
+        '
+        Me.ViewZoomIn.Name = "ViewZoomIn"
+        Me.ViewZoomIn.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.Oemplus), System.Windows.Forms.Keys)
+        Me.ViewZoomIn.Size = New System.Drawing.Size(254, 22)
+        Me.ViewZoomIn.Text = "Zoom &In"
+        '
+        'ViewZoomOut
+        '
+        Me.ViewZoomOut.Name = "ViewZoomOut"
+        Me.ViewZoomOut.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.OemMinus), System.Windows.Forms.Keys)
+        Me.ViewZoomOut.Size = New System.Drawing.Size(254, 22)
+        Me.ViewZoomOut.Text = "Zoom &Out"
+        '
+        'ViewZoomReset
+        '
+        Me.ViewZoomReset.Name = "ViewZoomReset"
+        Me.ViewZoomReset.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Oemplus), System.Windows.Forms.Keys)
+        Me.ViewZoomReset.Size = New System.Drawing.Size(254, 22)
+        Me.ViewZoomReset.Text = "Reset &Zoom Level"
         '
         'MenuHelp
         '
@@ -439,33 +470,20 @@ Partial Class Editor
         Me.Status.Size = New System.Drawing.Size(356, 22)
         Me.Status.TabIndex = 8
         '
-        'ViewSeparator2
+        'SetFont
         '
-        Me.ViewSeparator2.Name = "ViewSeparator2"
-        Me.ViewSeparator2.Size = New System.Drawing.Size(186, 6)
+        Me.SetFont.ShowColor = True
         '
-        'ViewZoomIn
+        'BackgroundColourToolStripMenuItem
         '
-        Me.ViewZoomIn.Name = "ViewZoomIn"
-        Me.ViewZoomIn.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
-            Or System.Windows.Forms.Keys.Oemplus), System.Windows.Forms.Keys)
-        Me.ViewZoomIn.Size = New System.Drawing.Size(254, 22)
-        Me.ViewZoomIn.Text = "Zoom &In"
+        Me.BackgroundColourToolStripMenuItem.Name = "BackgroundColourToolStripMenuItem"
+        Me.BackgroundColourToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F6), System.Windows.Forms.Keys)
+        Me.BackgroundColourToolStripMenuItem.Size = New System.Drawing.Size(232, 22)
+        Me.BackgroundColourToolStripMenuItem.Text = "&Background Colour..."
         '
-        'ViewZoomOut
+        'Background
         '
-        Me.ViewZoomOut.Name = "ViewZoomOut"
-        Me.ViewZoomOut.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
-            Or System.Windows.Forms.Keys.OemMinus), System.Windows.Forms.Keys)
-        Me.ViewZoomOut.Size = New System.Drawing.Size(254, 22)
-        Me.ViewZoomOut.Text = "Zoom &Out"
-        '
-        'ViewZoomReset
-        '
-        Me.ViewZoomReset.Name = "ViewZoomReset"
-        Me.ViewZoomReset.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Oemplus), System.Windows.Forms.Keys)
-        Me.ViewZoomReset.Size = New System.Drawing.Size(254, 22)
-        Me.ViewZoomReset.Text = "Reset &Zoom Level"
+        Me.Background.AnyColor = True
         '
         'Editor
         '
@@ -542,5 +560,8 @@ Partial Class Editor
     Friend WithEvents ViewZoomIn As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ViewZoomOut As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ViewZoomReset As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SetFont As System.Windows.Forms.FontDialog
+    Friend WithEvents BackgroundColourToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents Background As System.Windows.Forms.ColorDialog
 
 End Class
