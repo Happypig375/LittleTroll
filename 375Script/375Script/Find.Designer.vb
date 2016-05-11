@@ -36,6 +36,7 @@ Partial Class Find
         Me.ReplaceText = New System.Windows.Forms.TextBox()
         Me.ReplaceTextLabel = New System.Windows.Forms.Label()
         Me.Reset = New System.Windows.Forms.Button()
+        Me.Description = New System.Windows.Forms.Label()
         Me.TableLayoutPanel1.SuspendLayout()
         CType(Me.StartAt, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -95,7 +96,7 @@ Partial Class Find
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel1.Controls.Add(Me.OK_Button, 0, 0)
         Me.TableLayoutPanel1.Controls.Add(Me.Cancel_Button, 1, 0)
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(126, 119)
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(126, 138)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
@@ -172,12 +173,21 @@ Partial Class Find
         '
         'Reset
         '
-        Me.Reset.Location = New System.Drawing.Point(15, 122)
+        Me.Reset.Location = New System.Drawing.Point(15, 144)
         Me.Reset.Name = "Reset"
         Me.Reset.Size = New System.Drawing.Size(83, 23)
         Me.Reset.TabIndex = 11
         Me.Reset.Text = "Reset Options"
         Me.Reset.UseVisualStyleBackColor = True
+        '
+        'Description
+        '
+        Me.Description.AutoSize = True
+        Me.Description.Location = New System.Drawing.Point(30, 122)
+        Me.Description.Name = "Description"
+        Me.Description.Size = New System.Drawing.Size(234, 13)
+        Me.Description.TabIndex = 12
+        Me.Description.Text = "Finds text in selection (if any) or the whole script."
         '
         'Find
         '
@@ -185,7 +195,8 @@ Partial Class Find
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.Cancel_Button
-        Me.ClientSize = New System.Drawing.Size(284, 160)
+        Me.ClientSize = New System.Drawing.Size(284, 179)
+        Me.Controls.Add(Me.Description)
         Me.Controls.Add(Me.Reset)
         Me.Controls.Add(Me.ReplaceText)
         Me.Controls.Add(Me.ReplaceTextLabel)
@@ -221,4 +232,5 @@ Partial Class Find
     Friend WithEvents ReplaceText As System.Windows.Forms.TextBox
     Friend WithEvents ReplaceTextLabel As System.Windows.Forms.Label
     Friend WithEvents Reset As System.Windows.Forms.Button
+    Friend WithEvents Description As System.Windows.Forms.Label
 End Class

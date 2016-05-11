@@ -2,12 +2,26 @@
     Friend Reader As System.IO.StreamReader
     Friend Writer As System.IO.StreamWriter
     Friend Changed As Boolean
+    Friend Sub CheckSave(ByRef sender As Object, ByRef e As FormClosingEventArgs)
+        If Changed Then
+            Select Case MsgBox("There are unsaved changes. Do you want to save now?", MsgBoxStyle.Question Or MsgBoxStyle.YesNoCancel)
+                Case MsgBoxResult.Yes
+                    FileSave_Click(sender, e)
+                Case MsgBoxResult.No
+                Case MsgBoxResult.Cancel
+                    e.Cancel = True
+            End Select
+        End If
+    End Sub
 
     Private Sub Edit_TextChanged(sender As Object, e As EventArgs) Handles Edit.TextChanged
         Changed = True
         EditUndo.Enabled = Edit.CanUndo
     End Sub
     Private Sub FileNew_Click(sender As Object, e As EventArgs) Handles FileNew.Click
+        Dim EArgs As New FormClosingEventArgs(CloseReason.None, False)
+        CheckSave(sender, EArgs)
+        If EArgs.Cancel Then Exit Sub
         Edit.Text = ""
         Edit.Rtf = ""
         Edit.Clear()
@@ -42,7 +56,7 @@
 
     Private Sub FileSave_Click(sender As Object, e As EventArgs) Handles FileSave.Click
         If Not Changed Then Exit Sub
-        If Not Open.FileName = "" Then
+        If Not Open.FileName = "" Or Open.FileName = Nothing Then
 #If True Then
             Edit.SaveFile(Save.FileName, RichTextBoxStreamType.PlainText)
 #Else
@@ -181,7 +195,7 @@
     End Sub
 
     Private Sub ExecuteScript_Click(sender As Object, e As EventArgs) Handles ExecuteScript.Click
-        My.Application.ExecuteScript(Edit.Text)
+        My.Application.ExecuteScript(Edit.Text, If(Open.FileName, "Untitled"))
     End Sub
 
     Private Sub EditUndo_Click(sender As Object, e As EventArgs) Handles EditUndo.Click
@@ -194,15 +208,7 @@
     End Sub
 
     Private Sub Editor_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        If Changed Then
-            Select Case MsgBox("There are unsaved changes. Do you want to save now?", MsgBoxStyle.Question Or MsgBoxStyle.YesNoCancel)
-                Case MsgBoxResult.Yes
-                    FileSave_Click(sender, e)
-                Case MsgBoxResult.No
-                Case MsgBoxResult.Cancel
-                    e.Cancel = True
-            End Select
-        End If
+        CheckSave(sender, e)
     End Sub
 
     Private Sub EditCut_Click(sender As Object, e As EventArgs) Handles EditCut.Click
@@ -260,5 +266,53 @@
 
     Private Sub EditFindNext_Click(sender As Object, e As EventArgs) Handles EditFindNext.Click
 
+    End Sub
+
+    Private Sub EditReplace_Click(sender As Object, e As EventArgs) Handles EditReplace.Click
+        Dim Find As New Find(Find.FindMode.Replace)
+        Dim WhiteSpaces As New List(Of Char)
+        WhiteSpaces.Add(Chr(&H9)) : WhiteSpaces.Add(Chr(&HA)) : WhiteSpaces.Add(Chr(&HB))
+        WhiteSpaces.Add(Chr(&HC)) : WhiteSpaces.Add(Chr(&HE)) : WhiteSpaces.Add(Chr(&H20))
+        WhiteSpaces.Add(Chr(&H85)) : WhiteSpaces.Add(Chr(&HA0)) : WhiteSpaces.Add(Chr(&H1680))
+        WhiteSpaces.Add(Chr(&H2000)) : WhiteSpaces.Add(Chr(&H2001)) : WhiteSpaces.Add(Chr(&H2002))
+        WhiteSpaces.Add(Chr(&H2003)) : WhiteSpaces.Add(Chr(&H2004)) : WhiteSpaces.Add(Chr(&H2005))
+        WhiteSpaces.Add(Chr(&H2006)) : WhiteSpaces.Add(Chr(&H2007)) : WhiteSpaces.Add(Chr(&H2008))
+        WhiteSpaces.Add(Chr(&H2009)) : WhiteSpaces.Add(Chr(&H200A)) : WhiteSpaces.Add(Chr(&H2028))
+        WhiteSpaces.Add(Chr(&H2029)) : WhiteSpaces.Add(Chr(&H202F)) : WhiteSpaces.Add(Chr(&H205F))
+        WhiteSpaces.Add(Chr(&H3000))
+#If False Then
+    Members of the SpaceSeparator category, which includes the characters 
+SPACE (U+0020), NO-BREAK SPACE (U+00A0), OGHAM SPACE MARK (U+1680), EN QUAD (U+2000), EM QUAD (U+2001),
+        EN SPACE (U+2002), EM SPACE (U+2003), THREE-PER-EM SPACE (U+2004), FOUR-PER-EM SPACE (U+2005), SIX-PER-EM SPACE (U+2006),
+        FIGURE SPACE (U+2007), PUNCTUATION SPACE (U+2008), THIN SPACE (U+2009), HAIR SPACE (U+200A), NARROW NO-BREAK SPACE (U+202F)
+, MEDIUM MATHEMATICAL SPACE (U+205F), and IDEOGRAPHIC SPACE (U+3000).
+
+Members of the LineSeparator category, which consists solely of the LINE SEPARATOR character (U+2028).
+
+Members of the ParagraphSeparator category, which consists solely of the PARAGRAPH SEPARATOR character (U+2029).
+
+The characters CHARACTER TABULATION (U+0009), LINE FEED (U+000A), LINE TABULATION (U+000B), FORM FEED (U+000C), CARRIAGE RETURN (U+000D), and NEXT LINE (U+0085). 
+#End If
+        If Find.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            If Find.Settings.WholeWord Then
+                For Each Char1 As Char In WhiteSpaces
+                    For Each Char2 As Char In WhiteSpaces
+                        Edit.Text.Replace(Char1 & Find.Settings.FindText & Char2, Char1 & Find.Settings.ReplaceText & Char2)
+                    Next
+                Next
+            Else
+                Edit.Text.Replace(Find.Settings.FindText, Find.Settings.ReplaceText)
+            End If
+        End If
+    End Sub
+
+    Private Sub EditGoTo_Click(sender As Object, e As EventArgs) Handles EditGoTo.Click
+        Do
+            Dim Response As String = InputBox("Go to line number:", "Go To Line", Nothing)
+            If Response = Nothing Then Exit Sub
+            If IsNumeric(Response) Then
+
+            End If
+        Loop
     End Sub
 End Class

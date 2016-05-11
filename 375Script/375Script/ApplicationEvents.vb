@@ -1,5 +1,6 @@
 ﻿Namespace My
-    ' The following events are available for MyApplication:
+
+    ' The following events are available for MyApplication:
     ' 
     ' Startup: Raised when the application starts, before the startup form is created.
     ' Shutdown: Raised after all application forms are closed.  This event is not raised if the application terminates abnormally.
@@ -13,10 +14,10 @@
             If My.Computer.FileSystem.FileExists(e.CommandLine(0)) Then
                 Dim Reader As New IO.StreamReader(e.CommandLine(0))
                 e.Cancel = True
-                ExecuteScript(Reader.ReadToEnd)
+                ExecuteScript(Reader.ReadToEnd, System.IO.Path.GetFileNameWithoutExtension(e.CommandLine(0)))
             End If
         End Sub
-        Friend Sub ExecuteScript(Input As String)
+        Friend Sub ExecuteScript(Input As String, ScriptName As String)
             For Each Line As String In Input.Split(Chr(10), Chr(13))
                 Line = Trim(Line)
                 If Line = "" Then Continue For
@@ -24,6 +25,14 @@
                 Select Case Line.Split({" "c}, 2)(0).ToLower
                     Case "message"
                         MsgBox(Content)
+                    Case "message:critical", "message:c", "message:x"
+                        MsgBox(Content, MsgBoxStyle.Critical)
+                    Case "message:question", "message:q", "message:?"
+                        MsgBox(Content, MsgBoxStyle.Question)
+                    Case "message:exclamation", "message:e", "message:!"
+                        MsgBox(Content, MsgBoxStyle.Exclamation)
+                    Case "message:information", "message:info", "message:i"
+                        MsgBox(Content, MsgBoxStyle.Information)
                 End Select
             Next
         End Sub

@@ -76,6 +76,10 @@ Partial Class Editor
         Me.Open = New System.Windows.Forms.OpenFileDialog()
         Me.Edit = New System.Windows.Forms.RichTextBox()
         Me.Status = New System.Windows.Forms.StatusBar()
+        Me.ViewSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ViewZoomIn = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ViewZoomOut = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ViewZoomReset = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -347,7 +351,7 @@ Partial Class Editor
         '
         'MenuView
         '
-        Me.MenuView.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewStatusBar, Me.ViewSeparator1, Me.DebugMode, Me.SyntaxMode})
+        Me.MenuView.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewStatusBar, Me.ViewSeparator1, Me.DebugMode, Me.SyntaxMode, Me.ViewSeparator2, Me.ViewZoomIn, Me.ViewZoomOut, Me.ViewZoomReset})
         Me.MenuView.Name = "MenuView"
         Me.MenuView.Size = New System.Drawing.Size(44, 20)
         Me.MenuView.Text = "&View"
@@ -435,6 +439,34 @@ Partial Class Editor
         Me.Status.Size = New System.Drawing.Size(356, 22)
         Me.Status.TabIndex = 8
         '
+        'ViewSeparator2
+        '
+        Me.ViewSeparator2.Name = "ViewSeparator2"
+        Me.ViewSeparator2.Size = New System.Drawing.Size(186, 6)
+        '
+        'ViewZoomIn
+        '
+        Me.ViewZoomIn.Name = "ViewZoomIn"
+        Me.ViewZoomIn.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.Oemplus), System.Windows.Forms.Keys)
+        Me.ViewZoomIn.Size = New System.Drawing.Size(254, 22)
+        Me.ViewZoomIn.Text = "Zoom &In"
+        '
+        'ViewZoomOut
+        '
+        Me.ViewZoomOut.Name = "ViewZoomOut"
+        Me.ViewZoomOut.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.OemMinus), System.Windows.Forms.Keys)
+        Me.ViewZoomOut.Size = New System.Drawing.Size(254, 22)
+        Me.ViewZoomOut.Text = "Zoom &Out"
+        '
+        'ViewZoomReset
+        '
+        Me.ViewZoomReset.Name = "ViewZoomReset"
+        Me.ViewZoomReset.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Oemplus), System.Windows.Forms.Keys)
+        Me.ViewZoomReset.Size = New System.Drawing.Size(254, 22)
+        Me.ViewZoomReset.Text = "Reset &Zoom Level"
+        '
         'Editor
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -506,5 +538,9 @@ Partial Class Editor
     Friend WithEvents MenuExecute As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ExecuteScript As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents DebugTestSelectedText As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ViewSeparator2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ViewZoomIn As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ViewZoomOut As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ViewZoomReset As System.Windows.Forms.ToolStripMenuItem
 
 End Class

@@ -40,17 +40,28 @@
 
     Sub New(Mode As FindMode)
         InitializeComponent()
+        Me.Settings = New FindSettings
         Select Case Mode
             Case FindMode.Find
                 ReplaceText.Visible = False
                 ReplaceTextLabel.Visible = False
+                MatchCase.Visible = True
+                Highlight.Visible = True
+                Top.Visible = True
+                StartAt.Visible = True
+                Bottom.Visible = True
                 OK_Button.Text = "Find"
-                Me.Settings.Mode = FindMode.Find
+                Settings.Mode = FindMode.Find
             Case FindMode.Replace
                 ReplaceText.Visible = True
                 ReplaceTextLabel.Visible = True
+                MatchCase.Visible = False
+                Highlight.Visible = False
+                Top.Visible = False
+                StartAt.Visible = False
+                Bottom.Visible = False
                 OK_Button.Text = "Replace"
-                Me.Settings.Mode = FindMode.Replace
+                Settings.Mode = FindMode.Replace
         End Select
     End Sub
 End Class
