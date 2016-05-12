@@ -342,7 +342,31 @@ The characters CHARACTER TABULATION (U+0009), LINE FEED (U+000A), LINE TABULATIO
         End If
     End Sub
 
-    Private Sub BackgroundColourToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BackgroundColourToolStripMenuItem.Click
+    Private Sub FormatBackground_Click(sender As Object, e As EventArgs) Handles FormatBackground.Click
         If Background.ShowDialog() = Windows.Forms.DialogResult.OK Then Edit.BackColor = Background.Color
+    End Sub
+
+    Private Sub ViewZoomIn_Click(sender As Object, e As EventArgs) Handles ViewZoomIn.Click
+        Dim Factor As Single = Edit.ZoomFactor * 2
+        If Factor < 64 Then Edit.ZoomFactor = Factor
+    End Sub
+
+    Private Sub ViewZoomOut_Click(sender As Object, e As EventArgs) Handles ViewZoomOut.Click
+        Dim Factor As Single = Edit.ZoomFactor / 2
+        If Factor > 0.015625F Then Edit.ZoomFactor = Factor
+    End Sub
+
+    Private Sub ViewZoomReset_Click(sender As Object, e As EventArgs) Handles ViewZoomReset.Click
+        Edit.ZoomFactor = 1
+    End Sub
+
+    Private Sub ViewZoomSet_Click(sender As Object, e As EventArgs) Handles ViewZoomSet.Click
+        Dim Factor As Single = Val(InputBox("Input the zoom factor: " & vbCrLf &
+                                            "(Must be between 1/64 (0.015625) and 64.0, not inclusive." &
+                                            " A value of 1.0 indicates that no zoom is applied.)", "Set Zoom", "1.0"))
+        If Factor > 0.015625F And Factor < 64 Then Edit.ZoomFactor = Factor
+    End Sub
+
+    Private Sub HelpAbout375Script_Click(sender As Object, e As EventArgs) Handles HelpAbout375Script.Click
     End Sub
 End Class
