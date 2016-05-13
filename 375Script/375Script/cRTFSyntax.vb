@@ -2,7 +2,8 @@ Public Class cRTFSyntax
     Inherits System.Windows.Forms.Form
 
 #Region " Windows Form Designer generated code "
-
+    
+    <Global.System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")> _
     Public Sub New()
         MyBase.New()
 
@@ -37,13 +38,14 @@ Public Class cRTFSyntax
     Friend WithEvents ColorDialog As System.Windows.Forms.ColorDialog
     Friend WithEvents Button4 As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.Panel1 = New System.Windows.Forms.Panel
-        Me.Button4 = New System.Windows.Forms.Button
-        Me.Button3 = New System.Windows.Forms.Button
-        Me.Button2 = New System.Windows.Forms.Button
-        Me.Button1 = New System.Windows.Forms.Button
-        Me.DataGrid1 = New System.Windows.Forms.DataGrid
-        Me.ColorDialog = New System.Windows.Forms.ColorDialog
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(cRTFSyntax))
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Button4 = New System.Windows.Forms.Button()
+        Me.Button3 = New System.Windows.Forms.Button()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.DataGrid1 = New System.Windows.Forms.DataGrid()
+        Me.ColorDialog = New System.Windows.Forms.ColorDialog()
         Me.Panel1.SuspendLayout()
         CType(Me.DataGrid1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -81,6 +83,7 @@ Public Class cRTFSyntax
         Me.Button2.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.Button2.Location = New System.Drawing.Point(296, 8)
         Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(75, 23)
         Me.Button2.TabIndex = 1
         Me.Button2.Text = "&Cancel"
         '
@@ -89,12 +92,13 @@ Public Class cRTFSyntax
         Me.Button1.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.Button1.Location = New System.Drawing.Point(376, 8)
         Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 23)
         Me.Button1.TabIndex = 0
         Me.Button1.Text = "&Ok"
         '
         'DataGrid1
         '
-        Me.DataGrid1.AlternatingBackColor = System.Drawing.Color.FromArgb(CType(224, Byte), CType(224, Byte), CType(224, Byte))
+        Me.DataGrid1.AlternatingBackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
         Me.DataGrid1.BackgroundColor = System.Drawing.Color.White
         Me.DataGrid1.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.DataGrid1.CaptionBackColor = System.Drawing.SystemColors.ActiveBorder
@@ -114,6 +118,7 @@ Public Class cRTFSyntax
         Me.ClientSize = New System.Drawing.Size(456, 270)
         Me.Controls.Add(Me.DataGrid1)
         Me.Controls.Add(Me.Panel1)
+
         Me.Name = "cRTFSyntax"
         Me.Text = "cRTFSyntax"
         Me.Panel1.ResumeLayout(False)

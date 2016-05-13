@@ -22,6 +22,7 @@ Partial Class Find
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Find))
         Me.FindTextLabel = New System.Windows.Forms.Label()
         Me.FindText = New System.Windows.Forms.TextBox()
         Me.MatchCase = New System.Windows.Forms.CheckBox()
@@ -210,6 +211,7 @@ Partial Class Find
         Me.Controls.Add(Me.FindText)
         Me.Controls.Add(Me.FindTextLabel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Find"
         Me.Text = "Find"
         Me.TableLayoutPanel1.ResumeLayout(False)

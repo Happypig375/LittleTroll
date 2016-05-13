@@ -84,7 +84,7 @@
         Try
             streamToPrint = New IO.StringReader(Edit.Text)
             Try
-                printFont = New Font("Arial", 10)
+                printFont = SetFont.Font
                 Dim pd As New Printing.PrintDocument()
                 AddHandler pd.PrintPage, AddressOf Me.pd_PrintPage
                 pd.Print()
@@ -348,12 +348,12 @@ The characters CHARACTER TABULATION (U+0009), LINE FEED (U+000A), LINE TABULATIO
 
     Private Sub ViewZoomIn_Click(sender As Object, e As EventArgs) Handles ViewZoomIn.Click
         Dim Factor As Single = Edit.ZoomFactor * 2
-        If Factor < 64 Then Edit.ZoomFactor = Factor
+        Edit.ZoomFactor = If(Factor <= 63.9999962F, Factor, 63.9999962F)
     End Sub
 
     Private Sub ViewZoomOut_Click(sender As Object, e As EventArgs) Handles ViewZoomOut.Click
         Dim Factor As Single = Edit.ZoomFactor / 2
-        If Factor > 0.015625F Then Edit.ZoomFactor = Factor
+        Edit.ZoomFactor = If(Factor >= 0.0156250019F, Factor, 0.0156250019F)
     End Sub
 
     Private Sub ViewZoomReset_Click(sender As Object, e As EventArgs) Handles ViewZoomReset.Click
@@ -363,10 +363,11 @@ The characters CHARACTER TABULATION (U+0009), LINE FEED (U+000A), LINE TABULATIO
     Private Sub ViewZoomSet_Click(sender As Object, e As EventArgs) Handles ViewZoomSet.Click
         Dim Factor As Single = Val(InputBox("Input the zoom factor: " & vbCrLf &
                                             "(Must be between 1/64 (0.015625) and 64.0, not inclusive." &
-                                            " A value of 1.0 indicates that no zoom is applied.)", "Set Zoom", "1.0"))
-        If Factor > 0.015625F And Factor < 64 Then Edit.ZoomFactor = Factor
+                                            " A value of 1.0 indicates that no zoom is applied.)", "Set Zoom", Edit.ZoomFactor))
+        Edit.ZoomFactor = If(Factor >= 0.0156250019F, If(Factor <= 63.9999962F, Factor, 63.9999962F), 0.0156250019F)
     End Sub
 
     Private Sub HelpAbout375Script_Click(sender As Object, e As EventArgs) Handles HelpAbout375Script.Click
+        About.Show()
     End Sub
 End Class

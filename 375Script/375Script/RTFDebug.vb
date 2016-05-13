@@ -32,8 +32,8 @@ Public Class cRTFDebug
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents rtfOut As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.rtfOut = New System.Windows.Forms.TextBox
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.rtfOut = New System.Windows.Forms.TextBox()
         Me.SuspendLayout()
         '
         'Label2
@@ -47,9 +47,8 @@ Public Class cRTFDebug
         'rtfOut
         '
         Me.rtfOut.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.rtfOut.AutoSize = False
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.rtfOut.Font = New System.Drawing.Font("Courier New", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rtfOut.Location = New System.Drawing.Point(8, 24)
         Me.rtfOut.Multiline = True
@@ -58,7 +57,6 @@ Public Class cRTFDebug
         Me.rtfOut.ScrollBars = System.Windows.Forms.ScrollBars.Both
         Me.rtfOut.Size = New System.Drawing.Size(392, 200)
         Me.rtfOut.TabIndex = 3
-        Me.rtfOut.Text = ""
         '
         'cRTFDebug
         '

@@ -47,6 +47,9 @@
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon%281%29.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -72,8 +75,19 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="About.Designer.vb">
+      <DependentUpon>About.vb</DependentUpon>
+    </Compile>
+    <Compile Include="About.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ApplicationEvents.vb" />
     <Compile Include="cRTBWrapper.vb" />
+    <Compile Include="cRTFSyntax.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cRTFSyntax.resx</DependentUpon>
+    </Compile>
     <Compile Include="cRTFSyntax.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -89,6 +103,11 @@
     </Compile>
     <Compile Include="Find.vb">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Form1.resx</DependentUpon>
     </Compile>
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
@@ -111,19 +130,33 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="RTFDebug.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RTFDebug.resx</DependentUpon>
+    </Compile>
     <Compile Include="RTFDebug.vb">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="cRTFSyntax.resx" />
+    <EmbeddedResource Include="About.resx">
+      <DependentUpon>About.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="cRTFSyntax.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>cRTFSyntax.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Editor.resx">
       <DependentUpon>Editor.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Find.resx">
       <DependentUpon>Find.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx" />
+    <EmbeddedResource Include="Form1.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Form1.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -135,7 +168,10 @@
     <EmbeddedResource Include="obj\Debug\_375Script.Form1.resources" />
     <EmbeddedResource Include="obj\Debug\_375Script.Resources.resources" />
     <EmbeddedResource Include="obj\Debug\_375Script.RTFDebug.resources" />
-    <EmbeddedResource Include="RTFDebug.resx" />
+    <EmbeddedResource Include="RTFDebug.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>RTFDebug.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\Debug\375Script.exe.config" />
@@ -160,11 +196,14 @@
     <Content Include="bin\Debug\375Script.pdb" />
     <Content Include="bin\Debug\375Script.vshost.exe" />
     <Content Include="bin\Debug\375Script.xml" />
+    <Content Include="favicon%281%29.ico" />
+    <Content Include="favicon.ico" />
     <Content Include="obj\Debug\375Script.exe" />
     <Content Include="obj\Debug\375Script.pdb" />
     <Content Include="obj\Debug\375Script.vbproj.FileListAbsolute.txt" />
     <Content Include="obj\Debug\375Script.xml" />
     <Content Include="obj\Debug\TempPE\My Project.Resources.Designer.vb.dll" />
+    <Content Include="script-512.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Release\" />

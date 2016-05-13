@@ -33,6 +33,9 @@
                         MsgBox(Content, MsgBoxStyle.Exclamation)
                     Case "message:information", "message:info", "message:i"
                         MsgBox(Content, MsgBoxStyle.Information)
+                    Case "wait"
+                        System.Threading.Thread.Sleep(Val(Content) * 1000)
+                        My.Application.DoEvents()
                 End Select
             Next
         End Sub

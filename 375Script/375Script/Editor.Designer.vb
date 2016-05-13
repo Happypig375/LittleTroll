@@ -71,6 +71,7 @@ Partial Class Editor
         Me.ViewZoomIn = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewZoomOut = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewZoomReset = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ViewZoomSet = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuHelp = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpViewHelp = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpSeparator1 = New System.Windows.Forms.ToolStripSeparator()
@@ -83,7 +84,6 @@ Partial Class Editor
         Me.Status = New System.Windows.Forms.StatusBar()
         Me.SetFont = New System.Windows.Forms.FontDialog()
         Me.Background = New System.Windows.Forms.ColorDialog()
-        Me.ViewZoomSet = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -421,6 +421,13 @@ Partial Class Editor
         Me.ViewZoomReset.Size = New System.Drawing.Size(254, 22)
         Me.ViewZoomReset.Text = "&Reset Zoom Level"
         '
+        'ViewZoomSet
+        '
+        Me.ViewZoomSet.Name = "ViewZoomSet"
+        Me.ViewZoomSet.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.OemMinus), System.Windows.Forms.Keys)
+        Me.ViewZoomSet.Size = New System.Drawing.Size(254, 22)
+        Me.ViewZoomSet.Text = "Set &Zoom"
+        '
         'MenuHelp
         '
         Me.MenuHelp.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HelpViewHelp, Me.HelpSeparator1, Me.HelpAbout375Script})
@@ -485,13 +492,6 @@ Partial Class Editor
         'Background
         '
         Me.Background.AnyColor = True
-        '
-        'ViewZoomSet
-        '
-        Me.ViewZoomSet.Name = "ViewZoomSet"
-        Me.ViewZoomSet.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.OemMinus), System.Windows.Forms.Keys)
-        Me.ViewZoomSet.Size = New System.Drawing.Size(254, 22)
-        Me.ViewZoomSet.Text = "Set &Zoom"
         '
         'Editor
         '

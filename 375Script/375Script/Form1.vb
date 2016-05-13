@@ -1,10 +1,11 @@
 Imports System.Net
 
-Public Class Form1
+Partial Public Class Form1
     Inherits System.Windows.Forms.Form
 
 #Region " Windows Form Designer generated code "
 
+    <Global.System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")> _
     Public Sub New()
         MyBase.New()
 
@@ -50,24 +51,26 @@ Public Class Form1
     Friend WithEvents MenuItem6 As System.Windows.Forms.MenuItem
     Friend WithEvents mnuColor As System.Windows.Forms.MenuItem
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-        Me.RTB = New System.Windows.Forms.RichTextBox
-        Me.StatusBar1 = New System.Windows.Forms.StatusBar
-        Me.mnuMain = New System.Windows.Forms.MainMenu
-        Me.MenuItem1 = New System.Windows.Forms.MenuItem
-        Me.mnuNew = New System.Windows.Forms.MenuItem
-        Me.mnuOpen = New System.Windows.Forms.MenuItem
-        Me.mnuSave = New System.Windows.Forms.MenuItem
-        Me.MenuItem2 = New System.Windows.Forms.MenuItem
-        Me.mnuExit = New System.Windows.Forms.MenuItem
-        Me.mnuSyntax = New System.Windows.Forms.MenuItem
-        Me.MenuItem3 = New System.Windows.Forms.MenuItem
-        Me.MenuItem4 = New System.Windows.Forms.MenuItem
-        Me.OpenDialog = New System.Windows.Forms.OpenFileDialog
-        Me.SaveDialog = New System.Windows.Forms.SaveFileDialog
-        Me.MenuItem5 = New System.Windows.Forms.MenuItem
-        Me.mnuWordWrap = New System.Windows.Forms.MenuItem
-        Me.MenuItem6 = New System.Windows.Forms.MenuItem
-        Me.mnuColor = New System.Windows.Forms.MenuItem
+        Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
+        Me.RTB = New System.Windows.Forms.RichTextBox()
+        Me.StatusBar1 = New System.Windows.Forms.StatusBar()
+        Me.mnuMain = New System.Windows.Forms.MainMenu(Me.components)
+        Me.MenuItem1 = New System.Windows.Forms.MenuItem()
+        Me.mnuNew = New System.Windows.Forms.MenuItem()
+        Me.mnuOpen = New System.Windows.Forms.MenuItem()
+        Me.mnuSave = New System.Windows.Forms.MenuItem()
+        Me.MenuItem2 = New System.Windows.Forms.MenuItem()
+        Me.mnuExit = New System.Windows.Forms.MenuItem()
+        Me.mnuSyntax = New System.Windows.Forms.MenuItem()
+        Me.MenuItem3 = New System.Windows.Forms.MenuItem()
+        Me.MenuItem4 = New System.Windows.Forms.MenuItem()
+        Me.MenuItem5 = New System.Windows.Forms.MenuItem()
+        Me.mnuWordWrap = New System.Windows.Forms.MenuItem()
+        Me.MenuItem6 = New System.Windows.Forms.MenuItem()
+        Me.mnuColor = New System.Windows.Forms.MenuItem()
+        Me.OpenDialog = New System.Windows.Forms.OpenFileDialog()
+        Me.SaveDialog = New System.Windows.Forms.SaveFileDialog()
         Me.SuspendLayout()
         '
         'RTB
@@ -167,6 +170,7 @@ Public Class Form1
         Me.ClientSize = New System.Drawing.Size(376, 334)
         Me.Controls.Add(Me.RTB)
         Me.Controls.Add(Me.StatusBar1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Menu = Me.mnuMain
         Me.Name = "Form1"
         Me.Text = "RTB Wrapper, Take 4.3"
