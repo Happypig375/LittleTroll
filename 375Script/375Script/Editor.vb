@@ -270,7 +270,7 @@
 
     Private Sub EditReplace_Click(sender As Object, e As EventArgs) Handles EditReplace.Click
         Dim Find As New Find(Find.FindMode.Replace)
-        Dim WhiteSpaces As New List(Of Char)
+        Dim WhiteSpaces As New List(Of String)
         WhiteSpaces.Add(Chr(&H9)) : WhiteSpaces.Add(Chr(&HA)) : WhiteSpaces.Add(Chr(&HB))
         WhiteSpaces.Add(Chr(&HC)) : WhiteSpaces.Add(Chr(&HE)) : WhiteSpaces.Add(Chr(&H20))
         WhiteSpaces.Add(Chr(&H85)) : WhiteSpaces.Add(Chr(&HA0)) : WhiteSpaces.Add(Chr(&H1680))

@@ -214,6 +214,9 @@
     <Content Include="obj\Debug\375Script.pdb" />
     <Content Include="obj\Debug\375Script.vbproj.FileListAbsolute.txt" />
     <Content Include="obj\Debug\375Script.xml" />
+    <Content Include="obj\Debug\Interop.WMPLib.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="obj\Debug\TempPE\My Project.Resources.Designer.vb.dll" />
     <Content Include="script-512.png" />
   </ItemGroup>
