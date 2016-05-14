@@ -57,6 +57,7 @@ Partial Class Editor
         Me.FormatBackground = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuExecute = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExecuteScript = New System.Windows.Forms.ToolStripMenuItem()
+        Me.StartDebugging = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuDebug = New System.Windows.Forms.ToolStripMenuItem()
         Me.DebugOpenCRTFSyntax = New System.Windows.Forms.ToolStripMenuItem()
         Me.DebugOpenRTFDebug = New System.Windows.Forms.ToolStripMenuItem()
@@ -84,6 +85,7 @@ Partial Class Editor
         Me.Status = New System.Windows.Forms.StatusBar()
         Me.SetFont = New System.Windows.Forms.FontDialog()
         Me.Background = New System.Windows.Forms.ColorDialog()
+        Me.LineNumbers = New _375Script.LineNumbers_For_RichTextBox()
         Me.MenuStrip.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -317,7 +319,7 @@ Partial Class Editor
         '
         'MenuExecute
         '
-        Me.MenuExecute.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExecuteScript})
+        Me.MenuExecute.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExecuteScript, Me.StartDebugging})
         Me.MenuExecute.Name = "MenuExecute"
         Me.MenuExecute.Size = New System.Drawing.Size(59, 20)
         Me.MenuExecute.Text = "&Execute"
@@ -326,8 +328,15 @@ Partial Class Editor
         '
         Me.ExecuteScript.Name = "ExecuteScript"
         Me.ExecuteScript.ShortcutKeys = System.Windows.Forms.Keys.F2
-        Me.ExecuteScript.Size = New System.Drawing.Size(166, 22)
+        Me.ExecuteScript.Size = New System.Drawing.Size(206, 22)
         Me.ExecuteScript.Text = "&Execute Script"
+        '
+        'StartDebugging
+        '
+        Me.StartDebugging.Name = "StartDebugging"
+        Me.StartDebugging.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F2), System.Windows.Forms.Keys)
+        Me.StartDebugging.Size = New System.Drawing.Size(206, 22)
+        Me.StartDebugging.Text = "Start &Debugging"
         '
         'MenuDebug
         '
@@ -472,9 +481,9 @@ Partial Class Editor
         Me.Edit.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Edit.Location = New System.Drawing.Point(0, 24)
+        Me.Edit.Location = New System.Drawing.Point(25, 24)
         Me.Edit.Name = "Edit"
-        Me.Edit.Size = New System.Drawing.Size(356, 237)
+        Me.Edit.Size = New System.Drawing.Size(331, 215)
         Me.Edit.TabIndex = 3
         Me.Edit.Text = ""
         '
@@ -493,14 +502,53 @@ Partial Class Editor
         '
         Me.Background.AnyColor = True
         '
+        'LineNumbers
+        '
+        Me.LineNumbers._SeeThroughMode_ = False
+        Me.LineNumbers.AutoSizing = True
+        Me.LineNumbers.BackgroundGradient_AlphaColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.LineNumbers.BackgroundGradient_BetaColor = System.Drawing.Color.LightSteelBlue
+        Me.LineNumbers.BackgroundGradient_Direction = System.Drawing.Drawing2D.LinearGradientMode.Horizontal
+        Me.LineNumbers.BorderLines_Color = System.Drawing.Color.SlateGray
+        Me.LineNumbers.BorderLines_Style = System.Drawing.Drawing2D.DashStyle.Dot
+        Me.LineNumbers.BorderLines_Thickness = 1.0!
+        Me.LineNumbers.DockSide = _375Script.LineNumbers_For_RichTextBox.LineNumberDockSide.Left
+        Me.LineNumbers.GridLines_Color = System.Drawing.Color.SlateGray
+        Me.LineNumbers.GridLines_Style = System.Drawing.Drawing2D.DashStyle.Dot
+        Me.LineNumbers.GridLines_Thickness = 1.0!
+        Me.LineNumbers.LineNrs_Alignment = System.Drawing.ContentAlignment.TopRight
+        Me.LineNumbers.LineNrs_AntiAlias = True
+        Me.LineNumbers.LineNrs_AsHexadecimal = False
+        Me.LineNumbers.LineNrs_ClippedByItemRectangle = True
+        Me.LineNumbers.LineNrs_LeadingZeroes = True
+        Me.LineNumbers.LineNrs_Offset = New System.Drawing.Size(0, 0)
+        Me.LineNumbers.Location = New System.Drawing.Point(4, 24)
+        Me.LineNumbers.Margin = New System.Windows.Forms.Padding(0)
+        Me.LineNumbers.MarginLines_Color = System.Drawing.Color.SlateGray
+        Me.LineNumbers.MarginLines_Side = _375Script.LineNumbers_For_RichTextBox.LineNumberDockSide.Right
+        Me.LineNumbers.MarginLines_Style = System.Drawing.Drawing2D.DashStyle.Solid
+        Me.LineNumbers.MarginLines_Thickness = 1.0!
+        Me.LineNumbers.Name = "LineNumbers"
+        Me.LineNumbers.Padding = New System.Windows.Forms.Padding(0, 0, 2, 0)
+        Me.LineNumbers.ParentRichTextBox = Me.Edit
+        Me.LineNumbers.Show_BackgroundGradient = True
+        Me.LineNumbers.Show_BorderLines = True
+        Me.LineNumbers.Show_GridLines = True
+        Me.LineNumbers.Show_LineNrs = True
+        Me.LineNumbers.Show_MarginLines = True
+        Me.LineNumbers.Size = New System.Drawing.Size(20, 215)
+        Me.LineNumbers.TabIndex = 9
+        '
         'Editor
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(356, 261)
+        Me.Controls.Add(Me.LineNumbers)
         Me.Controls.Add(Me.Status)
         Me.Controls.Add(Me.Edit)
         Me.Controls.Add(Me.MenuStrip)
+        Me.KeyPreview = True
         Me.MainMenuStrip = Me.MenuStrip
         Me.Name = "Editor"
         Me.Text = "375Script"
@@ -572,5 +620,7 @@ Partial Class Editor
     Friend WithEvents FormatBackground As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Background As System.Windows.Forms.ColorDialog
     Friend WithEvents ViewZoomSet As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents StartDebugging As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents LineNumbers As _375Script.LineNumbers_For_RichTextBox
 
 End Class

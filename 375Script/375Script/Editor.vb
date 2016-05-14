@@ -13,7 +13,6 @@
             End Select
         End If
     End Sub
-
     Private Sub Edit_TextChanged(sender As Object, e As EventArgs) Handles Edit.TextChanged
         Changed = True
         EditUndo.Enabled = Edit.CanUndo
@@ -50,7 +49,8 @@
     End Sub
 
     Private Sub FileReload_Click(sender As Object, e As EventArgs) Handles FileReload.Click
-            Edit.LoadFile(Open.FileName, RichTextBoxStreamType.PlainText)
+        If Open.FileName = Nothing Then Exit Sub
+        Edit.LoadFile(Open.FileName, RichTextBoxStreamType.PlainText)
         RTBWrapper.colorDocument()
     End Sub
 
@@ -195,7 +195,7 @@
     End Sub
 
     Private Sub ExecuteScript_Click(sender As Object, e As EventArgs) Handles ExecuteScript.Click
-        My.Application.ExecuteScript(Edit.Text, If(Open.FileName, "Untitled"))
+        Execute(Edit.Text, If(Open.FileName, "Untitled"))
     End Sub
 
     Private Sub EditUndo_Click(sender As Object, e As EventArgs) Handles EditUndo.Click
@@ -369,5 +369,13 @@ The characters CHARACTER TABULATION (U+0009), LINE FEED (U+000A), LINE TABULATIO
 
     Private Sub HelpAbout375Script_Click(sender As Object, e As EventArgs) Handles HelpAbout375Script.Click
         About.Show()
+    End Sub
+
+    Private Sub StartDebugging_Click(sender As Object, e As EventArgs) Handles StartDebugging.Click
+        Execute(Edit.Text, If(Open.FileName, "Untitled"), True)
+    End Sub
+
+    Private Sub Editor_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        If e.KeyCode = Keys.Pause And e.Control Then StopLoop = True
     End Sub
 End Class
