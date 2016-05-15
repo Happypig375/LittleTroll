@@ -420,4 +420,8 @@ The characters CHARACTER TABULATION (U+0009), LINE FEED (U+000A), LINE TABULATIO
     Private Sub Editor_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.Pause And e.Control Then StopLoop = True
     End Sub
+
+    Private Sub HelpViewHelp_Click(sender As Object, e As EventArgs) Handles HelpViewHelp.Click
+        Help.ShowHelp(Me, "375Script.chm")
+    End Sub
 End Class

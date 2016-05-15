@@ -186,6 +186,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="375Script.chm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="375Script.chw" />
     <None Include="bin\Debug\375Script.exe.config" />
     <None Include="bin\Debug\375Script.vshost.exe.config" />
     <None Include="bin\Debug\375Script.vshost.exe.manifest" />
