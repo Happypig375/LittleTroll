@@ -190,6 +190,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="375Script.chw" />
+    <None Include="bin\Debug\375Script.chm" />
     <None Include="bin\Debug\375Script.exe.config" />
     <None Include="bin\Debug\375Script.vshost.exe.config" />
     <None Include="bin\Debug\375Script.vshost.exe.manifest" />
@@ -212,6 +213,7 @@
     <Content Include="bin\Debug\375Script.pdb" />
     <Content Include="bin\Debug\375Script.vshost.exe" />
     <Content Include="bin\Debug\375Script.xml" />
+    <Content Include="bin\Debug\Interop.WMPLib.dll" />
     <Content Include="favicon%281%29.ico" />
     <Content Include="favicon.ico" />
     <Content Include="obj\Debug\375Script.exe" />

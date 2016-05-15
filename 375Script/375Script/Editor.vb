@@ -144,61 +144,6 @@
     End Sub
     Private WithEvents RTBWrapper As New cRTBWrapper
 
-    Private Sub Editor_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        With RTBWrapper
-            .bind(Edit)
-            .rtfSyntax.add("close", False, True, Color.Blue.ToArgb)
-            .rtfSyntax.add("hide", False, True, Color.Blue.ToArgb)
-            .rtfSyntax.add("play:loop", False, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("loop", False, True, Color.Red.ToArgb)
-            .rtfSyntax.add("play:l", False, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("play:stop", False, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("play:x", False, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("play:systemsound", False, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("play:system", False, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("play:s", False, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("play:waittocomplete", False, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("play:wait", False, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("play:w", False, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("play", False, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("message:critical", False, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("message:c", False, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("message:x", False, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("message:question", False, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("message:q", False, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("message:?", False, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("message:exclamation", False, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("message:e", False, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("message:!", False, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("message:question", False, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("message:q", False, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("message:?", False, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("message:information", False, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("message:info", False, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("message:i", False, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("message", False, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("show", False, True, Color.Blue.ToArgb)
-            .rtfSyntax.add("stop:all", False, True, Color.Red.ToArgb)
-            .rtfSyntax.add("stop:a", False, True, Color.Red.ToArgb)
-            .rtfSyntax.add("stop:others", False, True, Color.Red.ToArgb)
-            .rtfSyntax.add("stop:o", False, True, Color.Red.ToArgb)
-            .rtfSyntax.add("stop", False, True, Color.Red.ToArgb)
-            .rtfSyntax.add("waituntil", False, True, Color.Red.ToArgb)
-            .rtfSyntax.add("wait", False, True, Color.Red.ToArgb)
-#If False Then
-            .rtfSyntax.add("<span.*?>", True, True, Color.Red.ToArgb)
-            .rtfSyntax.add("<p.*>", True, True, Color.Darkdarkcyan.ToArgb)
-            .rtfSyntax.add("<a.*?>", True, True, Color.Blue.ToArgb)
-            .rtfSyntax.add("<table.*?>", True, True, Color.Tan.ToArgb)
-            .rtfSyntax.add("<tr.*?>", True, True, Color.Brown.ToArgb)
-            .rtfSyntax.add("<td.*?>", True, True, Color.Brown.ToArgb)
-            .rtfSyntax.add("<img.*?>", True, True, Color.Red.ToArgb)
-            .rtfSyntax.add("not regex and case sensitive", False, False, Color.Red.ToArgb)
-
-#End If
-        End With
-    End Sub
-
     Private Sub RTBWrapper_position(ByVal PositionInfo As cRTBWrapper.cPosition) Handles RTBWrapper.position
         Status.Text = "Cursor: " & PositionInfo.Cursor & "  |  Line: " & PositionInfo.CurrentLine & "  | Position: " & PositionInfo.LinePosition
     End Sub
