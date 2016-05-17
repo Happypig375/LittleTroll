@@ -175,8 +175,11 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="obj\Debug\_375Script.About.resources" />
     <EmbeddedResource Include="obj\Debug\_375Script.cRTFSyntax.resources" />
+    <EmbeddedResource Include="obj\Debug\_375Script.Debug.resources" />
     <EmbeddedResource Include="obj\Debug\_375Script.Editor.resources" />
+    <EmbeddedResource Include="obj\Debug\_375Script.Find.resources" />
     <EmbeddedResource Include="obj\Debug\_375Script.Form1.resources" />
     <EmbeddedResource Include="obj\Debug\_375Script.Resources.resources" />
     <EmbeddedResource Include="obj\Debug\_375Script.RTFDebug.resources" />
@@ -205,8 +208,11 @@
     </None>
     <None Include="App.config" />
     <None Include="obj\Debug\375Script.vbproj.GenerateResource.Cache" />
+    <None Include="obj\Debug\375Script.vbproj.ResolveComReference.cache" />
     <None Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
     <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\x86\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\x86\Debug\WMPLib.csprojResolveAssemblyReference.cache" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Debug\375Script.exe" />
@@ -214,6 +220,7 @@
     <Content Include="bin\Debug\375Script.vshost.exe" />
     <Content Include="bin\Debug\375Script.xml" />
     <Content Include="bin\Debug\Interop.WMPLib.dll" />
+    <Content Include="bin\Debug\obj\Debug\Interop.WMPLib.dll" />
     <Content Include="favicon%281%29.ico" />
     <Content Include="favicon.ico" />
     <Content Include="obj\Debug\375Script.exe" />
@@ -223,11 +230,16 @@
     <Content Include="obj\Debug\Interop.WMPLib.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="obj\Debug\TempPE\cRTFSyntax.Designer.vb.dll" />
+    <Content Include="obj\Debug\TempPE\Form1.Designer.vb.dll" />
     <Content Include="obj\Debug\TempPE\My Project.Resources.Designer.vb.dll" />
+    <Content Include="obj\Debug\TempPE\RTFDebug.Designer.vb.dll" />
+    <Content Include="obj\x86\Debug\WMPLib.csproj.FileListAbsolute.txt" />
     <Content Include="script-512.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Release\" />
+    <Folder Include="obj\x86\Debug\TempPE\" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="WMPLib">
