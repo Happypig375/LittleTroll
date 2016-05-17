@@ -185,9 +185,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="375Script.chw" />
-    <None Include="Binaries\Debug\375Script.chm" />
-    <None Include="Binaries\Debug\375Script.exe.config" />
-    <None Include="Binaries\Debug\375Script.vshost.exe.config" />
+    <None Include="Binaries\375Script.chm" />
+    <None Include="Binaries\375Script.exe.config" />
+    <None Include="Binaries\375Script.vshost.exe.config" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -200,11 +200,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Binaries\Debug\375Script.exe" />
-    <Content Include="Binaries\Debug\375Script.pdb" />
-    <Content Include="Binaries\Debug\375Script.vshost.exe" />
-    <Content Include="Binaries\Debug\375Script.xml" />
-    <Content Include="Binaries\Debug\Interop.WMPLib.dll" />
+    <Content Include="Binaries\375Script.exe" />
+    <Content Include="Binaries\375Script.pdb" />
+    <Content Include="Binaries\375Script.vshost.exe" />
+    <Content Include="Binaries\375Script.xml" />
+    <Content Include="Binaries\Interop.WMPLib.dll" />
     <Content Include="favicon%281%29.ico" />
     <Content Include="favicon.ico" />
     <Content Include="script-512.png" />
