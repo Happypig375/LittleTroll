@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>_bin\Debug\</OutputPath>
+    <OutputPath>Binaries\Debug\</OutputPath>
     <DocumentationFile>375Script.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <RunCodeAnalysis>false</RunCodeAnalysis>
@@ -31,7 +31,7 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
-    <OutputPath>_bin\Release\</OutputPath>
+    <OutputPath>Binaries\Release\</OutputPath>
     <DocumentationFile>375Script.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
@@ -184,12 +184,10 @@
     <Content Include="375Script.chm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="_bin\Debug\375Script.exe" />
-    <Content Include="_bin\Debug\375Script.pdb" />
-    <Content Include="_bin\Debug\375Script.vshost.exe" />
-    <Content Include="_bin\Debug\375Script.xml" />
-    <Content Include="_bin\Debug\Interop.WMPLib.dll" />
     <None Include="375Script.chw" />
+    <None Include="Binaries\Debug\375Script.chm" />
+    <None Include="Binaries\Debug\375Script.exe.config" />
+    <None Include="Binaries\Debug\375Script.vshost.exe.config" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -200,11 +198,13 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
-    <None Include="_bin\Debug\375Script.chm" />
-    <None Include="_bin\Debug\375Script.exe.config" />
-    <None Include="_bin\Debug\375Script.vshost.exe.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Binaries\Debug\375Script.exe" />
+    <Content Include="Binaries\Debug\375Script.pdb" />
+    <Content Include="Binaries\Debug\375Script.vshost.exe" />
+    <Content Include="Binaries\Debug\375Script.xml" />
+    <Content Include="Binaries\Debug\Interop.WMPLib.dll" />
     <Content Include="favicon%281%29.ico" />
     <Content Include="favicon.ico" />
     <Content Include="script-512.png" />
