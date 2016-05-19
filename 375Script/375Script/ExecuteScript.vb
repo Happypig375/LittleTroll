@@ -6,33 +6,34 @@
             .rtfSyntax.add("^\s*?hide\b", True, True, Color.Blue.ToArgb)
             '.rtfSyntax.add("^\s*?play(:l(oop)?|:stop|:x|:s(ystem(sound)?)?|:w(ait(tocomplete)?)?)\b", True, True, Color.DarkCyan.ToArgb)
             .rtfSyntax.add("^\s*?loop\b", True, True, Color.Red.ToArgb)
-            .rtfSyntax.add("(?<=play:l)oop\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("(?<=play):l\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("(?<=play:s)top\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("(?<=play):x\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("(?<=play:system)sound\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("(?<=play:s)ystem\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("(?<=play):s\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("(?<=play:wait)tocomplete\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("(?<=play:w)ait\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("(?<=play):w\b", True, True, Color.DarkCyan.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?play:l)oop\b", True, True, Color.DarkCyan.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?play):l\b", True, True, Color.DarkCyan.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?play:s)top\b", True, True, Color.DarkCyan.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?play):x\b", True, True, Color.DarkCyan.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?play:system)sound\b", True, True, Color.DarkCyan.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?play:s)ystem\b", True, True, Color.DarkCyan.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?play):s\b", True, True, Color.DarkCyan.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?play:wait)tocomplete\b", True, True, Color.DarkCyan.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?play:w)ait\b", True, True, Color.DarkCyan.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?play):w\b", True, True, Color.DarkCyan.ToArgb)
             .rtfSyntax.add("^\s*?play\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("(?<=message:c)ritical\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=message):c\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=message):x\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=message:q)uestion\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=message):q\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=message):?\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=message:e)xclamation\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=message):e\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=message):!\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=message:q)uestion\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=message):q\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=message):?\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=message:info)rmation\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=message:i)nfo\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=message):i\b", True, True, Color.Orange.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?message:c)ritical\b", True, True, Color.Orange.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?message):c\b", True, True, Color.Orange.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?message):x\b", True, True, Color.Orange.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?message:q)uestion\b", True, True, Color.Orange.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?message):q\b", True, True, Color.Orange.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?message):?\b", True, True, Color.Orange.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?message:e)xclamation\b", True, True, Color.Orange.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?message):e\b", True, True, Color.Orange.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?message):!\b", True, True, Color.Orange.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?message:q)uestion\b", True, True, Color.Orange.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?message):q\b", True, True, Color.Orange.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?message):?\b", True, True, Color.Orange.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?message:info)rmation\b", True, True, Color.Orange.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?message:i)nfo\b", True, True, Color.Orange.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?message):i\b", True, True, Color.Orange.ToArgb)
             .rtfSyntax.add("^\s*?message\b", True, True, Color.Orange.ToArgb)
+            .rtfSyntax.add("^\s*?repeat\b", True, True, Color.Red.ToArgb)
             .rtfSyntax.add("^\s*?show\b", True, True, Color.Blue.ToArgb)
             .rtfSyntax.add("(?<=stop:a)ll\b", True, True, Color.Red.ToArgb)
             .rtfSyntax.add("(?<=stop):a\b", True, True, Color.Red.ToArgb)
@@ -93,6 +94,8 @@ Reloop: Dim LineNum As ULong = 0
                 Select Case Line.Split({" "c}, 2)(0).ToLower
                     Case "close"
                         Me.Close()
+                    Case "execute"
+                        Execute(New System.IO.StreamReader(Content).ReadToEnd, System.IO.Path.GetFileNameWithoutExtension(Content))
                     Case "hide"
                         Me.Hide()
                     Case "loop"
@@ -128,6 +131,17 @@ Reloop: Dim LineNum As ULong = 0
                         MsgBox(Content, MsgBoxStyle.Exclamation, ScriptName)
                     Case "message:information", "message:info", "message:i"
                         MsgBox(Content, MsgBoxStyle.Information, ScriptName)
+                    Case "repeat"
+                        Static Counter As Integer
+                        If Counter = Nothing Then
+                            Counter = 1
+                            GoTo Reloop
+                        ElseIf Counter < Val(Content) - 1 Then
+                            Counter += 1
+                            GoTo Reloop
+                        Else
+                            Counter = Nothing
+                        End If
                     Case "show"
                         Me.Show()
                     Case "stop"

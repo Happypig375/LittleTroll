@@ -465,7 +465,7 @@ Partial Class Editor
         '
         'Save
         '
-        Me.Save.FileName = "375Script File|*.375|Text Document|*.txt|Event Log|*.log|All Files|*.*"
+        Me.Save.Filter = "375Script File|*.375|Text Document|*.txt|Event Log|*.log|All Files|*.*"
         '
         'Print
         '

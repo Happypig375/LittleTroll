@@ -56,7 +56,7 @@
 
     Private Sub FileSave_Click(sender As Object, e As EventArgs) Handles FileSave.Click
         If Not Changed Then Exit Sub
-        If Not Open.FileName = "" Or Open.FileName = Nothing Then
+        If Not (Open.FileName = "" Or Open.FileName = Nothing) Then
 #If True Then
             Edit.SaveFile(Save.FileName, RichTextBoxStreamType.PlainText)
 #Else
@@ -65,6 +65,7 @@
             Writer.Flush()
             Writer.Close()
 #End If
+
         Else
             FileSaveAs_Click(sender, e)
         End If
