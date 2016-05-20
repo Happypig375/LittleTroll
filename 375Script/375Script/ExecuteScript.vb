@@ -139,9 +139,8 @@ Reloop: Dim LineNum As ULong = 0
                         Content = Content.TrimStart
                         If Content(0) = """"c Then
                             Content = Content.Substring(1)
-                            Parts = Content.Split(""""c)
-                            System.Diagnostics.Process.Start(Parts(0), Parts(1))
-                        Else
+                            Content.
+                        Else()
                             Parts = Content.Split(" ")
                             System.Diagnostics.Process.Start()
                         End If
