@@ -47,9 +47,9 @@
                 ReplaceTextLabel.Visible = False
                 MatchCase.Visible = True
                 Highlight.Visible = True
-                Top.Visible = True
+                StartTop.Visible = True
                 StartAt.Visible = True
-                Bottom.Visible = True
+                StartBottom.Visible = True
                 OK_Button.Text = "Find"
                 Settings.Mode = FindMode.Find
             Case FindMode.Replace
@@ -57,9 +57,9 @@
                 ReplaceTextLabel.Visible = True
                 MatchCase.Visible = False
                 Highlight.Visible = False
-                Top.Visible = False
+                StartTop.Visible = False
                 StartAt.Visible = False
-                Bottom.Visible = False
+                StartBottom.Visible = False
                 OK_Button.Text = "Replace"
                 Settings.Mode = FindMode.Replace
         End Select

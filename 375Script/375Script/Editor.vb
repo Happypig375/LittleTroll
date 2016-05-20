@@ -58,7 +58,7 @@
         If Not Changed Then Exit Sub
         If Not (Open.FileName = "" Or Open.FileName = Nothing) Then
 #If True Then
-            Edit.SaveFile(Save.FileName, RichTextBoxStreamType.PlainText)
+            Edit.SaveFile(Open.FileName, RichTextBoxStreamType.PlainText)
 #Else
             Writer = New System.IO.StreamWriter(Open.FileName, False)
             Writer.Write(Edit.Text)

@@ -451,6 +451,7 @@ Public Class cRTBWrapper
                 rtfColors.add(newColor.ToArgb)
             Next
         End If
+        Return True
     End Function
 
     '--------------------------------------------------------------------------
@@ -458,7 +459,7 @@ Public Class cRTBWrapper
     ' Purpose: Read the RTF and strip off the header info, and split it into limes.
     '          RegEx avoided here !
     '
-    Private Function readRTFBody() As String
+    Private Function readRTFBody() As String()
         Dim tmp As String = _bind.Rtf
         Dim bodyStart As Integer
 
@@ -471,6 +472,7 @@ Public Class cRTBWrapper
 
         Dim tmpRtfBody As String = tmp.Substring(bodyStart)
         rtfBody = Split(tmpRtfBody, "\par")
+        Return rtfBody
     End Function
 
     '--------------------------------------------------------------------------
@@ -478,7 +480,7 @@ Public Class cRTBWrapper
     ' Purpose: Split the text portion into lines
     '          RegEx avoided here !
     '
-    Private Function readTXTBody() As String
+    Private Function readTXTBody() As String()
         Dim tmpText As String
         Dim counter As Integer
 
@@ -493,6 +495,7 @@ Public Class cRTBWrapper
 
         If RTFDebug Then Console.WriteLine("")
         If RTFDebug Then Console.WriteLine("Text lines read: " & UBound(txtBody))
+        Return txtBody
     End Function
 
     '--------------------------------------------------------------------------
@@ -553,7 +556,7 @@ Public Class cRTBWrapper
     '          the info in the color table used to build the headers.  
     '    Note: This changes a color to a color
     '
-    Private Sub changeColor(ByVal srcColor As Color, ByVal toColor As Color)
+    Public Sub changeColor(ByVal srcColor As Color, ByVal toColor As Color)
         Dim index = rtfColors.exists(srcColor.ToArgb)
 
         If index <> -1 Then
@@ -567,15 +570,15 @@ Public Class cRTBWrapper
     '          the info in the color table used to build the headers.  
     '    Note: This changes a index value of a color to a color
     '
-    Public Function changeColor(ByVal index As Integer, ByVal toColor As Color)
+    Public Sub changeColor(ByVal index As Integer, ByVal toColor As Color)
         rtfColors.item(index) = toColor.ToArgb
-    End Function
+    End Sub
 
     '--------------------------------------------------------------------------
     '     Sub: applyColor
     ' Purpose: Apply a new color format to a line
     '
-    Private Function applyColor(ByVal line As Integer)
+    Private Sub applyColor(ByVal line As Integer)
         Dim thisMatch As Match
         Dim Style As tDict
         Dim rxOptions As New RegexOptions
@@ -618,9 +621,9 @@ Public Class cRTBWrapper
             End If
         Next
 
-    End Function
+    End Sub
 
-    Public Function colorDocument()
+    Public Sub colorDocument()
         Dim counter As Integer
         update(Me, New System.EventArgs)
 
@@ -629,5 +632,5 @@ Public Class cRTBWrapper
         Next
 
         _bind.Rtf = Render()
-    End Function
+    End Sub
 End Class

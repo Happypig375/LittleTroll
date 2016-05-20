@@ -31,8 +31,8 @@ Partial Class Find
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
         Me.Highlight = New System.Windows.Forms.CheckBox()
         Me.StartAt = New System.Windows.Forms.TrackBar()
-        Me.Top = New System.Windows.Forms.Label()
-        Me.Bottom = New System.Windows.Forms.Label()
+        Me.StartTop = New System.Windows.Forms.Label()
+        Me.StartBottom = New System.Windows.Forms.Label()
         Me.WholeWord = New System.Windows.Forms.CheckBox()
         Me.ReplaceText = New System.Windows.Forms.TextBox()
         Me.ReplaceTextLabel = New System.Windows.Forms.Label()
@@ -124,23 +124,23 @@ Partial Class Find
         Me.StartAt.Size = New System.Drawing.Size(53, 45)
         Me.StartAt.TabIndex = 5
         '
-        'Top
+        'StartTop
         '
-        Me.Top.AutoSize = True
-        Me.Top.Location = New System.Drawing.Point(12, 72)
-        Me.Top.Name = "Top"
-        Me.Top.Size = New System.Drawing.Size(59, 13)
-        Me.Top.TabIndex = 6
-        Me.Top.Text = "Start at top"
+        Me.StartTop.AutoSize = True
+        Me.StartTop.Location = New System.Drawing.Point(12, 72)
+        Me.StartTop.Name = "StartTop"
+        Me.StartTop.Size = New System.Drawing.Size(59, 13)
+        Me.StartTop.TabIndex = 6
+        Me.StartTop.Text = "Start at top"
         '
-        'Bottom
+        'StartBottom
         '
-        Me.Bottom.AutoSize = True
-        Me.Bottom.Location = New System.Drawing.Point(137, 72)
-        Me.Bottom.Name = "Bottom"
-        Me.Bottom.Size = New System.Drawing.Size(76, 13)
-        Me.Bottom.TabIndex = 7
-        Me.Bottom.Text = "Start at bottom"
+        Me.StartBottom.AutoSize = True
+        Me.StartBottom.Location = New System.Drawing.Point(137, 72)
+        Me.StartBottom.Name = "StartBottom"
+        Me.StartBottom.Size = New System.Drawing.Size(76, 13)
+        Me.StartBottom.TabIndex = 7
+        Me.StartBottom.Text = "Start at bottom"
         '
         'WholeWord
         '
@@ -202,8 +202,8 @@ Partial Class Find
         Me.Controls.Add(Me.ReplaceText)
         Me.Controls.Add(Me.ReplaceTextLabel)
         Me.Controls.Add(Me.WholeWord)
-        Me.Controls.Add(Me.Bottom)
-        Me.Controls.Add(Me.Top)
+        Me.Controls.Add(Me.StartBottom)
+        Me.Controls.Add(Me.StartTop)
         Me.Controls.Add(Me.StartAt)
         Me.Controls.Add(Me.Highlight)
         Me.Controls.Add(Me.TableLayoutPanel1)
@@ -228,8 +228,8 @@ Partial Class Find
     Friend WithEvents TableLayoutPanel1 As System.Windows.Forms.TableLayoutPanel
     Friend WithEvents Highlight As System.Windows.Forms.CheckBox
     Friend WithEvents StartAt As System.Windows.Forms.TrackBar
-    Friend WithEvents Top As System.Windows.Forms.Label
-    Friend WithEvents Bottom As System.Windows.Forms.Label
+    Friend WithEvents StartTop As System.Windows.Forms.Label
+    Friend WithEvents StartBottom As System.Windows.Forms.Label
     Friend WithEvents WholeWord As System.Windows.Forms.CheckBox
     Friend WithEvents ReplaceText As System.Windows.Forms.TextBox
     Friend WithEvents ReplaceTextLabel As System.Windows.Forms.Label

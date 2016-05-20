@@ -3,6 +3,7 @@
         With RTBWrapper
             .bind(Edit)
             .rtfSyntax.add("^\s*?close\b", True, True, Color.Blue.ToArgb)
+            .rtfSyntax.add("^\s*?execute\b", True, True, Color.Blue.ToArgb)
             .rtfSyntax.add("^\s*?hide\b", True, True, Color.Blue.ToArgb)
             '.rtfSyntax.add("^\s*?play(:l(oop)?|:stop|:x|:s(ystem(sound)?)?|:w(ait(tocomplete)?)?)\b", True, True, Color.DarkCyan.ToArgb)
             .rtfSyntax.add("^\s*?loop\b", True, True, Color.Red.ToArgb)
@@ -35,10 +36,10 @@
             .rtfSyntax.add("^\s*?message\b", True, True, Color.Orange.ToArgb)
             .rtfSyntax.add("^\s*?repeat\b", True, True, Color.Red.ToArgb)
             .rtfSyntax.add("^\s*?show\b", True, True, Color.Blue.ToArgb)
-            .rtfSyntax.add("(?<=stop:a)ll\b", True, True, Color.Red.ToArgb)
-            .rtfSyntax.add("(?<=stop):a\b", True, True, Color.Red.ToArgb)
-            .rtfSyntax.add("(?<=stop:o)thers\b", True, True, Color.Red.ToArgb)
-            .rtfSyntax.add("(?<=stop):o\b", True, True, Color.Red.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?stop:a)ll\b", True, True, Color.Red.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?stop):a\b", True, True, Color.Red.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?stop:o)thers\b", True, True, Color.Red.ToArgb)
+            .rtfSyntax.add("(?<=^\s*?stop):o\b", True, True, Color.Red.ToArgb)
             .rtfSyntax.add("^\s*?stop\b", True, True, Color.Red.ToArgb)
             .rtfSyntax.add("^\s*?waituntil\b", True, True, Color.Red.ToArgb)
             .rtfSyntax.add("^\s*?wait\b", True, True, Color.Red.ToArgb)
@@ -152,7 +153,7 @@ Reloop: Dim LineNum As ULong = 0
                     Case "stop:others", "stop:o"
                         StopLoop = True
                     Case "wait"
-                        System.Threading.Thread.Sleep(Val(Content) * 1000)
+                        System.Threading.Thread.Sleep(TimeSpan.Parse(Content))
                         My.Application.DoEvents()
                     Case "waituntil"
                         System.Threading.Thread.Sleep(Convert.ToDateTime(Content) - Now)
@@ -172,4 +173,33 @@ Reloop: Dim LineNum As ULong = 0
             _375Script.Debug.Close()
         End If
     End Sub
+
+    Friend Const FORMAT_MESSAGE_ALLOCATE_BUFFER As Integer = &H100
+    Friend Const FORMAT_MESSAGE_ARGUMENT_ARRAY As Integer = &H2000
+    Friend Const FORMAT_MESSAGE_FROM_HMODULE As Integer = &H800
+    Friend Const FORMAT_MESSAGE_FROM_STRING As Integer = &H400
+    Friend Const FORMAT_MESSAGE_FROM_SYSTEM As Integer = &H1000
+    Friend Const FORMAT_MESSAGE_IGNORE_INSERTS As Integer = &H200
+    Friend Const FORMAT_MESSAGE_MAX_WIDTH_MASK As Integer = &HFF
+
+    <Runtime.InteropServices.DllImport("KERNEL32", CharSet:=Runtime.InteropServices.CharSet.Auto, BestFitMapping:=True)>
+    <Runtime.Versioning.ResourceExposure(Runtime.Versioning.ResourceScope.None)>
+    Friend Shared Function FormatMessage(dwFlags As Integer, lpSource As IntPtr,
+    dwMessageId As Integer, dwLanguageId As Integer, lpBuffer As System.Text.StringBuilder,
+    nSize As Integer, va_list_arguments As IntPtr) As Integer
+    End Function
+
+    ' Gets an error message for a Win32 error code.
+    Friend Shared Function GetMessage(errorCode As Integer) As String
+        Dim sb As New System.Text.StringBuilder(512)
+        Dim result As Integer = FormatMessage(FORMAT_MESSAGE_IGNORE_INSERTS Or
+                                              FORMAT_MESSAGE_FROM_SYSTEM Or FORMAT_MESSAGE_ARGUMENT_ARRAY,
+                                              IntPtr.Zero, errorCode, 0, sb, sb.Capacity, IntPtr.Zero)
+        If result <> 0 Then
+            ' result is the # of characters copied to the StringBuilder.
+            Return sb.ToString()
+        Else
+            Return String.Format("Unknown Win32 error code {0:x}", errorCode)
+        End If
+    End Function
 End Class
