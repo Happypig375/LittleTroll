@@ -68,6 +68,7 @@
     '''' </summary>
     'Const ERROR_ACCESS_DENIED As Integer = 5
     Dim _StopLoop As Boolean
+    Friend Process As System.Diagnostics.Process
     Friend Property StopLoop As Boolean
         Get
             Return _StopLoop
@@ -85,6 +86,7 @@
     Friend Sub Execute(Input As String, ScriptName As String, Optional Debug As Boolean = False)
         If Debug Then _375Script.Debug.Show()
 Reloop: Dim LineNum As ULong = 0
+        Process = New Process
         For Each Line As String In Input.Split(Chr(10), Chr(13))
             LineNum += 1
             If StopLoop Then Exit For
@@ -132,6 +134,17 @@ Reloop: Dim LineNum As ULong = 0
                         MsgBox(Content, MsgBoxStyle.Exclamation, ScriptName)
                     Case "message:information", "message:info", "message:i"
                         MsgBox(Content, MsgBoxStyle.Information, ScriptName)
+                    Case "process"
+                        Dim Parts(1) As String
+                        Content = Content.TrimStart
+                        If Content(0) = """"c Then
+                            Content = Content.Substring(1)
+                            Parts = Content.Split(""""c)
+                            System.Diagnostics.Process.Start(Parts(0), Parts(1))
+                        Else
+                            Parts = Content.Split(" ")
+                            System.Diagnostics.Process.Start()
+                        End If
                     Case "repeat"
                         Static Counter As Integer
                         If Counter = Nothing Then
