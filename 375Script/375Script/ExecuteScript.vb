@@ -181,13 +181,15 @@ Reloop: Dim LineNum As ULong = 0
         End If
     End Sub
 
-    Friend Const FORMAT_MESSAGE_ALLOCATE_BUFFER As Integer = &H100
-    Friend Const FORMAT_MESSAGE_ARGUMENT_ARRAY As Integer = &H2000
-    Friend Const FORMAT_MESSAGE_FROM_HMODULE As Integer = &H800
-    Friend Const FORMAT_MESSAGE_FROM_STRING As Integer = &H400
-    Friend Const FORMAT_MESSAGE_FROM_SYSTEM As Integer = &H1000
-    Friend Const FORMAT_MESSAGE_IGNORE_INSERTS As Integer = &H200
-    Friend Const FORMAT_MESSAGE_MAX_WIDTH_MASK As Integer = &HFF
+    Friend Enum FORMAT_MESSAGE As UShort
+        ALLOCATE_BUFFER = &H100
+        ARGUMENT_ARRAY = &H2000
+        FROM_HMODULE = &H800
+        FROM_STRING = &H400
+        FROM_SYSTEM = &H1000
+        IGNORE_INSERTS = &H200
+        MAX_WIDTH_MASK = &HFF
+    End Enum
 
     <Runtime.InteropServices.DllImport("KERNEL32", CharSet:=Runtime.InteropServices.CharSet.Auto, BestFitMapping:=True)>
     <Runtime.Versioning.ResourceExposure(Runtime.Versioning.ResourceScope.None)>
@@ -199,8 +201,8 @@ Reloop: Dim LineNum As ULong = 0
     ' Gets an error message for a Win32 error code.
     Friend Shared Function GetMessage(errorCode As Integer) As String
         Dim sb As New System.Text.StringBuilder(512)
-        Dim result As Integer = FormatMessage(FORMAT_MESSAGE_IGNORE_INSERTS Or
-                                              FORMAT_MESSAGE_FROM_SYSTEM Or FORMAT_MESSAGE_ARGUMENT_ARRAY,
+        Dim result As Integer = FormatMessage(FORMAT_MESSAGE.IGNORE_INSERTS Or
+                                              FORMAT_MESSAGE.FROM_SYSTEM Or FORMAT_MESSAGE.ARGUMENT_ARRAY,
                                               IntPtr.Zero, errorCode, 0, sb, sb.Capacity, IntPtr.Zero)
         If result <> 0 Then
             ' result is the # of characters copied to the StringBuilder.
