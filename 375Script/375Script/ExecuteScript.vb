@@ -135,15 +135,8 @@ Reloop: Dim LineNum As ULong = 0
                     Case "message:information", "message:info", "message:i"
                         MsgBox(Content, MsgBoxStyle.Information, ScriptName)
                     Case "process"
-                        Dim Parts(1) As String
-                        Content = Content.TrimStart
-                        If Content(0) = """"c Then
-                            Content = Content.Substring(1)
-                            Content.
-                        Else()
-                            Parts = Content.Split(" ")
-                            System.Diagnostics.Process.Start()
-                        End If
+                        Process.Start()
+                        case
                     Case "repeat"
                         Static Counter As Integer
                         If Counter = Nothing Then
@@ -170,6 +163,8 @@ Reloop: Dim LineNum As ULong = 0
                     Case "waituntil"
                         System.Threading.Thread.Sleep(Convert.ToDateTime(Content) - Now)
                         My.Application.DoEvents()
+                    Case "win32error"
+                        MsgBox(GetMessage(Val("&H" & Content)))
                 End Select
             Catch ex As Exception
                 If Debug Then
