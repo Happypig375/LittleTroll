@@ -136,7 +136,7 @@ Reloop: Dim LineNum As ULong = 0
                         MsgBox(Content, MsgBoxStyle.Information, ScriptName)
                     Case "process"
                         Process.Start()
-                        'case
+                        case
                     Case "repeat"
                         Static Counter As Integer
                         If Counter = Nothing Then
@@ -162,7 +162,6 @@ Reloop: Dim LineNum As ULong = 0
                         My.Application.DoEvents()
                     Case "waituntil"
                         System.Threading.Thread.Sleep(Convert.ToDateTime(Content) - Now)
-                        'MsgBox((Convert.ToDateTime(Content) - Now).ToString)
                         My.Application.DoEvents()
                     Case "win32error"
                         MsgBox(GetMessage(Val("&H" & Content)))
