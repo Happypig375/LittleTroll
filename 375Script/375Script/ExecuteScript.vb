@@ -82,21 +82,48 @@
             _StopLoop = False
         End Set
     End Property
+#If False Then
+       Public Sub Main()
+      ' Write out the original string.
+      Console.WriteLine("aabbccddeeffcccgghhcccciijjcccckkcc")
+      ' Write out the modified string.
+      Console.WriteLine(New Regex("cc").Replace("aabbccddeeffcccgghhcccciijjcccckkcc", New MatchEvaluator(AddressOf ReplaceCC)))
+   End Sub
 
+   Public Function ReplaceCC(ByVal m As Match) As String
+      ' Replace each Regex match with the number of the match occurrence.
+      static i as integer
+
+      i = i + 1
+      Return i.ToString() & i.ToString()
+   End Function
+#End If
+    Private Function msg(M As String) As String
+        MsgBox(M)
+        Return M
+    End Function
     Friend Sub Execute(Input As String, ScriptName As String, Optional Debug As Boolean = False)
         If Debug Then _375Script.Debug.Show()
-Reloop: Dim LineNum As ULong = 0
+Reloop: Dim Variables As New Dictionary(Of String, String)
+        Dim LineNum As ULong = 0
         Process = New Process
-        For Each Line As String In Input.Split(Chr(10), Chr(13))
+        For Each Line As String In Input.Split(Chr(10), Chr(13), Chr(8232), Chr(8233))
             LineNum += 1
             If StopLoop Then Exit For
             Line = Trim(Line)
             If Line = "" Then Continue For
             Dim Content As String = Line.Substring(Line.IndexOf(" "c) + 1)
             Try
+                Content = System.Text.RegularExpressions.Regex.Replace(Content, "\s*\$\S+\b", New System.Text.RegularExpressions.MatchEvaluator(
+                                                             Function(M As System.Text.RegularExpressions.Match) (Variables(M.Value.Substring(1)))))
+                'New Regex("cc").Replace("aabbccddeeffcccgghhcccciijjcccckkcc", New MatchEvaluator(AddressOf ReplaceCC))
                 Select Case Line.Split({" "c}, 2)(0).ToLower
                     Case "close"
                         Me.Close()
+                    Case "define"
+                        Dim Var As New String(Content.TakeWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
+                        Content = New String(Content.SkipWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
+                        Variables.Add(Var, Content)
                     Case "execute"
                         Execute(New System.IO.StreamReader(Content).ReadToEnd, System.IO.Path.GetFileNameWithoutExtension(Content))
                     Case "hide"
@@ -136,7 +163,14 @@ Reloop: Dim LineNum As ULong = 0
                         MsgBox(Content, MsgBoxStyle.Information, ScriptName)
                     Case "process"
                         Process.Start()
-                        case
+                    Case "redefine"
+                        Dim Var As New String(Content.TakeWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
+                        Content = New String(Content.SkipWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
+                        Variables(Var) = ExecuteLine(Content, ScriptName, Variables)
+                    Case "redefine:exact", "redefine:e"
+                        Dim Var As New String(Content.TakeWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
+                        Content = New String(Content.SkipWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
+                        Variables(Var) = Content
                     Case "repeat"
                         Static Counter As Integer
                         If Counter = Nothing Then
@@ -157,6 +191,8 @@ Reloop: Dim LineNum As ULong = 0
                         Exit For
                     Case "stop:others", "stop:o"
                         StopLoop = True
+                    Case "undefine"
+                        Variables.Remove(Content)
                     Case "wait"
                         System.Threading.Thread.Sleep(TimeSpan.Parse(Content))
                         My.Application.DoEvents()
@@ -180,6 +216,197 @@ Reloop: Dim LineNum As ULong = 0
             _375Script.Debug.Close()
         End If
     End Sub
+
+    Friend Function ExecuteLine(Line As String, ScriptName As String, ByRef Variables As Dictionary(Of String, String)) As String
+        Dim ReadOnlyVariables As New Dictionary(Of String, String)(Variables)
+        Line = Trim(Line)
+        If Line = "" Then Exit Function
+        Dim Content As String = Line.Substring(Line.IndexOf(" "c) + 1)
+        Content = System.Text.RegularExpressions.Regex.Replace(Content, "\s*\$\S+\b", New System.Text.RegularExpressions.MatchEvaluator(
+                                                     Function(M As System.Text.RegularExpressions.Match) (ReadOnlyVariables(M.Value.Substring(1)))))
+        'New Regex("cc").Replace("aabbccddeeffcccgghhcccciijjcccckkcc", New MatchEvaluator(AddressOf ReplaceCC))
+        Select Case Line.Split({" "c}, 2)(0).ToLower
+            Case "close"
+                Try
+                    Me.Close()
+                    Return "Success"
+                Catch ex As Exception
+                    Return "Failed"
+                End Try
+            Case "define"
+                Try
+                    Dim Var As New String(Content.TakeWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
+                    Content = New String(Content.SkipWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
+                    Variables.Add(Var, Content)
+                    Return "Success"
+                Catch ex As Exception
+                    Return "Failed"
+                End Try
+            Case "execute"
+                Try
+                    Execute(New System.IO.StreamReader(Content).ReadToEnd, System.IO.Path.GetFileNameWithoutExtension(Content))
+                    Return "Success"
+                Catch ex As Exception
+                    Return "Failed"
+                End Try
+            Case "hide"
+                Try
+                    Me.Hide()
+                    'Case "loop"
+                    Return "Success"
+                Catch ex As Exception
+                    Return "Failed"
+                End Try
+            Case "play"
+                Try
+                    My.Computer.Audio.Play(Content, AudioPlayMode.Background)
+                    Return "Success"
+                Catch ex As Exception
+                    Return "Failed"
+                End Try
+            Case "play:loop", "play:l"
+                Try
+                    My.Computer.Audio.Play(Content, AudioPlayMode.BackgroundLoop)
+                    Return "Success"
+                Catch ex As Exception
+                    Return "Failed"
+                End Try
+            Case "play:stop", "play:x"
+                Try
+                    My.Computer.Audio.Stop()
+                    Return "Success"
+                Catch ex As Exception
+                    Return "Failed"
+                End Try
+            Case "play:systemsound", "play:system", "play:s"
+                Select Case Content
+                    Case "asterisk", "a", "*"
+                        Try
+                            My.Computer.Audio.PlaySystemSound(System.Media.SystemSounds.Asterisk)
+                            Return "Success"
+                        Catch ex As Exception
+                            Return "Failed"
+                        End Try
+                    Case "beep", "b"
+                        Try
+                            My.Computer.Audio.PlaySystemSound(System.Media.SystemSounds.Beep)
+                            Return "Success"
+                        Catch ex As Exception
+                            Return "Failed"
+                        End Try
+                    Case "exclamation", "e", "!"
+                        Try
+                            My.Computer.Audio.PlaySystemSound(System.Media.SystemSounds.Exclamation)
+                            Return "Success"
+                        Catch ex As Exception
+                            Return "Failed"
+                        End Try
+                    Case "hand", "h"
+                        Try
+                            My.Computer.Audio.PlaySystemSound(System.Media.SystemSounds.Hand)
+                            Return "Success"
+                        Catch ex As Exception
+                            Return "Failed"
+                        End Try
+                    Case "question", "q", "?"
+                        Try
+                            My.Computer.Audio.PlaySystemSound(System.Media.SystemSounds.Question)
+                            Return "Success"
+                        Catch ex As Exception
+                            Return "Failed"
+                        End Try
+                End Select
+            Case "play:waittocomplete", "play:wait", "play:w"
+                Try
+                    My.Computer.Audio.Play(Content, AudioPlayMode.WaitToComplete)
+                    Return "Success"
+                Catch ex As Exception
+                    Return "Failed"
+                End Try
+            Case "message"
+                MsgBox(Content, , ScriptName)
+            Case "message:critical", "message:c", "message:x"
+                MsgBox(Content, MsgBoxStyle.Critical, ScriptName)
+            Case "message:question", "message:q", "message:?"
+                MsgBox(Content, MsgBoxStyle.Question, ScriptName)
+            Case "message:exclamation", "message:e", "message:!"
+                MsgBox(Content, MsgBoxStyle.Exclamation, ScriptName)
+            Case "message:information", "message:info", "message:i"
+                MsgBox(Content, MsgBoxStyle.Information, ScriptName)
+            Case "process"
+                Try
+                    Process.Start()
+                    Return "Success"
+                Catch ex As Exception
+                    Return "Failed"
+                End Try
+                'Case "redefine"
+            Case "redefine:exact", "redefine:e"
+                Try
+                    Dim Var As New String(Content.TakeWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
+                    Content = New String(Content.SkipWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
+                    Variables(Var) = Content
+                    Return "Success"
+                Catch ex As Exception
+                    Return "Failed"
+                End Try
+                'Case "repeat"
+            Case "show"
+                Try
+                    Me.Show()
+                    Return "Success"
+                Catch ex As Exception
+                    Return "Failed"
+                End Try
+            Case "stop"
+                Try
+                    Exit Function
+                    Return "Success"
+                Catch ex As Exception
+                    Return "Failed"
+                End Try
+            Case "stop:all", "stop:a"
+                Try
+                    StopLoop = True
+                    Exit Function
+                    Return "Success"
+                Catch ex As Exception
+                    Return "Failed"
+                End Try
+            Case "stop:others", "stop:o"
+                Try
+                    StopLoop = True
+                    Return "Success"
+                Catch ex As Exception
+                    Return "Failed"
+                End Try
+            Case "undefine"
+                Try
+                    Variables.Remove(Content)
+                    Return "Success"
+                Catch ex As Exception
+                    Return "Failed"
+                End Try
+            Case "wait"
+                Try
+                    System.Threading.Thread.Sleep(TimeSpan.Parse(Content))
+                    My.Application.DoEvents()
+                    Return "Success"
+                Catch ex As Exception
+                    Return "Failed"
+                End Try
+            Case "waituntil"
+                Try
+                    System.Threading.Thread.Sleep(Convert.ToDateTime(Content) - Now)
+                    My.Application.DoEvents()
+                    Return "Success"
+                Catch ex As Exception
+                    Return "Failed"
+                End Try
+            Case "win32error"
+                Return GetMessage(Val("&H" & Content))
+        End Select
+    End Function
 
     Friend Enum FORMAT_MESSAGE As UShort
         ALLOCATE_BUFFER = &H100
