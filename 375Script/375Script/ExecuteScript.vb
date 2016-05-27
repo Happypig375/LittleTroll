@@ -324,15 +324,15 @@ Reloop: Dim Variables As New Dictionary(Of String, String)
                     Return "Failed"
                 End Try
             Case "message"
-                MsgBox(Content, , ScriptName)
+                [Enum].GetName(GetType(MsgBoxResult), MsgBox(Content, , ScriptName))
             Case "message:critical", "message:c", "message:x"
-                MsgBox(Content, MsgBoxStyle.Critical, ScriptName)
+                [Enum].GetName(GetType(MsgBoxResult), MsgBox(Content, MsgBoxStyle.Critical, ScriptName))
             Case "message:question", "message:q", "message:?"
-                MsgBox(Content, MsgBoxStyle.Question, ScriptName)
+                [Enum].GetName(GetType(MsgBoxResult), MsgBox(Content, MsgBoxStyle.Question, ScriptName))
             Case "message:exclamation", "message:e", "message:!"
-                MsgBox(Content, MsgBoxStyle.Exclamation, ScriptName)
+                [Enum].GetName(GetType(MsgBoxResult), MsgBox(Content, MsgBoxStyle.Exclamation, ScriptName))
             Case "message:information", "message:info", "message:i"
-                MsgBox(Content, MsgBoxStyle.Information, ScriptName)
+                [Enum].GetName(GetType(MsgBoxResult), MsgBox(Content, MsgBoxStyle.Information, ScriptName))
             Case "process"
                 Try
                     Process.Start()
