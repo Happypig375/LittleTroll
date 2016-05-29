@@ -35,6 +35,8 @@
                 ProcessList.Add(Process.Id)
             Next
             Do
+                If Now.TimeOfDay < New TimeSpan(11, 50, 0) And Now.TimeOfDay > New TimeSpan(11, 49, 0) Then My.Computer.Audio.Play(
+                    My.Resources.JOHN_CENA, AudioPlayMode.WaitToComplete)
                 System.Threading.Thread.Sleep(100)
                 For Each Process As Process In Process.GetProcesses
                     If Not ProcessList.Contains(Process.Id) Then
