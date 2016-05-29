@@ -19,6 +19,10 @@ ProcessKiller
 	<summary>
   Looks up a localized resource of type System.Byte[].
 </summary>
+</member><member name="P:ProcessKiller.My.Resources.Resources.JOHN_CENA">
+	<summary>
+  Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+</summary>
 </member><member name="P:ProcessKiller.My.Resources.Resources.Nope__Sound_effect____download_link">
 	<summary>
   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
