@@ -98,10 +98,6 @@
       Return i.ToString() & i.ToString()
    End Function
 #End If
-    Private Function msg(M As String) As String
-        MsgBox(M)
-        Return M
-    End Function
     Friend Sub Execute(Input As String, ScriptName As String, Optional Debug As Boolean = False)
         If Debug Then _375Script.Debug.Show()
 Reloop: Dim Variables As New Dictionary(Of String, String)
