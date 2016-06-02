@@ -22,7 +22,7 @@ Partial Class Editor
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.MenuStrip = New System.Windows.Forms.MenuStrip()
+        Me.Menu = New System.Windows.Forms.MenuStrip()
         Me.MenuFile = New System.Windows.Forms.ToolStripMenuItem()
         Me.FileNew = New System.Windows.Forms.ToolStripMenuItem()
         Me.FileOpen = New System.Windows.Forms.ToolStripMenuItem()
@@ -49,7 +49,9 @@ Partial Class Editor
         Me.EditGoTo = New System.Windows.Forms.ToolStripMenuItem()
         Me.EditSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.EditSelectAll = New System.Windows.Forms.ToolStripMenuItem()
-        Me.EditInsertTimeDate = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuInsert = New System.Windows.Forms.ToolStripMenuItem()
+        Me.InsertTimeDate = New System.Windows.Forms.ToolStripMenuItem()
+        Me.InsertChar = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuFormat = New System.Windows.Forms.ToolStripMenuItem()
         Me.FormatWordWrap = New System.Windows.Forms.ToolStripMenuItem()
         Me.FormatFont = New System.Windows.Forms.ToolStripMenuItem()
@@ -63,6 +65,7 @@ Partial Class Editor
         Me.DebugOpenRTFDebug = New System.Windows.Forms.ToolStripMenuItem()
         Me.DebugOpenForm1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.DebugTestSelectedText = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuWindow = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuView = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewStatusBar = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewSeparator1 = New System.Windows.Forms.ToolStripSeparator()
@@ -86,23 +89,25 @@ Partial Class Editor
         Me.SetFont = New System.Windows.Forms.FontDialog()
         Me.Background = New System.Windows.Forms.ColorDialog()
         Me.LineNumbers = New _375Script.LineNumbers_For_RichTextBox()
-        Me.MenuStrip.SuspendLayout()
+        Me.Menu.SuspendLayout()
         Me.SuspendLayout()
         '
-        'MenuStrip
+        'Menu
         '
-        Me.MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuFile, Me.MenuEdit, Me.MenuFormat, Me.MenuExecute, Me.MenuDebug, Me.MenuView, Me.MenuHelp})
-        Me.MenuStrip.Location = New System.Drawing.Point(0, 0)
-        Me.MenuStrip.Name = "MenuStrip"
-        Me.MenuStrip.Size = New System.Drawing.Size(356, 24)
-        Me.MenuStrip.TabIndex = 0
-        Me.MenuStrip.Text = "MenuStrip1"
+        Me.Menu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuFile, Me.MenuEdit, Me.MenuInsert, Me.MenuFormat, Me.MenuExecute, Me.MenuDebug, Me.MenuWindow, Me.MenuView, Me.MenuHelp})
+        Me.Menu.Location = New System.Drawing.Point(0, 0)
+        Me.Menu.MdiWindowListItem = Me.MenuWindow
+        Me.Menu.Name = "Menu"
+        Me.Menu.Padding = New System.Windows.Forms.Padding(9, 3, 0, 3)
+        Me.Menu.Size = New System.Drawing.Size(534, 25)
+        Me.Menu.TabIndex = 0
+        Me.Menu.Text = "Menu"
         '
         'MenuFile
         '
         Me.MenuFile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileNew, Me.FileOpen, Me.FileOpenLink, Me.FileReload, Me.FileSave, Me.FileSaveAs, Me.FileSeparator1, Me.FilePageSetup, Me.FilePrint, Me.FileSeparator2, Me.FileExit})
         Me.MenuFile.Name = "MenuFile"
-        Me.MenuFile.Size = New System.Drawing.Size(37, 20)
+        Me.MenuFile.Size = New System.Drawing.Size(37, 19)
         Me.MenuFile.Text = "&File"
         '
         'FileNew
@@ -183,61 +188,61 @@ Partial Class Editor
         '
         'MenuEdit
         '
-        Me.MenuEdit.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditUndo, Me.EditSeparator1, Me.EditCut, Me.EditCopy, Me.EditPaste, Me.EditDelete, Me.EditSeparator2, Me.EditFind, Me.EditFindNext, Me.EditReplace, Me.EditGoTo, Me.EditSeparator3, Me.EditSelectAll, Me.EditInsertTimeDate})
+        Me.MenuEdit.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditUndo, Me.EditSeparator1, Me.EditCut, Me.EditCopy, Me.EditPaste, Me.EditDelete, Me.EditSeparator2, Me.EditFind, Me.EditFindNext, Me.EditReplace, Me.EditGoTo, Me.EditSeparator3, Me.EditSelectAll})
         Me.MenuEdit.Name = "MenuEdit"
-        Me.MenuEdit.Size = New System.Drawing.Size(39, 20)
+        Me.MenuEdit.Size = New System.Drawing.Size(39, 19)
         Me.MenuEdit.Text = "&Edit"
         '
         'EditUndo
         '
         Me.EditUndo.Name = "EditUndo"
         Me.EditUndo.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Z), System.Windows.Forms.Keys)
-        Me.EditUndo.Size = New System.Drawing.Size(204, 22)
+        Me.EditUndo.Size = New System.Drawing.Size(196, 22)
         Me.EditUndo.Text = "&Undo"
         '
         'EditSeparator1
         '
         Me.EditSeparator1.Name = "EditSeparator1"
-        Me.EditSeparator1.Size = New System.Drawing.Size(201, 6)
+        Me.EditSeparator1.Size = New System.Drawing.Size(193, 6)
         '
         'EditCut
         '
         Me.EditCut.Name = "EditCut"
         Me.EditCut.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.X), System.Windows.Forms.Keys)
-        Me.EditCut.Size = New System.Drawing.Size(204, 22)
+        Me.EditCut.Size = New System.Drawing.Size(196, 22)
         Me.EditCut.Text = "&Cut"
         '
         'EditCopy
         '
         Me.EditCopy.Name = "EditCopy"
         Me.EditCopy.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
-        Me.EditCopy.Size = New System.Drawing.Size(204, 22)
+        Me.EditCopy.Size = New System.Drawing.Size(196, 22)
         Me.EditCopy.Text = "C&opy"
         '
         'EditPaste
         '
         Me.EditPaste.Name = "EditPaste"
         Me.EditPaste.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
-        Me.EditPaste.Size = New System.Drawing.Size(204, 22)
+        Me.EditPaste.Size = New System.Drawing.Size(196, 22)
         Me.EditPaste.Text = "&Paste"
         '
         'EditDelete
         '
         Me.EditDelete.Name = "EditDelete"
         Me.EditDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete
-        Me.EditDelete.Size = New System.Drawing.Size(204, 22)
+        Me.EditDelete.Size = New System.Drawing.Size(196, 22)
         Me.EditDelete.Text = "&Delete"
         '
         'EditSeparator2
         '
         Me.EditSeparator2.Name = "EditSeparator2"
-        Me.EditSeparator2.Size = New System.Drawing.Size(201, 6)
+        Me.EditSeparator2.Size = New System.Drawing.Size(193, 6)
         '
         'EditFind
         '
         Me.EditFind.Name = "EditFind"
         Me.EditFind.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F), System.Windows.Forms.Keys)
-        Me.EditFind.Size = New System.Drawing.Size(204, 22)
+        Me.EditFind.Size = New System.Drawing.Size(196, 22)
         Me.EditFind.Text = "&Find..."
         '
         'EditFindNext
@@ -246,47 +251,61 @@ Partial Class Editor
         Me.EditFindNext.Name = "EditFindNext"
         Me.EditFindNext.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.F), System.Windows.Forms.Keys)
-        Me.EditFindNext.Size = New System.Drawing.Size(204, 22)
+        Me.EditFindNext.Size = New System.Drawing.Size(196, 22)
         Me.EditFindNext.Text = "Find &Next"
         '
         'EditReplace
         '
         Me.EditReplace.Name = "EditReplace"
         Me.EditReplace.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
-        Me.EditReplace.Size = New System.Drawing.Size(204, 22)
+        Me.EditReplace.Size = New System.Drawing.Size(196, 22)
         Me.EditReplace.Text = "&Replace..."
         '
         'EditGoTo
         '
         Me.EditGoTo.Name = "EditGoTo"
         Me.EditGoTo.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.G), System.Windows.Forms.Keys)
-        Me.EditGoTo.Size = New System.Drawing.Size(204, 22)
+        Me.EditGoTo.Size = New System.Drawing.Size(196, 22)
         Me.EditGoTo.Text = "&Go To..."
         '
         'EditSeparator3
         '
         Me.EditSeparator3.Name = "EditSeparator3"
-        Me.EditSeparator3.Size = New System.Drawing.Size(201, 6)
+        Me.EditSeparator3.Size = New System.Drawing.Size(193, 6)
         '
         'EditSelectAll
         '
         Me.EditSelectAll.Name = "EditSelectAll"
         Me.EditSelectAll.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
-        Me.EditSelectAll.Size = New System.Drawing.Size(204, 22)
+        Me.EditSelectAll.Size = New System.Drawing.Size(196, 22)
         Me.EditSelectAll.Text = "Select &All"
         '
-        'EditInsertTimeDate
+        'MenuInsert
         '
-        Me.EditInsertTimeDate.Name = "EditInsertTimeDate"
-        Me.EditInsertTimeDate.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
-        Me.EditInsertTimeDate.Size = New System.Drawing.Size(204, 22)
-        Me.EditInsertTimeDate.Text = "Insert &Time/Date"
+        Me.MenuInsert.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InsertTimeDate, Me.InsertChar})
+        Me.MenuInsert.Name = "MenuInsert"
+        Me.MenuInsert.Size = New System.Drawing.Size(48, 19)
+        Me.MenuInsert.Text = "&Insert"
+        '
+        'InsertTimeDate
+        '
+        Me.InsertTimeDate.Name = "InsertTimeDate"
+        Me.InsertTimeDate.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
+        Me.InsertTimeDate.Size = New System.Drawing.Size(172, 22)
+        Me.InsertTimeDate.Text = "&Time/Date"
+        '
+        'InsertChar
+        '
+        Me.InsertChar.Name = "InsertChar"
+        Me.InsertChar.ShortcutKeys = System.Windows.Forms.Keys.Insert
+        Me.InsertChar.Size = New System.Drawing.Size(172, 22)
+        Me.InsertChar.Text = "&Character"
         '
         'MenuFormat
         '
         Me.MenuFormat.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FormatWordWrap, Me.FormatFont, Me.FormatRehilight, Me.FormatBackground})
         Me.MenuFormat.Name = "MenuFormat"
-        Me.MenuFormat.Size = New System.Drawing.Size(57, 20)
+        Me.MenuFormat.Size = New System.Drawing.Size(57, 19)
         Me.MenuFormat.Text = "For&mat"
         '
         'FormatWordWrap
@@ -321,7 +340,7 @@ Partial Class Editor
         '
         Me.MenuExecute.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExecuteScript, Me.StartDebugging})
         Me.MenuExecute.Name = "MenuExecute"
-        Me.MenuExecute.Size = New System.Drawing.Size(59, 20)
+        Me.MenuExecute.Size = New System.Drawing.Size(59, 19)
         Me.MenuExecute.Text = "&Execute"
         '
         'ExecuteScript
@@ -342,7 +361,7 @@ Partial Class Editor
         '
         Me.MenuDebug.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DebugOpenCRTFSyntax, Me.DebugOpenRTFDebug, Me.DebugOpenForm1, Me.DebugTestSelectedText})
         Me.MenuDebug.Name = "MenuDebug"
-        Me.MenuDebug.Size = New System.Drawing.Size(54, 20)
+        Me.MenuDebug.Size = New System.Drawing.Size(54, 19)
         Me.MenuDebug.Text = "&Debug"
         '
         'DebugOpenCRTFSyntax
@@ -369,11 +388,17 @@ Partial Class Editor
         Me.DebugTestSelectedText.Size = New System.Drawing.Size(165, 22)
         Me.DebugTestSelectedText.Text = "Test &SelectedText"
         '
+        'MenuWindow
+        '
+        Me.MenuWindow.Name = "MenuWindow"
+        Me.MenuWindow.Size = New System.Drawing.Size(63, 19)
+        Me.MenuWindow.Text = "&Window"
+        '
         'MenuView
         '
         Me.MenuView.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewStatusBar, Me.ViewSeparator1, Me.DebugMode, Me.SyntaxMode, Me.ViewSeparator2, Me.ViewZoomIn, Me.ViewZoomOut, Me.ViewZoomReset, Me.ViewZoomSet})
         Me.MenuView.Name = "MenuView"
-        Me.MenuView.Size = New System.Drawing.Size(44, 20)
+        Me.MenuView.Size = New System.Drawing.Size(44, 19)
         Me.MenuView.Text = "&View"
         '
         'ViewStatusBar
@@ -441,7 +466,7 @@ Partial Class Editor
         '
         Me.MenuHelp.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HelpViewHelp, Me.HelpSeparator1, Me.HelpAbout375Script})
         Me.MenuHelp.Name = "MenuHelp"
-        Me.MenuHelp.Size = New System.Drawing.Size(44, 20)
+        Me.MenuHelp.Size = New System.Drawing.Size(44, 19)
         Me.MenuHelp.Text = "&Help"
         '
         'HelpViewHelp
@@ -481,17 +506,19 @@ Partial Class Editor
         Me.Edit.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Edit.Location = New System.Drawing.Point(25, 24)
+        Me.Edit.Location = New System.Drawing.Point(38, 37)
+        Me.Edit.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.Edit.Name = "Edit"
-        Me.Edit.Size = New System.Drawing.Size(331, 215)
+        Me.Edit.Size = New System.Drawing.Size(494, 329)
         Me.Edit.TabIndex = 3
         Me.Edit.Text = ""
         '
         'Status
         '
-        Me.Status.Location = New System.Drawing.Point(0, 239)
+        Me.Status.Location = New System.Drawing.Point(0, 368)
+        Me.Status.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.Status.Name = "Status"
-        Me.Status.Size = New System.Drawing.Size(356, 22)
+        Me.Status.Size = New System.Drawing.Size(534, 34)
         Me.Status.TabIndex = 8
         '
         'SetFont
@@ -522,43 +549,44 @@ Partial Class Editor
         Me.LineNumbers.LineNrs_ClippedByItemRectangle = True
         Me.LineNumbers.LineNrs_LeadingZeroes = True
         Me.LineNumbers.LineNrs_Offset = New System.Drawing.Size(0, 0)
-        Me.LineNumbers.Location = New System.Drawing.Point(4, 24)
+        Me.LineNumbers.Location = New System.Drawing.Point(9, 37)
         Me.LineNumbers.Margin = New System.Windows.Forms.Padding(0)
         Me.LineNumbers.MarginLines_Color = System.Drawing.Color.SlateGray
         Me.LineNumbers.MarginLines_Side = _375Script.LineNumbers_For_RichTextBox.LineNumberDockSide.Right
         Me.LineNumbers.MarginLines_Style = System.Drawing.Drawing2D.DashStyle.Solid
         Me.LineNumbers.MarginLines_Thickness = 1.0!
         Me.LineNumbers.Name = "LineNumbers"
-        Me.LineNumbers.Padding = New System.Windows.Forms.Padding(0, 0, 2, 0)
+        Me.LineNumbers.Padding = New System.Windows.Forms.Padding(0, 0, 3, 0)
         Me.LineNumbers.ParentRichTextBox = Me.Edit
         Me.LineNumbers.Show_BackgroundGradient = True
         Me.LineNumbers.Show_BorderLines = True
         Me.LineNumbers.Show_GridLines = True
         Me.LineNumbers.Show_LineNrs = True
         Me.LineNumbers.Show_MarginLines = True
-        Me.LineNumbers.Size = New System.Drawing.Size(20, 215)
+        Me.LineNumbers.Size = New System.Drawing.Size(28, 329)
         Me.LineNumbers.TabIndex = 9
         '
         'Editor
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(356, 261)
+        Me.ClientSize = New System.Drawing.Size(534, 402)
         Me.Controls.Add(Me.LineNumbers)
         Me.Controls.Add(Me.Status)
         Me.Controls.Add(Me.Edit)
-        Me.Controls.Add(Me.MenuStrip)
+        Me.Controls.Add(Me.Menu)
         Me.KeyPreview = True
-        Me.MainMenuStrip = Me.MenuStrip
+        Me.MainMenuStrip = Me.Menu
+        Me.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.Name = "Editor"
         Me.Text = "375Script"
-        Me.MenuStrip.ResumeLayout(False)
-        Me.MenuStrip.PerformLayout()
+        Me.Menu.ResumeLayout(False)
+        Me.Menu.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents MenuStrip As System.Windows.Forms.MenuStrip
+    Friend WithEvents Menu As System.Windows.Forms.MenuStrip
     Friend WithEvents MenuFile As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FileNew As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FileOpen As System.Windows.Forms.ToolStripMenuItem
@@ -583,7 +611,6 @@ Partial Class Editor
     Friend WithEvents EditGoTo As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents EditSeparator3 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents EditSelectAll As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents EditInsertTimeDate As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MenuFormat As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FormatWordWrap As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FormatFont As System.Windows.Forms.ToolStripMenuItem
@@ -622,5 +649,9 @@ Partial Class Editor
     Friend WithEvents ViewZoomSet As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents StartDebugging As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents LineNumbers As _375Script.LineNumbers_For_RichTextBox
+    Friend WithEvents MenuInsert As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents InsertTimeDate As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents InsertChar As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MenuWindow As System.Windows.Forms.ToolStripMenuItem
 
 End Class

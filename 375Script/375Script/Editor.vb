@@ -319,7 +319,7 @@ The characters CHARACTER TABULATION (U+0009), LINE FEED (U+000A), LINE TABULATIO
         Edit.SelectAll()
     End Sub
 
-    Private Sub EditInsertTimeDate_Click(sender As Object, e As EventArgs) Handles EditInsertTimeDate.Click
+    Private Sub EditInsertTimeDate_Click(sender As Object, e As EventArgs)
         Edit.AppendText(Now.ToString)
     End Sub
 
@@ -369,5 +369,9 @@ The characters CHARACTER TABULATION (U+0009), LINE FEED (U+000A), LINE TABULATIO
 
     Private Sub HelpViewHelp_Click(sender As Object, e As EventArgs) Handles HelpViewHelp.Click
         Help.ShowHelp(Me, "375Script.chm")
+    End Sub
+
+    Private Sub InsertChar_Click(sender As Object, e As EventArgs) Handles InsertChar.Click
+
     End Sub
 End Class
