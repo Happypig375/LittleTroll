@@ -49,22 +49,45 @@ Partial Class Form
         Me.SeriesNumberApproximately = New System.Windows.Forms.CheckBox()
         Me.SeriesNumberApproximate = New System.Windows.Forms.NumericUpDown()
         Me.SeriesNumber = New System.Windows.Forms.CheckBox()
-        Me.ContinuedFrom = New System.Windows.Forms.CheckBox()
+        Me.Continued = New System.Windows.Forms.CheckBox()
+        Me.ContinuedFrom = New System.Windows.Forms.GroupBox()
+        Me.ContinuedFromSubseries = New System.Windows.Forms.ComboBox()
+        Me.ContinuedFromSeries = New System.Windows.Forms.ComboBox()
+        Me.ContinuedFromColon = New System.Windows.Forms.Label()
+        Me.ContinuedFromPrefix = New System.Windows.Forms.Label()
+        Me.ContinuedFromBeta = New System.Windows.Forms.Button()
+        Me.ContinuedFromMidfix = New System.Windows.Forms.Label()
+        Me.ContinuedFromSuffix = New System.Windows.Forms.DomainUpDown()
+        Me.ContinuedFromNumber = New System.Windows.Forms.NumericUpDown()
+        Me.Multiple = New System.Windows.Forms.RadioButton()
+        Me.NoNarration = New System.Windows.Forms.CheckBox()
+        Me.Speedrun = New System.Windows.Forms.CheckBox()
+        Me.SpeedrunMultiplier = New System.Windows.Forms.NumericUpDown()
+        Me.Extra = New System.Windows.Forms.CheckBox()
+        Me.NotSuggested = New System.Windows.Forms.CheckBox()
+        Me.JustRecord = New System.Windows.Forms.CheckBox()
+        Me.Output = New System.Windows.Forms.TextBox()
+        Me.Copy = New System.Windows.Forms.Button()
+        Me.VideoNumbers = New System.Windows.Forms.NumericUpDown()
+        Me.SubscribeCounter = New System.Windows.Forms.NumericUpDown()
         CType(Me.Number, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Specials.SuspendLayout()
         CType(Me.SubscribeCountApproximate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.VideoNumberApproximate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SeriesNumberApproximate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ContinuedFrom.SuspendLayout()
+        CType(Me.ContinuedFromNumber, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SpeedrunMultiplier, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.VideoNumbers, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SubscribeCounter, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'List
         '
-        Me.List.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.List.FormattingEnabled = True
         Me.List.Location = New System.Drawing.Point(13, 13)
         Me.List.Name = "List"
-        Me.List.Size = New System.Drawing.Size(92, 251)
+        Me.List.Size = New System.Drawing.Size(92, 264)
         Me.List.TabIndex = 0
         '
         'Sample
@@ -79,7 +102,7 @@ Partial Class Form
         'Prefix
         '
         Me.Prefix.AutoSize = True
-        Me.Prefix.Location = New System.Drawing.Point(112, 30)
+        Me.Prefix.Location = New System.Drawing.Point(112, 35)
         Me.Prefix.Name = "Prefix"
         Me.Prefix.Size = New System.Drawing.Size(13, 13)
         Me.Prefix.TabIndex = 2
@@ -87,9 +110,10 @@ Partial Class Form
         '
         'Series
         '
+        Me.Series.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Series.FormattingEnabled = True
         Me.Series.Items.AddRange(New Object() {"Minecraft遊記", "Minecraft編輯遊記", "Minecraft Hide&Seek遊記", "Minecraft Universe遊記", "Minecraft版本遊記", "Minecraft玩人記", "Minecraft Skyblock遊記", "Minecraft生存", "Minecraft村莊生存", "LAN連線記", "---", "頻道更新", "Agar.io", " Vlog", "趣遊", "小遊戲時間"})
-        Me.Series.Location = New System.Drawing.Point(131, 30)
+        Me.Series.Location = New System.Drawing.Point(131, 32)
         Me.Series.Name = "Series"
         Me.Series.Size = New System.Drawing.Size(121, 21)
         Me.Series.TabIndex = 3
@@ -105,7 +129,7 @@ Partial Class Form
         '
         'Number
         '
-        Me.Number.Location = New System.Drawing.Point(165, 57)
+        Me.Number.Location = New System.Drawing.Point(471, 33)
         Me.Number.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
         Me.Number.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.Number.Name = "Number"
@@ -141,7 +165,7 @@ Partial Class Form
         Me.NumberSuffix.Items.Add("x")
         Me.NumberSuffix.Items.Add("y")
         Me.NumberSuffix.Items.Add("z")
-        Me.NumberSuffix.Location = New System.Drawing.Point(219, 57)
+        Me.NumberSuffix.Location = New System.Drawing.Point(525, 32)
         Me.NumberSuffix.Name = "NumberSuffix"
         Me.NumberSuffix.Size = New System.Drawing.Size(45, 20)
         Me.NumberSuffix.TabIndex = 6
@@ -163,7 +187,7 @@ Partial Class Form
         'Beta
         '
         Me.Beta.AutoSize = True
-        Me.Beta.Location = New System.Drawing.Point(115, 57)
+        Me.Beta.Location = New System.Drawing.Point(421, 30)
         Me.Beta.Name = "Beta"
         Me.Beta.Size = New System.Drawing.Size(44, 23)
         Me.Beta.TabIndex = 8
@@ -182,7 +206,7 @@ Partial Class Form
         'SubSeries
         '
         Me.SubSeries.FormattingEnabled = True
-        Me.SubSeries.Location = New System.Drawing.Point(275, 29)
+        Me.SubSeries.Location = New System.Drawing.Point(274, 32)
         Me.SubSeries.Name = "SubSeries"
         Me.SubSeries.Size = New System.Drawing.Size(121, 21)
         Me.SubSeries.TabIndex = 10
@@ -190,7 +214,7 @@ Partial Class Form
         'Colon
         '
         Me.Colon.AutoSize = True
-        Me.Colon.Location = New System.Drawing.Point(272, 62)
+        Me.Colon.Location = New System.Drawing.Point(579, 35)
         Me.Colon.Name = "Colon"
         Me.Colon.Size = New System.Drawing.Size(13, 13)
         Me.Colon.TabIndex = 11
@@ -198,9 +222,9 @@ Partial Class Form
         '
         'Title
         '
-        Me.Title.Location = New System.Drawing.Point(115, 83)
+        Me.Title.Location = New System.Drawing.Point(115, 59)
         Me.Title.Name = "Title"
-        Me.Title.Size = New System.Drawing.Size(323, 20)
+        Me.Title.Size = New System.Drawing.Size(417, 20)
         Me.Title.TabIndex = 12
         Me.Title.Text = "[S-SM50,V155(150)]"
         '
@@ -209,7 +233,7 @@ Partial Class Form
         Me.Solo.Appearance = System.Windows.Forms.Appearance.Button
         Me.Solo.AutoSize = True
         Me.Solo.Checked = True
-        Me.Solo.Location = New System.Drawing.Point(115, 110)
+        Me.Solo.Location = New System.Drawing.Point(115, 86)
         Me.Solo.Name = "Solo"
         Me.Solo.Size = New System.Drawing.Size(38, 23)
         Me.Solo.TabIndex = 13
@@ -221,7 +245,7 @@ Partial Class Form
         '
         Me.Duo.Appearance = System.Windows.Forms.Appearance.Button
         Me.Duo.AutoSize = True
-        Me.Duo.Location = New System.Drawing.Point(160, 110)
+        Me.Duo.Location = New System.Drawing.Point(160, 86)
         Me.Duo.Name = "Duo"
         Me.Duo.Size = New System.Drawing.Size(37, 23)
         Me.Duo.TabIndex = 14
@@ -233,7 +257,7 @@ Partial Class Form
         '
         Me.Triple.Appearance = System.Windows.Forms.Appearance.Button
         Me.Triple.AutoSize = True
-        Me.Triple.Location = New System.Drawing.Point(204, 110)
+        Me.Triple.Location = New System.Drawing.Point(204, 86)
         Me.Triple.Name = "Triple"
         Me.Triple.Size = New System.Drawing.Size(43, 23)
         Me.Triple.TabIndex = 15
@@ -245,7 +269,7 @@ Partial Class Form
         '
         Me.Special.Appearance = System.Windows.Forms.Appearance.Button
         Me.Special.AutoSize = True
-        Me.Special.Location = New System.Drawing.Point(253, 109)
+        Me.Special.Location = New System.Drawing.Point(312, 86)
         Me.Special.Name = "Special"
         Me.Special.Size = New System.Drawing.Size(52, 23)
         Me.Special.TabIndex = 16
@@ -254,8 +278,8 @@ Partial Class Form
         '
         'Specials
         '
-        Me.Specials.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Specials.Controls.Add(Me.SubscribeCounter)
+        Me.Specials.Controls.Add(Me.VideoNumbers)
         Me.Specials.Controls.Add(Me.SubscribeCountApproximately)
         Me.Specials.Controls.Add(Me.SubscribeCountApproximate)
         Me.Specials.Controls.Add(Me.SubscribeCount)
@@ -266,9 +290,9 @@ Partial Class Form
         Me.Specials.Controls.Add(Me.SeriesNumberApproximate)
         Me.Specials.Controls.Add(Me.SeriesNumber)
         Me.Specials.Enabled = False
-        Me.Specials.Location = New System.Drawing.Point(115, 139)
+        Me.Specials.Location = New System.Drawing.Point(115, 115)
         Me.Specials.Name = "Specials"
-        Me.Specials.Size = New System.Drawing.Size(237, 120)
+        Me.Specials.Size = New System.Drawing.Size(237, 168)
         Me.Specials.TabIndex = 17
         Me.Specials.TabStop = False
         Me.Specials.Text = "Specials"
@@ -278,7 +302,7 @@ Partial Class Form
         Me.SubscribeCountApproximately.Appearance = System.Windows.Forms.Appearance.Button
         Me.SubscribeCountApproximately.AutoSize = True
         Me.SubscribeCountApproximately.Enabled = False
-        Me.SubscribeCountApproximately.Location = New System.Drawing.Point(99, 77)
+        Me.SubscribeCountApproximately.Location = New System.Drawing.Point(7, 138)
         Me.SubscribeCountApproximately.Name = "SubscribeCountApproximately"
         Me.SubscribeCountApproximately.Size = New System.Drawing.Size(75, 23)
         Me.SubscribeCountApproximately.TabIndex = 8
@@ -288,17 +312,20 @@ Partial Class Form
         'SubscribeCountApproximate
         '
         Me.SubscribeCountApproximate.Enabled = False
-        Me.SubscribeCountApproximate.Location = New System.Drawing.Point(180, 78)
+        Me.SubscribeCountApproximate.Location = New System.Drawing.Point(88, 139)
+        Me.SubscribeCountApproximate.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+        Me.SubscribeCountApproximate.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.SubscribeCountApproximate.Name = "SubscribeCountApproximate"
         Me.SubscribeCountApproximate.Size = New System.Drawing.Size(51, 20)
         Me.SubscribeCountApproximate.TabIndex = 7
+        Me.SubscribeCountApproximate.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'SubscribeCount
         '
         Me.SubscribeCount.Appearance = System.Windows.Forms.Appearance.Button
         Me.SubscribeCount.AutoSize = True
         Me.SubscribeCount.Enabled = False
-        Me.SubscribeCount.Location = New System.Drawing.Point(7, 78)
+        Me.SubscribeCount.Location = New System.Drawing.Point(6, 109)
         Me.SubscribeCount.Name = "SubscribeCount"
         Me.SubscribeCount.Size = New System.Drawing.Size(95, 23)
         Me.SubscribeCount.TabIndex = 6
@@ -310,7 +337,7 @@ Partial Class Form
         Me.VideoNumberApproximately.Appearance = System.Windows.Forms.Appearance.Button
         Me.VideoNumberApproximately.AutoSize = True
         Me.VideoNumberApproximately.Enabled = False
-        Me.VideoNumberApproximately.Location = New System.Drawing.Point(99, 48)
+        Me.VideoNumberApproximately.Location = New System.Drawing.Point(7, 78)
         Me.VideoNumberApproximately.Name = "VideoNumberApproximately"
         Me.VideoNumberApproximately.Size = New System.Drawing.Size(75, 23)
         Me.VideoNumberApproximately.TabIndex = 5
@@ -320,10 +347,13 @@ Partial Class Form
         'VideoNumberApproximate
         '
         Me.VideoNumberApproximate.Enabled = False
-        Me.VideoNumberApproximate.Location = New System.Drawing.Point(180, 48)
+        Me.VideoNumberApproximate.Location = New System.Drawing.Point(98, 78)
+        Me.VideoNumberApproximate.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+        Me.VideoNumberApproximate.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.VideoNumberApproximate.Name = "VideoNumberApproximate"
         Me.VideoNumberApproximate.Size = New System.Drawing.Size(51, 20)
         Me.VideoNumberApproximate.TabIndex = 4
+        Me.VideoNumberApproximate.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'VideoNumber
         '
@@ -353,9 +383,12 @@ Partial Class Form
         '
         Me.SeriesNumberApproximate.Enabled = False
         Me.SeriesNumberApproximate.Location = New System.Drawing.Point(180, 19)
+        Me.SeriesNumberApproximate.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+        Me.SeriesNumberApproximate.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.SeriesNumberApproximate.Name = "SeriesNumberApproximate"
         Me.SeriesNumberApproximate.Size = New System.Drawing.Size(51, 20)
         Me.SeriesNumberApproximate.TabIndex = 1
+        Me.SeriesNumberApproximate.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'SeriesNumber
         '
@@ -370,23 +403,268 @@ Partial Class Form
         Me.SeriesNumber.Text = "Series Number"
         Me.SeriesNumber.UseVisualStyleBackColor = True
         '
+        'Continued
+        '
+        Me.Continued.Appearance = System.Windows.Forms.Appearance.Button
+        Me.Continued.AutoSize = True
+        Me.Continued.Location = New System.Drawing.Point(370, 86)
+        Me.Continued.Name = "Continued"
+        Me.Continued.Size = New System.Drawing.Size(91, 23)
+        Me.Continued.TabIndex = 18
+        Me.Continued.Text = "Continued From"
+        Me.Continued.UseVisualStyleBackColor = True
+        '
         'ContinuedFrom
         '
-        Me.ContinuedFrom.Appearance = System.Windows.Forms.Appearance.Button
-        Me.ContinuedFrom.AutoSize = True
-        Me.ContinuedFrom.Location = New System.Drawing.Point(312, 110)
+        Me.ContinuedFrom.Controls.Add(Me.ContinuedFromSubseries)
+        Me.ContinuedFrom.Controls.Add(Me.ContinuedFromSeries)
+        Me.ContinuedFrom.Controls.Add(Me.ContinuedFromColon)
+        Me.ContinuedFrom.Controls.Add(Me.ContinuedFromPrefix)
+        Me.ContinuedFrom.Controls.Add(Me.ContinuedFromBeta)
+        Me.ContinuedFrom.Controls.Add(Me.ContinuedFromMidfix)
+        Me.ContinuedFrom.Controls.Add(Me.ContinuedFromSuffix)
+        Me.ContinuedFrom.Controls.Add(Me.ContinuedFromNumber)
+        Me.ContinuedFrom.Location = New System.Drawing.Point(359, 115)
         Me.ContinuedFrom.Name = "ContinuedFrom"
-        Me.ContinuedFrom.Size = New System.Drawing.Size(91, 23)
-        Me.ContinuedFrom.TabIndex = 18
+        Me.ContinuedFrom.Size = New System.Drawing.Size(178, 168)
+        Me.ContinuedFrom.TabIndex = 19
+        Me.ContinuedFrom.TabStop = False
         Me.ContinuedFrom.Text = "Continued From"
-        Me.ContinuedFrom.UseVisualStyleBackColor = True
+        '
+        'ContinuedFromSubseries
+        '
+        Me.ContinuedFromSubseries.FormattingEnabled = True
+        Me.ContinuedFromSubseries.Location = New System.Drawing.Point(11, 43)
+        Me.ContinuedFromSubseries.Name = "ContinuedFromSubseries"
+        Me.ContinuedFromSubseries.Size = New System.Drawing.Size(121, 21)
+        Me.ContinuedFromSubseries.TabIndex = 27
+        '
+        'ContinuedFromSeries
+        '
+        Me.ContinuedFromSeries.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ContinuedFromSeries.FormattingEnabled = True
+        Me.ContinuedFromSeries.Items.AddRange(New Object() {"Minecraft遊記", "Minecraft編輯遊記", "Minecraft Hide&Seek遊記", "Minecraft Universe遊記", "Minecraft版本遊記", "Minecraft玩人記", "Minecraft Skyblock遊記", "Minecraft生存", "Minecraft村莊生存", "LAN連線記", "---", "頻道更新", "Agar.io", " Vlog", "趣遊", "小遊戲時間"})
+        Me.ContinuedFromSeries.Location = New System.Drawing.Point(32, 16)
+        Me.ContinuedFromSeries.Name = "ContinuedFromSeries"
+        Me.ContinuedFromSeries.Size = New System.Drawing.Size(121, 21)
+        Me.ContinuedFromSeries.TabIndex = 21
+        '
+        'ContinuedFromColon
+        '
+        Me.ContinuedFromColon.AutoSize = True
+        Me.ContinuedFromColon.Location = New System.Drawing.Point(159, 19)
+        Me.ContinuedFromColon.Name = "ContinuedFromColon"
+        Me.ContinuedFromColon.Size = New System.Drawing.Size(10, 13)
+        Me.ContinuedFromColon.TabIndex = 26
+        Me.ContinuedFromColon.Text = ":"
+        '
+        'ContinuedFromPrefix
+        '
+        Me.ContinuedFromPrefix.AutoSize = True
+        Me.ContinuedFromPrefix.Location = New System.Drawing.Point(13, 19)
+        Me.ContinuedFromPrefix.Name = "ContinuedFromPrefix"
+        Me.ContinuedFromPrefix.Size = New System.Drawing.Size(13, 13)
+        Me.ContinuedFromPrefix.TabIndex = 20
+        Me.ContinuedFromPrefix.Text = "├"
+        '
+        'ContinuedFromBeta
+        '
+        Me.ContinuedFromBeta.AutoSize = True
+        Me.ContinuedFromBeta.Location = New System.Drawing.Point(8, 67)
+        Me.ContinuedFromBeta.Name = "ContinuedFromBeta"
+        Me.ContinuedFromBeta.Size = New System.Drawing.Size(40, 23)
+        Me.ContinuedFromBeta.TabIndex = 25
+        Me.ContinuedFromBeta.Text = "Beta"
+        Me.ContinuedFromBeta.UseVisualStyleBackColor = True
+        '
+        'ContinuedFromMidfix
+        '
+        Me.ContinuedFromMidfix.AutoSize = True
+        Me.ContinuedFromMidfix.Location = New System.Drawing.Point(140, 46)
+        Me.ContinuedFromMidfix.Name = "ContinuedFromMidfix"
+        Me.ContinuedFromMidfix.Size = New System.Drawing.Size(13, 13)
+        Me.ContinuedFromMidfix.TabIndex = 22
+        Me.ContinuedFromMidfix.Text = "┤"
+        '
+        'ContinuedFromSuffix
+        '
+        Me.ContinuedFromSuffix.Items.Add("a")
+        Me.ContinuedFromSuffix.Items.Add("b")
+        Me.ContinuedFromSuffix.Items.Add("c")
+        Me.ContinuedFromSuffix.Items.Add("d")
+        Me.ContinuedFromSuffix.Items.Add("e")
+        Me.ContinuedFromSuffix.Items.Add("f")
+        Me.ContinuedFromSuffix.Items.Add("g")
+        Me.ContinuedFromSuffix.Items.Add("h")
+        Me.ContinuedFromSuffix.Items.Add("i")
+        Me.ContinuedFromSuffix.Items.Add("j")
+        Me.ContinuedFromSuffix.Items.Add("k")
+        Me.ContinuedFromSuffix.Items.Add("l")
+        Me.ContinuedFromSuffix.Items.Add("m")
+        Me.ContinuedFromSuffix.Items.Add("n")
+        Me.ContinuedFromSuffix.Items.Add("o")
+        Me.ContinuedFromSuffix.Items.Add("p")
+        Me.ContinuedFromSuffix.Items.Add("q")
+        Me.ContinuedFromSuffix.Items.Add("r")
+        Me.ContinuedFromSuffix.Items.Add("s")
+        Me.ContinuedFromSuffix.Items.Add("t")
+        Me.ContinuedFromSuffix.Items.Add("u")
+        Me.ContinuedFromSuffix.Items.Add("v")
+        Me.ContinuedFromSuffix.Items.Add("w")
+        Me.ContinuedFromSuffix.Items.Add("x")
+        Me.ContinuedFromSuffix.Items.Add("y")
+        Me.ContinuedFromSuffix.Items.Add("z")
+        Me.ContinuedFromSuffix.Location = New System.Drawing.Point(108, 70)
+        Me.ContinuedFromSuffix.Name = "ContinuedFromSuffix"
+        Me.ContinuedFromSuffix.Size = New System.Drawing.Size(45, 20)
+        Me.ContinuedFromSuffix.TabIndex = 24
+        Me.ContinuedFromSuffix.Text = "a"
+        '
+        'ContinuedFromNumber
+        '
+        Me.ContinuedFromNumber.Location = New System.Drawing.Point(54, 70)
+        Me.ContinuedFromNumber.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+        Me.ContinuedFromNumber.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.ContinuedFromNumber.Name = "ContinuedFromNumber"
+        Me.ContinuedFromNumber.Size = New System.Drawing.Size(48, 20)
+        Me.ContinuedFromNumber.TabIndex = 23
+        Me.ContinuedFromNumber.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'Multiple
+        '
+        Me.Multiple.Appearance = System.Windows.Forms.Appearance.Button
+        Me.Multiple.AutoSize = True
+        Me.Multiple.Location = New System.Drawing.Point(253, 86)
+        Me.Multiple.Name = "Multiple"
+        Me.Multiple.Size = New System.Drawing.Size(53, 23)
+        Me.Multiple.TabIndex = 20
+        Me.Multiple.TabStop = True
+        Me.Multiple.Text = "Multiple"
+        Me.Multiple.UseVisualStyleBackColor = True
+        '
+        'NoNarration
+        '
+        Me.NoNarration.Appearance = System.Windows.Forms.Appearance.Button
+        Me.NoNarration.AutoSize = True
+        Me.NoNarration.Location = New System.Drawing.Point(467, 86)
+        Me.NoNarration.Name = "NoNarration"
+        Me.NoNarration.Size = New System.Drawing.Size(77, 23)
+        Me.NoNarration.TabIndex = 21
+        Me.NoNarration.Text = "No Narration"
+        Me.NoNarration.UseVisualStyleBackColor = True
+        '
+        'Speedrun
+        '
+        Me.Speedrun.Appearance = System.Windows.Forms.Appearance.Button
+        Me.Speedrun.AutoSize = True
+        Me.Speedrun.Location = New System.Drawing.Point(538, 59)
+        Me.Speedrun.Name = "Speedrun"
+        Me.Speedrun.Size = New System.Drawing.Size(63, 23)
+        Me.Speedrun.TabIndex = 22
+        Me.Speedrun.Text = "Speedrun"
+        Me.Speedrun.UseVisualStyleBackColor = True
+        '
+        'SpeedrunMultiplier
+        '
+        Me.SpeedrunMultiplier.Location = New System.Drawing.Point(608, 59)
+        Me.SpeedrunMultiplier.Maximum = New Decimal(New Integer() {64, 0, 0, 0})
+        Me.SpeedrunMultiplier.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.SpeedrunMultiplier.Name = "SpeedrunMultiplier"
+        Me.SpeedrunMultiplier.Size = New System.Drawing.Size(30, 20)
+        Me.SpeedrunMultiplier.TabIndex = 23
+        Me.SpeedrunMultiplier.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'Extra
+        '
+        Me.Extra.Appearance = System.Windows.Forms.Appearance.Button
+        Me.Extra.AutoSize = True
+        Me.Extra.Location = New System.Drawing.Point(551, 86)
+        Me.Extra.Name = "Extra"
+        Me.Extra.Size = New System.Drawing.Size(41, 23)
+        Me.Extra.TabIndex = 24
+        Me.Extra.Text = "Extra"
+        Me.Extra.UseVisualStyleBackColor = True
+        '
+        'NotSuggested
+        '
+        Me.NotSuggested.Appearance = System.Windows.Forms.Appearance.Button
+        Me.NotSuggested.AutoSize = True
+        Me.NotSuggested.Location = New System.Drawing.Point(551, 115)
+        Me.NotSuggested.Name = "NotSuggested"
+        Me.NotSuggested.Size = New System.Drawing.Size(88, 23)
+        Me.NotSuggested.TabIndex = 25
+        Me.NotSuggested.Text = "Not Suggested"
+        Me.NotSuggested.UseVisualStyleBackColor = True
+        '
+        'JustRecord
+        '
+        Me.JustRecord.Appearance = System.Windows.Forms.Appearance.Button
+        Me.JustRecord.AutoSize = True
+        Me.JustRecord.Location = New System.Drawing.Point(551, 144)
+        Me.JustRecord.Name = "JustRecord"
+        Me.JustRecord.Size = New System.Drawing.Size(74, 23)
+        Me.JustRecord.TabIndex = 26
+        Me.JustRecord.Text = "Just Record"
+        Me.JustRecord.UseVisualStyleBackColor = True
+        '
+        'Output
+        '
+        Me.Output.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Output.Location = New System.Drawing.Point(13, 294)
+        Me.Output.Name = "Output"
+        Me.Output.Size = New System.Drawing.Size(566, 20)
+        Me.Output.TabIndex = 27
+        '
+        'Copy
+        '
+        Me.Copy.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Copy.AutoSize = True
+        Me.Copy.Location = New System.Drawing.Point(585, 294)
+        Me.Copy.Name = "Copy"
+        Me.Copy.Size = New System.Drawing.Size(47, 23)
+        Me.Copy.TabIndex = 28
+        Me.Copy.Text = "Copy"
+        Me.Copy.UseVisualStyleBackColor = True
+        '
+        'VideoNumbers
+        '
+        Me.VideoNumbers.Enabled = False
+        Me.VideoNumbers.Location = New System.Drawing.Point(98, 52)
+        Me.VideoNumbers.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+        Me.VideoNumbers.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.VideoNumbers.Name = "VideoNumbers"
+        Me.VideoNumbers.Size = New System.Drawing.Size(51, 20)
+        Me.VideoNumbers.TabIndex = 9
+        Me.VideoNumbers.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'SubscribeCounter
+        '
+        Me.SubscribeCounter.Enabled = False
+        Me.SubscribeCounter.Location = New System.Drawing.Point(107, 112)
+        Me.SubscribeCounter.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+        Me.SubscribeCounter.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.SubscribeCounter.Name = "SubscribeCounter"
+        Me.SubscribeCounter.Size = New System.Drawing.Size(51, 20)
+        Me.SubscribeCounter.TabIndex = 10
+        Me.SubscribeCounter.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(450, 269)
+        Me.ClientSize = New System.Drawing.Size(644, 326)
+        Me.Controls.Add(Me.Copy)
+        Me.Controls.Add(Me.Output)
+        Me.Controls.Add(Me.JustRecord)
+        Me.Controls.Add(Me.NotSuggested)
+        Me.Controls.Add(Me.Extra)
+        Me.Controls.Add(Me.SpeedrunMultiplier)
+        Me.Controls.Add(Me.Speedrun)
+        Me.Controls.Add(Me.NoNarration)
+        Me.Controls.Add(Me.Multiple)
         Me.Controls.Add(Me.ContinuedFrom)
+        Me.Controls.Add(Me.Continued)
         Me.Controls.Add(Me.Specials)
         Me.Controls.Add(Me.Special)
         Me.Controls.Add(Me.Triple)
@@ -414,6 +692,12 @@ Partial Class Form
         CType(Me.SubscribeCountApproximate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.VideoNumberApproximate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SeriesNumberApproximate, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ContinuedFrom.ResumeLayout(False)
+        Me.ContinuedFrom.PerformLayout()
+        CType(Me.ContinuedFromNumber, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SpeedrunMultiplier, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.VideoNumbers, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SubscribeCounter, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -445,6 +729,26 @@ Partial Class Form
     Friend WithEvents SubscribeCountApproximately As System.Windows.Forms.CheckBox
     Friend WithEvents SubscribeCountApproximate As System.Windows.Forms.NumericUpDown
     Friend WithEvents SubscribeCount As System.Windows.Forms.CheckBox
-    Friend WithEvents ContinuedFrom As System.Windows.Forms.CheckBox
+    Friend WithEvents Continued As System.Windows.Forms.CheckBox
+    Friend WithEvents ContinuedFrom As System.Windows.Forms.GroupBox
+    Friend WithEvents ContinuedFromSubseries As System.Windows.Forms.ComboBox
+    Friend WithEvents ContinuedFromSeries As System.Windows.Forms.ComboBox
+    Friend WithEvents ContinuedFromColon As System.Windows.Forms.Label
+    Friend WithEvents ContinuedFromPrefix As System.Windows.Forms.Label
+    Friend WithEvents ContinuedFromBeta As System.Windows.Forms.Button
+    Friend WithEvents ContinuedFromMidfix As System.Windows.Forms.Label
+    Friend WithEvents ContinuedFromSuffix As System.Windows.Forms.DomainUpDown
+    Friend WithEvents ContinuedFromNumber As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Multiple As System.Windows.Forms.RadioButton
+    Friend WithEvents NoNarration As System.Windows.Forms.CheckBox
+    Friend WithEvents Speedrun As System.Windows.Forms.CheckBox
+    Friend WithEvents SpeedrunMultiplier As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Extra As System.Windows.Forms.CheckBox
+    Friend WithEvents NotSuggested As System.Windows.Forms.CheckBox
+    Friend WithEvents JustRecord As System.Windows.Forms.CheckBox
+    Friend WithEvents Output As System.Windows.Forms.TextBox
+    Friend WithEvents Copy As System.Windows.Forms.Button
+    Friend WithEvents VideoNumbers As System.Windows.Forms.NumericUpDown
+    Friend WithEvents SubscribeCounter As System.Windows.Forms.NumericUpDown
 
 End Class
