@@ -30,7 +30,6 @@ Partial Class Form
         Me.Number = New System.Windows.Forms.NumericUpDown()
         Me.NumberSuffix = New System.Windows.Forms.DomainUpDown()
         Me.ExpectedCut = New System.Windows.Forms.CheckBox()
-        Me.Beta = New System.Windows.Forms.Button()
         Me.SeriesColon = New System.Windows.Forms.Label()
         Me.SubSeries = New System.Windows.Forms.ComboBox()
         Me.Colon = New System.Windows.Forms.Label()
@@ -40,6 +39,8 @@ Partial Class Form
         Me.Triple = New System.Windows.Forms.RadioButton()
         Me.Special = New System.Windows.Forms.CheckBox()
         Me.Specials = New System.Windows.Forms.GroupBox()
+        Me.SubscribeCounter = New System.Windows.Forms.NumericUpDown()
+        Me.VideoNumbers = New System.Windows.Forms.NumericUpDown()
         Me.SubscribeCountApproximately = New System.Windows.Forms.CheckBox()
         Me.SubscribeCountApproximate = New System.Windows.Forms.NumericUpDown()
         Me.SubscribeCount = New System.Windows.Forms.CheckBox()
@@ -51,11 +52,11 @@ Partial Class Form
         Me.SeriesNumber = New System.Windows.Forms.CheckBox()
         Me.Continued = New System.Windows.Forms.CheckBox()
         Me.ContinuedFrom = New System.Windows.Forms.GroupBox()
+        Me.ContinuedFromBeta = New System.Windows.Forms.CheckBox()
         Me.ContinuedFromSubseries = New System.Windows.Forms.ComboBox()
         Me.ContinuedFromSeries = New System.Windows.Forms.ComboBox()
         Me.ContinuedFromColon = New System.Windows.Forms.Label()
         Me.ContinuedFromPrefix = New System.Windows.Forms.Label()
-        Me.ContinuedFromBeta = New System.Windows.Forms.Button()
         Me.ContinuedFromMidfix = New System.Windows.Forms.Label()
         Me.ContinuedFromSuffix = New System.Windows.Forms.DomainUpDown()
         Me.ContinuedFromNumber = New System.Windows.Forms.NumericUpDown()
@@ -68,18 +69,18 @@ Partial Class Form
         Me.JustRecord = New System.Windows.Forms.CheckBox()
         Me.Output = New System.Windows.Forms.TextBox()
         Me.Copy = New System.Windows.Forms.Button()
-        Me.VideoNumbers = New System.Windows.Forms.NumericUpDown()
-        Me.SubscribeCounter = New System.Windows.Forms.NumericUpDown()
+        Me.Beta = New System.Windows.Forms.CheckBox()
+        Me.ContinuedFromExpectedCut = New System.Windows.Forms.CheckBox()
         CType(Me.Number, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Specials.SuspendLayout()
+        CType(Me.SubscribeCounter, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.VideoNumbers, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SubscribeCountApproximate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.VideoNumberApproximate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SeriesNumberApproximate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContinuedFrom.SuspendLayout()
         CType(Me.ContinuedFromNumber, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SpeedrunMultiplier, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.VideoNumbers, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.SubscribeCounter, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'List
@@ -112,7 +113,7 @@ Partial Class Form
         '
         Me.Series.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Series.FormattingEnabled = True
-        Me.Series.Items.AddRange(New Object() {"Minecraft遊記", "Minecraft編輯遊記", "Minecraft Hide&Seek遊記", "Minecraft Universe遊記", "Minecraft版本遊記", "Minecraft玩人記", "Minecraft Skyblock遊記", "Minecraft生存", "Minecraft村莊生存", "LAN連線記", "---", "頻道更新", "Agar.io", " Vlog", "趣遊", "小遊戲時間"})
+        Me.Series.Items.AddRange(New Object() {"Minecraft遊記", "Minecraft編輯遊記", "Minecraft Hide&Seek遊記", "Minecraft Universe遊記", "Minecraft版本遊記", "Minecraft玩人記", "Minecraft Skyblock遊記", "Minecraft生存", "Minecraft村莊生存", "LAN連線記", "---", "頻道更新", "Agar.io", " Vlog", "趣遊", "小遊戲時間", "VVVVVV"})
         Me.Series.Location = New System.Drawing.Point(131, 32)
         Me.Series.Name = "Series"
         Me.Series.Size = New System.Drawing.Size(121, 21)
@@ -183,16 +184,6 @@ Partial Class Form
         Me.ExpectedCut.TabIndex = 7
         Me.ExpectedCut.Text = "Expected Cut"
         Me.ExpectedCut.UseVisualStyleBackColor = True
-        '
-        'Beta
-        '
-        Me.Beta.AutoSize = True
-        Me.Beta.Location = New System.Drawing.Point(421, 30)
-        Me.Beta.Name = "Beta"
-        Me.Beta.Size = New System.Drawing.Size(44, 23)
-        Me.Beta.TabIndex = 8
-        Me.Beta.Text = "Beta"
-        Me.Beta.UseVisualStyleBackColor = True
         '
         'SeriesColon
         '
@@ -296,6 +287,28 @@ Partial Class Form
         Me.Specials.TabIndex = 17
         Me.Specials.TabStop = False
         Me.Specials.Text = "Specials"
+        '
+        'SubscribeCounter
+        '
+        Me.SubscribeCounter.Enabled = False
+        Me.SubscribeCounter.Location = New System.Drawing.Point(107, 112)
+        Me.SubscribeCounter.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+        Me.SubscribeCounter.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.SubscribeCounter.Name = "SubscribeCounter"
+        Me.SubscribeCounter.Size = New System.Drawing.Size(51, 20)
+        Me.SubscribeCounter.TabIndex = 10
+        Me.SubscribeCounter.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'VideoNumbers
+        '
+        Me.VideoNumbers.Enabled = False
+        Me.VideoNumbers.Location = New System.Drawing.Point(98, 52)
+        Me.VideoNumbers.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+        Me.VideoNumbers.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.VideoNumbers.Name = "VideoNumbers"
+        Me.VideoNumbers.Size = New System.Drawing.Size(51, 20)
+        Me.VideoNumbers.TabIndex = 9
+        Me.VideoNumbers.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'SubscribeCountApproximately
         '
@@ -416,11 +429,12 @@ Partial Class Form
         '
         'ContinuedFrom
         '
+        Me.ContinuedFrom.Controls.Add(Me.ContinuedFromExpectedCut)
+        Me.ContinuedFrom.Controls.Add(Me.ContinuedFromBeta)
         Me.ContinuedFrom.Controls.Add(Me.ContinuedFromSubseries)
         Me.ContinuedFrom.Controls.Add(Me.ContinuedFromSeries)
         Me.ContinuedFrom.Controls.Add(Me.ContinuedFromColon)
         Me.ContinuedFrom.Controls.Add(Me.ContinuedFromPrefix)
-        Me.ContinuedFrom.Controls.Add(Me.ContinuedFromBeta)
         Me.ContinuedFrom.Controls.Add(Me.ContinuedFromMidfix)
         Me.ContinuedFrom.Controls.Add(Me.ContinuedFromSuffix)
         Me.ContinuedFrom.Controls.Add(Me.ContinuedFromNumber)
@@ -430,6 +444,17 @@ Partial Class Form
         Me.ContinuedFrom.TabIndex = 19
         Me.ContinuedFrom.TabStop = False
         Me.ContinuedFrom.Text = "Continued From"
+        '
+        'ContinuedFromBeta
+        '
+        Me.ContinuedFromBeta.Appearance = System.Windows.Forms.Appearance.Button
+        Me.ContinuedFromBeta.AutoSize = True
+        Me.ContinuedFromBeta.Location = New System.Drawing.Point(6, 67)
+        Me.ContinuedFromBeta.Name = "ContinuedFromBeta"
+        Me.ContinuedFromBeta.Size = New System.Drawing.Size(39, 23)
+        Me.ContinuedFromBeta.TabIndex = 30
+        Me.ContinuedFromBeta.Text = "Beta"
+        Me.ContinuedFromBeta.UseVisualStyleBackColor = True
         '
         'ContinuedFromSubseries
         '
@@ -443,7 +468,7 @@ Partial Class Form
         '
         Me.ContinuedFromSeries.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ContinuedFromSeries.FormattingEnabled = True
-        Me.ContinuedFromSeries.Items.AddRange(New Object() {"Minecraft遊記", "Minecraft編輯遊記", "Minecraft Hide&Seek遊記", "Minecraft Universe遊記", "Minecraft版本遊記", "Minecraft玩人記", "Minecraft Skyblock遊記", "Minecraft生存", "Minecraft村莊生存", "LAN連線記", "---", "頻道更新", "Agar.io", " Vlog", "趣遊", "小遊戲時間"})
+        Me.ContinuedFromSeries.Items.AddRange(New Object() {"Minecraft遊記", "Minecraft編輯遊記", "Minecraft Hide&Seek遊記", "Minecraft Universe遊記", "Minecraft版本遊記", "Minecraft玩人記", "Minecraft Skyblock遊記", "Minecraft生存", "Minecraft村莊生存", "LAN連線記", "---", "頻道更新", "Agar.io", " Vlog", "趣遊", "小遊戲時間", "VVVVVV"})
         Me.ContinuedFromSeries.Location = New System.Drawing.Point(32, 16)
         Me.ContinuedFromSeries.Name = "ContinuedFromSeries"
         Me.ContinuedFromSeries.Size = New System.Drawing.Size(121, 21)
@@ -466,16 +491,6 @@ Partial Class Form
         Me.ContinuedFromPrefix.Size = New System.Drawing.Size(13, 13)
         Me.ContinuedFromPrefix.TabIndex = 20
         Me.ContinuedFromPrefix.Text = "├"
-        '
-        'ContinuedFromBeta
-        '
-        Me.ContinuedFromBeta.AutoSize = True
-        Me.ContinuedFromBeta.Location = New System.Drawing.Point(8, 67)
-        Me.ContinuedFromBeta.Name = "ContinuedFromBeta"
-        Me.ContinuedFromBeta.Size = New System.Drawing.Size(40, 23)
-        Me.ContinuedFromBeta.TabIndex = 25
-        Me.ContinuedFromBeta.Text = "Beta"
-        Me.ContinuedFromBeta.UseVisualStyleBackColor = True
         '
         'ContinuedFromMidfix
         '
@@ -627,33 +642,36 @@ Partial Class Form
         Me.Copy.Text = "Copy"
         Me.Copy.UseVisualStyleBackColor = True
         '
-        'VideoNumbers
+        'Beta
         '
-        Me.VideoNumbers.Enabled = False
-        Me.VideoNumbers.Location = New System.Drawing.Point(98, 52)
-        Me.VideoNumbers.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
-        Me.VideoNumbers.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.VideoNumbers.Name = "VideoNumbers"
-        Me.VideoNumbers.Size = New System.Drawing.Size(51, 20)
-        Me.VideoNumbers.TabIndex = 9
-        Me.VideoNumbers.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.Beta.Appearance = System.Windows.Forms.Appearance.Button
+        Me.Beta.AutoSize = True
+        Me.Beta.Location = New System.Drawing.Point(421, 30)
+        Me.Beta.Name = "Beta"
+        Me.Beta.Size = New System.Drawing.Size(39, 23)
+        Me.Beta.TabIndex = 29
+        Me.Beta.Text = "Beta"
+        Me.Beta.UseVisualStyleBackColor = True
         '
-        'SubscribeCounter
+        'ContinuedFromExpectedCut
         '
-        Me.SubscribeCounter.Enabled = False
-        Me.SubscribeCounter.Location = New System.Drawing.Point(107, 112)
-        Me.SubscribeCounter.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
-        Me.SubscribeCounter.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.SubscribeCounter.Name = "SubscribeCounter"
-        Me.SubscribeCounter.Size = New System.Drawing.Size(51, 20)
-        Me.SubscribeCounter.TabIndex = 10
-        Me.SubscribeCounter.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.ContinuedFromExpectedCut.Appearance = System.Windows.Forms.Appearance.Button
+        Me.ContinuedFromExpectedCut.AutoSize = True
+        Me.ContinuedFromExpectedCut.Checked = True
+        Me.ContinuedFromExpectedCut.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ContinuedFromExpectedCut.Location = New System.Drawing.Point(6, 96)
+        Me.ContinuedFromExpectedCut.Name = "ContinuedFromExpectedCut"
+        Me.ContinuedFromExpectedCut.Size = New System.Drawing.Size(81, 23)
+        Me.ContinuedFromExpectedCut.TabIndex = 30
+        Me.ContinuedFromExpectedCut.Text = "Expected Cut"
+        Me.ContinuedFromExpectedCut.UseVisualStyleBackColor = True
         '
         'Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(644, 326)
+        Me.Controls.Add(Me.Beta)
         Me.Controls.Add(Me.Copy)
         Me.Controls.Add(Me.Output)
         Me.Controls.Add(Me.JustRecord)
@@ -674,7 +692,6 @@ Partial Class Form
         Me.Controls.Add(Me.Colon)
         Me.Controls.Add(Me.SubSeries)
         Me.Controls.Add(Me.SeriesColon)
-        Me.Controls.Add(Me.Beta)
         Me.Controls.Add(Me.ExpectedCut)
         Me.Controls.Add(Me.NumberSuffix)
         Me.Controls.Add(Me.Number)
@@ -689,6 +706,8 @@ Partial Class Form
         CType(Me.Number, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Specials.ResumeLayout(False)
         Me.Specials.PerformLayout()
+        CType(Me.SubscribeCounter, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.VideoNumbers, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SubscribeCountApproximate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.VideoNumberApproximate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SeriesNumberApproximate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -696,8 +715,6 @@ Partial Class Form
         Me.ContinuedFrom.PerformLayout()
         CType(Me.ContinuedFromNumber, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SpeedrunMultiplier, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.VideoNumbers, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.SubscribeCounter, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -710,7 +727,6 @@ Partial Class Form
     Friend WithEvents Number As System.Windows.Forms.NumericUpDown
     Friend WithEvents NumberSuffix As System.Windows.Forms.DomainUpDown
     Friend WithEvents ExpectedCut As System.Windows.Forms.CheckBox
-    Friend WithEvents Beta As System.Windows.Forms.Button
     Friend WithEvents SeriesColon As System.Windows.Forms.Label
     Friend WithEvents SubSeries As System.Windows.Forms.ComboBox
     Friend WithEvents Colon As System.Windows.Forms.Label
@@ -735,7 +751,6 @@ Partial Class Form
     Friend WithEvents ContinuedFromSeries As System.Windows.Forms.ComboBox
     Friend WithEvents ContinuedFromColon As System.Windows.Forms.Label
     Friend WithEvents ContinuedFromPrefix As System.Windows.Forms.Label
-    Friend WithEvents ContinuedFromBeta As System.Windows.Forms.Button
     Friend WithEvents ContinuedFromMidfix As System.Windows.Forms.Label
     Friend WithEvents ContinuedFromSuffix As System.Windows.Forms.DomainUpDown
     Friend WithEvents ContinuedFromNumber As System.Windows.Forms.NumericUpDown
@@ -750,5 +765,8 @@ Partial Class Form
     Friend WithEvents Copy As System.Windows.Forms.Button
     Friend WithEvents VideoNumbers As System.Windows.Forms.NumericUpDown
     Friend WithEvents SubscribeCounter As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Beta As System.Windows.Forms.CheckBox
+    Friend WithEvents ContinuedFromBeta As System.Windows.Forms.CheckBox
+    Friend WithEvents ContinuedFromExpectedCut As System.Windows.Forms.CheckBox
 
 End Class

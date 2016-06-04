@@ -1,13 +1,26 @@
 ﻿Public Class Form
+    Friend ReadOnly AVI As String = My.Computer.FileSystem.CurrentDirectory & "\AVI.settings"
+    Friend Const Delimiter As Char = ChrW(7)
+    ' Friend Reader As New FileIO.TextFieldParser(AVI, System.Text.Encoding.Unicode) With {.Delimiters = {Delimiter.ToString}, .TrimWhiteSpace = True}
+    'Friend Writer As New IO.StreamWriter(AVI, False) With {.NewLine = vbCrLf}
+    Private Sub Form_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
 
+    End Sub
+    Private Sub Me_Load(sender As Object, e As EventArgs) Handles Me.Load
+        Series.SelectedIndex = 0
+        ContinuedFromSeries.SelectedIndex = 0
+        Title.Text = Chr(8)
+    End Sub
     Private Sub ExpectedCut_CheckedChanged(sender As Object, e As EventArgs) Handles ExpectedCut.CheckedChanged, Me.Load
         If ExpectedCut.Checked Then
             NumberSuffix.Items.Clear()
+            NumberSuffix.Items.Add("")
             For i = Asc("a"c) To Asc("z"c)
                 NumberSuffix.Items.Add(Chr(i))
             Next
         Else
             NumberSuffix.Items.Clear()
+            NumberSuffix.Items.Add("")
             For i = 1 To 99
                 NumberSuffix.Items.Add("_"c & i)
             Next
@@ -69,8 +82,8 @@
 
         MyBase.Refresh()
         Output.Text = Prefix.Text & Series.Text & SeriesColon.Text &
-            SubSeries.Text & Midfix.Text & Number.Value & NumberSuffix.Text &
-            Colon.Text & Title.Text & If(Solo.Checked, String.Empty, If(Duo.Checked, "[D]", If(Triple.Checked, "[T]", "[M]"))) &
+            SubSeries.Text & Midfix.Text & If(Beta.Checked, "Beta ", String.Empty) & Number.Value & NumberSuffix.Text &
+            Colon.Text & Title.Text & " "c & If(Solo.Checked, String.Empty, If(Duo.Checked, "[D]", If(Triple.Checked, "[T]", "[M]"))) &
  _
             If(Special.Checked AndAlso (SeriesNumber.Checked OrElse VideoNumber.Checked OrElse SubscribeCount.Checked),
             "[S-" & If(SeriesNumber.Checked, "SM" & Number.Value &
@@ -84,7 +97,13 @@
             If(SubscribeCount.Checked, "S" & SubscribeCounter.Value &
             If(SubscribeCountApproximately.Checked, "("c & SubscribeCountApproximate.Value & ")"c, String.Empty) &
             If(SubscribeCount.Checked, ","c, String.Empty), String.Empty) &
-            "]"c, String.Empty)
+            "]"c, String.Empty) &
+ _
+            If(Continued.Checked, "[C-" & GetCode(ContinuedFromSeries.SelectedItem) & If(ContinuedFromBeta.Checked, "b"c, String.Empty) &
+               ContinuedFromNumber.Value & ContinuedFromSuffix.Text & "]"c, String.Empty) &
+ _
+           If(NoNarration.Checked, "[NN]", String.Empty) & If(Speedrun.Checked, "[R" & SpeedrunMultiplier.Value & "]"c, String.Empty) &
+           If(Extra.Checked, "[E]", String.Empty) & If(NotSuggested.Checked, "[X]", String.Empty) & If(JustRecord.Checked, "[J]", String.Empty)
     End Sub
     Friend Function GetCode(Name As String) As String
         Select Case Name
@@ -108,8 +127,6 @@
                 Return "MVS"
             Case "LAN連線記"
                 Return "L"
-            Case "---"
-                Throw New ArgumentException
             Case "頻道更新"
                 Return "U"
             Case "Agar.io"
@@ -120,8 +137,13 @@
                 Return "F"
             Case "小遊戲時間"
                 Return "G"
+            Case "VVVVVV"
+                Return "VV"
+            Case ""
+                Return ""
             Case Else
-                Throw New ArgumentException
+                '  Throw New ArgumentException
+                Error 11
         End Select
     End Function
     Friend Enum Serie As Byte
@@ -142,4 +164,21 @@
         趣遊
         小遊戲時間
     End Enum
+
+    Private Sub ContinuedFromExpectedCut_CheckedChanged(sender As Object, e As EventArgs) Handles ContinuedFromExpectedCut.CheckedChanged, Me.Load
+        If ContinuedFromExpectedCut.Checked Then
+            ContinuedFromSuffix.Items.Clear()
+            ContinuedFromSuffix.Items.Add("")
+            For i = Asc("a"c) To Asc("z"c)
+                ContinuedFromSuffix.Items.Add(Chr(i))
+            Next
+        Else
+            ContinuedFromSuffix.Items.Clear()
+            ContinuedFromSuffix.Items.Add("")
+            For i = 1 To 99
+                ContinuedFromSuffix.Items.Add("_"c & i)
+            Next
+        End If
+
+    End Sub
 End Class
