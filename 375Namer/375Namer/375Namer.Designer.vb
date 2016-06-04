@@ -52,6 +52,7 @@ Partial Class Form
         Me.SeriesNumber = New System.Windows.Forms.CheckBox()
         Me.Continued = New System.Windows.Forms.CheckBox()
         Me.ContinuedFrom = New System.Windows.Forms.GroupBox()
+        Me.ContinuedFromExpectedCut = New System.Windows.Forms.CheckBox()
         Me.ContinuedFromBeta = New System.Windows.Forms.CheckBox()
         Me.ContinuedFromSubseries = New System.Windows.Forms.ComboBox()
         Me.ContinuedFromSeries = New System.Windows.Forms.ComboBox()
@@ -70,7 +71,6 @@ Partial Class Form
         Me.Output = New System.Windows.Forms.TextBox()
         Me.Copy = New System.Windows.Forms.Button()
         Me.Beta = New System.Windows.Forms.CheckBox()
-        Me.ContinuedFromExpectedCut = New System.Windows.Forms.CheckBox()
         CType(Me.Number, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Specials.SuspendLayout()
         CType(Me.SubscribeCounter, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -445,6 +445,19 @@ Partial Class Form
         Me.ContinuedFrom.TabStop = False
         Me.ContinuedFrom.Text = "Continued From"
         '
+        'ContinuedFromExpectedCut
+        '
+        Me.ContinuedFromExpectedCut.Appearance = System.Windows.Forms.Appearance.Button
+        Me.ContinuedFromExpectedCut.AutoSize = True
+        Me.ContinuedFromExpectedCut.Checked = True
+        Me.ContinuedFromExpectedCut.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ContinuedFromExpectedCut.Location = New System.Drawing.Point(6, 96)
+        Me.ContinuedFromExpectedCut.Name = "ContinuedFromExpectedCut"
+        Me.ContinuedFromExpectedCut.Size = New System.Drawing.Size(81, 23)
+        Me.ContinuedFromExpectedCut.TabIndex = 30
+        Me.ContinuedFromExpectedCut.Text = "Expected Cut"
+        Me.ContinuedFromExpectedCut.UseVisualStyleBackColor = True
+        '
         'ContinuedFromBeta
         '
         Me.ContinuedFromBeta.Appearance = System.Windows.Forms.Appearance.Button
@@ -628,6 +641,7 @@ Partial Class Form
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Output.Location = New System.Drawing.Point(13, 294)
         Me.Output.Name = "Output"
+        Me.Output.ReadOnly = True
         Me.Output.Size = New System.Drawing.Size(566, 20)
         Me.Output.TabIndex = 27
         '
@@ -652,19 +666,6 @@ Partial Class Form
         Me.Beta.TabIndex = 29
         Me.Beta.Text = "Beta"
         Me.Beta.UseVisualStyleBackColor = True
-        '
-        'ContinuedFromExpectedCut
-        '
-        Me.ContinuedFromExpectedCut.Appearance = System.Windows.Forms.Appearance.Button
-        Me.ContinuedFromExpectedCut.AutoSize = True
-        Me.ContinuedFromExpectedCut.Checked = True
-        Me.ContinuedFromExpectedCut.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.ContinuedFromExpectedCut.Location = New System.Drawing.Point(6, 96)
-        Me.ContinuedFromExpectedCut.Name = "ContinuedFromExpectedCut"
-        Me.ContinuedFromExpectedCut.Size = New System.Drawing.Size(81, 23)
-        Me.ContinuedFromExpectedCut.TabIndex = 30
-        Me.ContinuedFromExpectedCut.Text = "Expected Cut"
-        Me.ContinuedFromExpectedCut.UseVisualStyleBackColor = True
         '
         'Form
         '

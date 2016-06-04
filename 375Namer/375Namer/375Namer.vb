@@ -1,15 +1,42 @@
 ﻿Public Class Form
     Friend ReadOnly AVI As String = My.Computer.FileSystem.CurrentDirectory & "\AVI.settings"
     Friend Const Delimiter As Char = ChrW(7)
-    ' Friend Reader As New FileIO.TextFieldParser(AVI, System.Text.Encoding.Unicode) With {.Delimiters = {Delimiter.ToString}, .TrimWhiteSpace = True}
-    'Friend Writer As New IO.StreamWriter(AVI, False) With {.NewLine = vbCrLf}
     Private Sub Form_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
-
+        Dim Writer As New IO.StreamWriter(AVI, False) With {.NewLine = vbCrLf}
+        Writer.WriteLine(List.SelectedItem & Delimiter & Output.Text)
+#If False Then
+        MsgBox(List.SelectedItem & Delimiter & Series.Text & Delimiter & SubSeries.Text & Delimiter &
+                     Beta.Checked & Delimiter & Number.Value & Delimiter & NumberSuffix.Text & Delimiter &
+                     SelectedRadioButton(Me).Name & Delimiter & Special.Checked & Delimiter &
+                     SeriesNumber.Checked & Delimiter & SeriesNumberApproximately.Checked & Delimiter &
+                     SeriesNumberApproximate.Value & Delimiter & VideoNumber.Checked & Delimiter &
+                     VideoNumbers.Value & Delimiter & VideoNumberApproximately.Checked & Delimiter &
+                     VideoNumberApproximate.Value & Delimiter & SubscribeCount.Checked & Delimiter &
+                     SubscribeCounter.Value & Delimiter & SubscribeCountApproximately.Checked & Delimiter &
+                     SubscribeCountApproximate.Value & Delimiter & ...)
+#End If
     End Sub
+    Friend Function SelectedRadioButton(Container As Control) As RadioButton
+        For Each c As Control In Container.Controls
+            If TypeOf c Is RadioButton AndAlso CType(c, RadioButton).Checked = True Then Return c
+        Next
+        Return Nothing
+    End Function
     Private Sub Me_Load(sender As Object, e As EventArgs) Handles Me.Load
         Series.SelectedIndex = 0
         ContinuedFromSeries.SelectedIndex = 0
-        Title.Text = Chr(8)
+        Title.Text = Chr(0)
+Retry:  Try
+            Dim Reader As New FileIO.TextFieldParser(AVI, System.Text.Encoding.Unicode) With {.Delimiters = {Delimiter.ToString}, .TrimWhiteSpace = True}
+
+        Catch ex As IO.FileNotFoundException
+            Try
+                My.Computer.FileSystem.WriteAllText(AVI, "", False)
+                GoTo Retry
+            Catch exc As UnauthorizedAccessException
+                MsgBox("Cannot load/save settings.", MsgBoxStyle.Exclamation)
+            End Try
+        End Try
     End Sub
     Private Sub ExpectedCut_CheckedChanged(sender As Object, e As EventArgs) Handles ExpectedCut.CheckedChanged, Me.Load
         If ExpectedCut.Checked Then
@@ -79,7 +106,6 @@
         SubscribeCount.Click, SubscribeCountApproximate.ValueChanged, SubscribeCountApproximately.Click,
         SubscribeCounter.ValueChanged, SubSeries.TextChanged, Title.TextChanged, Triple.Click, VideoNumber.Click,
         VideoNumberApproximate.ValueChanged, VideoNumberApproximately.Click, VideoNumbers.ValueChanged
-
         MyBase.Refresh()
         Output.Text = Prefix.Text & Series.Text & SeriesColon.Text &
             SubSeries.Text & Midfix.Text & If(Beta.Checked, "Beta ", String.Empty) & Number.Value & NumberSuffix.Text &
@@ -181,4 +207,19 @@
         End If
 
     End Sub
+
+    Private Sub Copy_Click(sender As Object, e As EventArgs) Handles Copy.Click
+        My.Computer.Clipboard.SetText(Output.Text)
+    End Sub
 End Class
+#If False Then
+Namespace Global
+    Namespace System
+        Partial Structure [String]
+            Shared Operator ^(Str1 As System.String, Str2 As System.String) As String
+                Return Str1 & System.String.Delimiter.ToString & Str2
+            End Operator
+        End Structure
+    End Namespace
+End Namespace
+#End If
