@@ -71,6 +71,7 @@ Partial Class Form
         Me.Output = New System.Windows.Forms.TextBox()
         Me.Copy = New System.Windows.Forms.Button()
         Me.Beta = New System.Windows.Forms.CheckBox()
+        Me.LoadFiles = New System.Windows.Forms.Button()
         CType(Me.Number, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Specials.SuspendLayout()
         CType(Me.SubscribeCounter, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -86,7 +87,7 @@ Partial Class Form
         'List
         '
         Me.List.FormattingEnabled = True
-        Me.List.Location = New System.Drawing.Point(13, 13)
+        Me.List.Location = New System.Drawing.Point(13, 26)
         Me.List.Name = "List"
         Me.List.Size = New System.Drawing.Size(92, 264)
         Me.List.TabIndex = 0
@@ -667,11 +668,22 @@ Partial Class Form
         Me.Beta.Text = "Beta"
         Me.Beta.UseVisualStyleBackColor = True
         '
+        'LoadFiles
+        '
+        Me.LoadFiles.AutoSize = True
+        Me.LoadFiles.Location = New System.Drawing.Point(13, 3)
+        Me.LoadFiles.Name = "LoadFiles"
+        Me.LoadFiles.Size = New System.Drawing.Size(75, 23)
+        Me.LoadFiles.TabIndex = 30
+        Me.LoadFiles.Text = "Load Files"
+        Me.LoadFiles.UseVisualStyleBackColor = True
+        '
         'Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(644, 326)
+        Me.Controls.Add(Me.LoadFiles)
         Me.Controls.Add(Me.Beta)
         Me.Controls.Add(Me.Copy)
         Me.Controls.Add(Me.Output)
@@ -769,5 +781,6 @@ Partial Class Form
     Friend WithEvents Beta As System.Windows.Forms.CheckBox
     Friend WithEvents ContinuedFromBeta As System.Windows.Forms.CheckBox
     Friend WithEvents ContinuedFromExpectedCut As System.Windows.Forms.CheckBox
+    Friend WithEvents LoadFiles As System.Windows.Forms.Button
 
 End Class

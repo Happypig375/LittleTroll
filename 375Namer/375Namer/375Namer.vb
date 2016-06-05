@@ -1,6 +1,7 @@
 ﻿Public Class Form
     Friend ReadOnly AVI As String = My.Computer.FileSystem.CurrentDirectory & "\AVI.settings"
     Friend Const Delimiter As Char = ChrW(7)
+    Friend Names As New List(Of String)
     Private Sub Form_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
         Dim Writer As New IO.StreamWriter(AVI, False) With {.NewLine = vbCrLf}
         Writer.WriteLine(List.SelectedItem & Delimiter & Output.Text)
@@ -28,14 +29,21 @@
         Title.Text = Chr(0)
 Retry:  Try
             Dim Reader As New FileIO.TextFieldParser(AVI, System.Text.Encoding.Unicode) With {.Delimiters = {Delimiter.ToString}, .TrimWhiteSpace = True}
-
+            Do Until Reader.EndOfData
+                Dim Line As String() = Reader.ReadFields
+                If Line.Count <> 2 Then Throw New FileIO.MalformedLineException("There are more than one or no delimiters in the line.", Reader.LineNumber - 1)
+                List.Items.Add(Line(0))
+                Names.Add(Line(1))
+            Loop
         Catch ex As IO.FileNotFoundException
             Try
                 My.Computer.FileSystem.WriteAllText(AVI, "", False)
                 GoTo Retry
             Catch exc As UnauthorizedAccessException
-                MsgBox("Cannot load/save settings.", MsgBoxStyle.Exclamation)
+                MsgBox("Do not have enough permission. Cannot load/save settings.", MsgBoxStyle.Exclamation)
             End Try
+        Catch ex As FileIO.MalformedLineException
+            MsgBox(ex.Message & vbCrLf & "Line number: " & ex.LineNumber)
         End Try
     End Sub
     Private Sub ExpectedCut_CheckedChanged(sender As Object, e As EventArgs) Handles ExpectedCut.CheckedChanged, Me.Load
@@ -210,6 +218,19 @@ Retry:  Try
 
     Private Sub Copy_Click(sender As Object, e As EventArgs) Handles Copy.Click
         My.Computer.Clipboard.SetText(Output.Text)
+    End Sub
+
+    Private Sub LoadFiles_Click(sender As Object, e As EventArgs) Handles LoadFiles.Click
+        Dim DirInfo As IO.DirectoryInfo = FileIO.FileSystem.GetDirectoryInfo(InputBox("Enter source directory:", "Source", "Y:\"))
+        Dim Files As New List(Of String)(DirInfo.GetFiles("*.avi", IO.SearchOption.AllDirectories))
+        Files.AddRange(DirInfo.GetFiles("*.mp4", IO.SearchOption.AllDirectories))
+        For Each File As String In Files
+            If Not List.Items.Contains(File) Then List.Items.Add(File)
+        Next
+        Dim Temp1, Temp2 As String()
+        Temp1 = Names.ToArray
+        Temp2 = List.Items.Cast(Of String).ToArray
+        Array.Sort(Temp1, Temp2)
     End Sub
 End Class
 #If False Then

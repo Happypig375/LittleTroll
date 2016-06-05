@@ -435,3 +435,68 @@ Reloop: Dim Variables As New Dictionary(Of String, String)
         End If
     End Function
 End Class
+#If False Then
+    ''' <summary>
+    ''' Class for manipulating the brightness of the screen
+    ''' </summary>
+    Public NotInheritable Class Brightness
+        Private Sub New()
+        End Sub
+        <Runtime.InteropServices.DllImport("gdi32.dll")> _
+        Private Shared Function SetDeviceGammaRamp(hdc As Int32, ramp As Pointer(Of System.Void)) As Boolean
+        End Function
+
+        Private Shared initialized As Boolean = False
+        Private Shared hdc As Int32
+
+
+        Private Shared Sub InitializeClass()
+            If initialized Then
+                Return
+            End If
+
+            'Get the hardware device context of the screen, we can do
+            'this by getting the graphics object of null (IntPtr.Zero)
+            'then getting the HDC and converting that to an Int32.
+            hdc = Graphics.FromHwnd(IntPtr.Zero).GetHdc().ToInt32()
+
+            initialized = True
+        End Sub
+
+        Public Shared Function SetBrightness(brightness As Short) As Boolean
+            InitializeClass()
+
+            If brightness > 255 Then
+                brightness = 255
+            End If
+
+            If brightness < 0 Then
+                brightness = 0
+            End If
+            Dim gArray As Pointer(Of Short) = stackalloc
+            Dim idx As Pointer(Of Short) = gArray
+
+            For j As Integer = 0 To 2
+                For i As Integer = 0 To 255
+                    Dim arrayVal As Integer = i * (brightness + 128)
+
+                    If arrayVal > 65535 Then
+                        arrayVal = 65535
+                    End If
+
+                    idx.Target = CShort(arrayVal)
+                    idx += 1
+                Next
+            Next
+
+            'For some reason, this always returns false?
+            Dim retVal As Boolean = SetDeviceGammaRamp(hdc, gArray)
+
+            'Memory allocated through stackalloc is automatically free'd
+            'by the CLR.
+
+            Return retVal
+
+        End Function
+End Class
+#End If
