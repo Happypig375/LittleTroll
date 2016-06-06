@@ -259,7 +259,16 @@ Retry:  Try
     End Sub
 
     Friend Sub Parse(Input As String)
-        If Input(1) <> Prefix.Text Then ThrowFormatException("First characteris not prefix.")
+        If Input = "" Then Parse("├Minecraft遊記:┤1a： ")
+        If Input(0) <> Prefix.Text Then ThrowFormatException("First character is not prefix.")
+        Dim Serie As String = Input.Substring(1).TakeWhile(Function(c As Char) c <> Midfix.Text).ToArray
+        If Serie.Contains(SeriesColon.Text) Then
+            Dim Subserie As String = Serie.SkipWhile(Function(c As Char) c <> SeriesColon.Text).ToArray
+            Serie = Serie.TakeWhile(Function(c As Char) c <> SeriesColon.Text).ToArray
+            SubSeries.Text = Subserie
+        End If
+        Series.Text = Serie
+        Input = Input.Substring(Input.IndexOf(Midfix.Text) + 1)
     End Sub
 
     Friend Function ThrowFormatException(Message As String) As Type
