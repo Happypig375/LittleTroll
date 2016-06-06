@@ -45,6 +45,13 @@ Retry:  Try
         Catch ex As FileIO.MalformedLineException
             MsgBox(ex.Message & vbCrLf & "Line number: " & ex.LineNumber)
         End Try
+        If List.Items.Count = 0 Then
+            List.Items.Add("<empty>")
+            Names.Add("")
+        End If
+        List.SelectedIndex = 0
+        AddHandler Output.TextChanged, AddressOf Output_TextChanged
+        AddHandler List.SelectedIndexChanged, AddressOf List_SelectedIndexChanged
     End Sub
     Private Sub ExpectedCut_CheckedChanged(sender As Object, e As EventArgs) Handles ExpectedCut.CheckedChanged, Me.Load
         If ExpectedCut.Checked Then
@@ -108,8 +115,8 @@ Retry:  Try
     Private Overloads Sub Refresh(sender As Object, e As EventArgs) Handles Me.Load, Beta.Click, Continued.Click,
         ContinuedFromBeta.Click, ContinuedFromNumber.ValueChanged, ContinuedFromSeries.TextChanged,
         ContinuedFromSubseries.TextChanged, ContinuedFromSuffix.TextChanged, Copy.Click, Duo.Click, ExpectedCut.Click,
-        Extra.Click, JustRecord.Click, List.SelectedIndexChanged, Multiple.Click, NoNarration.Click, NotSuggested.Click,
-        Number.ValueChanged, NumberSuffix.TextChanged, Series.TextChanged, SeriesNumber.Click, SeriesNumberApproximate.ValueChanged,
+        Extra.Click, JustRecord.Click, Multiple.Click, NoNarration.Click, NotSuggested.Click, Number.ValueChanged,
+         NumberSuffix.TextChanged, Series.TextChanged, SeriesNumber.Click, SeriesNumberApproximate.ValueChanged,
         SeriesNumberApproximately.Click, Solo.Click, Special.Click, Speedrun.Click, SpeedrunMultiplier.ValueChanged,
         SubscribeCount.Click, SubscribeCountApproximate.ValueChanged, SubscribeCountApproximately.Click,
         SubscribeCounter.ValueChanged, SubSeries.TextChanged, Title.TextChanged, Triple.Click, VideoNumber.Click,
@@ -222,16 +229,44 @@ Retry:  Try
 
     Private Sub LoadFiles_Click(sender As Object, e As EventArgs) Handles LoadFiles.Click
         Dim DirInfo As IO.DirectoryInfo = FileIO.FileSystem.GetDirectoryInfo(InputBox("Enter source directory:", "Source", "Y:\"))
-        Dim Files As New List(Of String)(DirInfo.GetFiles("*.avi", IO.SearchOption.AllDirectories))
-        Files.AddRange(DirInfo.GetFiles("*.mp4", IO.SearchOption.AllDirectories))
-        For Each File As String In Files
-            If Not List.Items.Contains(File) Then List.Items.Add(File)
+        Dim Files As New List(Of String)
+        For Each File As IO.FileInfo In DirInfo.GetFiles("*.avi", IO.SearchOption.TopDirectoryOnly)
+            Files.Add(File.FullName)
         Next
-        Dim Temp1, Temp2 As String()
-        Temp1 = Names.ToArray
-        Temp2 = List.Items.Cast(Of String).ToArray
+        For Each File As IO.FileInfo In DirInfo.GetFiles("*.mp4", IO.SearchOption.TopDirectoryOnly)
+            Files.Add(File.FullName)
+        Next
+        For Each File As String In Files
+            If List.Items.Contains(File) Then Continue For
+            List.Items.Add(File)
+            Names.Add("")
+        Next
+        Dim Temp1 As String() = List.Items.Cast(Of String).ToArray
+        Dim Temp2 As String() = Names.ToArray
         Array.Sort(Temp1, Temp2)
+        List.Items.Clear()
+        List.Items.AddRange(Temp1)
+        Names.Clear()
+        Names.AddRange(Temp2)
     End Sub
+
+    Private Sub Output_TextChanged(sender As Object, e As EventArgs)
+        Names(List.SelectedIndex) = Output.Text
+    End Sub
+
+    Private Sub List_SelectedIndexChanged(sender As Object, e As EventArgs)
+        Parse(Names(List.SelectedIndex))
+    End Sub
+
+    Friend Sub Parse(Input As String)
+        If Input(1) <> Prefix.Text Then ThrowFormatException("First characteris not prefix.")
+    End Sub
+
+    Friend Function ThrowFormatException(Message As String) As Type
+        Throw New FormatException(Message)
+        Return GetType(Void)
+    End Function
+
 End Class
 #If False Then
 Namespace Global

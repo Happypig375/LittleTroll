@@ -89,22 +89,22 @@ Partial Class Form
         Me.List.FormattingEnabled = True
         Me.List.Location = New System.Drawing.Point(13, 26)
         Me.List.Name = "List"
-        Me.List.Size = New System.Drawing.Size(92, 264)
+        Me.List.Size = New System.Drawing.Size(267, 264)
         Me.List.TabIndex = 0
         '
         'Sample
         '
         Me.Sample.AutoSize = True
-        Me.Sample.Location = New System.Drawing.Point(112, 13)
+        Me.Sample.Location = New System.Drawing.Point(348, 15)
         Me.Sample.Name = "Sample"
-        Me.Sample.Size = New System.Drawing.Size(240, 13)
+        Me.Sample.Size = New System.Drawing.Size(286, 13)
         Me.Sample.TabIndex = 1
-        Me.Sample.Text = "├Minecraft遊記┤40：唔🆗的小波鐘塔之役Ⅶ [T]"
+        Me.Sample.Text = "Example: ├Minecraft遊記┤40：唔🆗的小波鐘塔之役Ⅶ [T]"
         '
         'Prefix
         '
         Me.Prefix.AutoSize = True
-        Me.Prefix.Location = New System.Drawing.Point(112, 35)
+        Me.Prefix.Location = New System.Drawing.Point(286, 42)
         Me.Prefix.Name = "Prefix"
         Me.Prefix.Size = New System.Drawing.Size(13, 13)
         Me.Prefix.TabIndex = 2
@@ -115,7 +115,7 @@ Partial Class Form
         Me.Series.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Series.FormattingEnabled = True
         Me.Series.Items.AddRange(New Object() {"Minecraft遊記", "Minecraft編輯遊記", "Minecraft Hide&Seek遊記", "Minecraft Universe遊記", "Minecraft版本遊記", "Minecraft玩人記", "Minecraft Skyblock遊記", "Minecraft生存", "Minecraft村莊生存", "LAN連線記", "---", "頻道更新", "Agar.io", " Vlog", "趣遊", "小遊戲時間", "VVVVVV"})
-        Me.Series.Location = New System.Drawing.Point(131, 32)
+        Me.Series.Location = New System.Drawing.Point(305, 39)
         Me.Series.Name = "Series"
         Me.Series.Size = New System.Drawing.Size(121, 21)
         Me.Series.TabIndex = 3
@@ -123,7 +123,7 @@ Partial Class Form
         'Midfix
         '
         Me.Midfix.AutoSize = True
-        Me.Midfix.Location = New System.Drawing.Point(402, 34)
+        Me.Midfix.Location = New System.Drawing.Point(576, 41)
         Me.Midfix.Name = "Midfix"
         Me.Midfix.Size = New System.Drawing.Size(13, 13)
         Me.Midfix.TabIndex = 4
@@ -131,7 +131,7 @@ Partial Class Form
         '
         'Number
         '
-        Me.Number.Location = New System.Drawing.Point(471, 33)
+        Me.Number.Location = New System.Drawing.Point(645, 40)
         Me.Number.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
         Me.Number.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.Number.Name = "Number"
@@ -167,7 +167,7 @@ Partial Class Form
         Me.NumberSuffix.Items.Add("x")
         Me.NumberSuffix.Items.Add("y")
         Me.NumberSuffix.Items.Add("z")
-        Me.NumberSuffix.Location = New System.Drawing.Point(525, 32)
+        Me.NumberSuffix.Location = New System.Drawing.Point(699, 39)
         Me.NumberSuffix.Name = "NumberSuffix"
         Me.NumberSuffix.Size = New System.Drawing.Size(45, 20)
         Me.NumberSuffix.TabIndex = 6
@@ -179,7 +179,7 @@ Partial Class Form
         Me.ExpectedCut.AutoSize = True
         Me.ExpectedCut.Checked = True
         Me.ExpectedCut.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.ExpectedCut.Location = New System.Drawing.Point(358, 3)
+        Me.ExpectedCut.Location = New System.Drawing.Point(641, 10)
         Me.ExpectedCut.Name = "ExpectedCut"
         Me.ExpectedCut.Size = New System.Drawing.Size(81, 23)
         Me.ExpectedCut.TabIndex = 7
@@ -189,7 +189,7 @@ Partial Class Form
         'SeriesColon
         '
         Me.SeriesColon.AutoSize = True
-        Me.SeriesColon.Location = New System.Drawing.Point(258, 33)
+        Me.SeriesColon.Location = New System.Drawing.Point(432, 40)
         Me.SeriesColon.Name = "SeriesColon"
         Me.SeriesColon.Size = New System.Drawing.Size(10, 13)
         Me.SeriesColon.TabIndex = 9
@@ -198,7 +198,7 @@ Partial Class Form
         'SubSeries
         '
         Me.SubSeries.FormattingEnabled = True
-        Me.SubSeries.Location = New System.Drawing.Point(274, 32)
+        Me.SubSeries.Location = New System.Drawing.Point(448, 39)
         Me.SubSeries.Name = "SubSeries"
         Me.SubSeries.Size = New System.Drawing.Size(121, 21)
         Me.SubSeries.TabIndex = 10
@@ -206,7 +206,7 @@ Partial Class Form
         'Colon
         '
         Me.Colon.AutoSize = True
-        Me.Colon.Location = New System.Drawing.Point(579, 35)
+        Me.Colon.Location = New System.Drawing.Point(753, 42)
         Me.Colon.Name = "Colon"
         Me.Colon.Size = New System.Drawing.Size(13, 13)
         Me.Colon.TabIndex = 11
@@ -214,7 +214,7 @@ Partial Class Form
         '
         'Title
         '
-        Me.Title.Location = New System.Drawing.Point(115, 59)
+        Me.Title.Location = New System.Drawing.Point(289, 66)
         Me.Title.Name = "Title"
         Me.Title.Size = New System.Drawing.Size(417, 20)
         Me.Title.TabIndex = 12
@@ -225,7 +225,7 @@ Partial Class Form
         Me.Solo.Appearance = System.Windows.Forms.Appearance.Button
         Me.Solo.AutoSize = True
         Me.Solo.Checked = True
-        Me.Solo.Location = New System.Drawing.Point(115, 86)
+        Me.Solo.Location = New System.Drawing.Point(289, 93)
         Me.Solo.Name = "Solo"
         Me.Solo.Size = New System.Drawing.Size(38, 23)
         Me.Solo.TabIndex = 13
@@ -237,7 +237,7 @@ Partial Class Form
         '
         Me.Duo.Appearance = System.Windows.Forms.Appearance.Button
         Me.Duo.AutoSize = True
-        Me.Duo.Location = New System.Drawing.Point(160, 86)
+        Me.Duo.Location = New System.Drawing.Point(334, 93)
         Me.Duo.Name = "Duo"
         Me.Duo.Size = New System.Drawing.Size(37, 23)
         Me.Duo.TabIndex = 14
@@ -249,7 +249,7 @@ Partial Class Form
         '
         Me.Triple.Appearance = System.Windows.Forms.Appearance.Button
         Me.Triple.AutoSize = True
-        Me.Triple.Location = New System.Drawing.Point(204, 86)
+        Me.Triple.Location = New System.Drawing.Point(378, 93)
         Me.Triple.Name = "Triple"
         Me.Triple.Size = New System.Drawing.Size(43, 23)
         Me.Triple.TabIndex = 15
@@ -261,7 +261,7 @@ Partial Class Form
         '
         Me.Special.Appearance = System.Windows.Forms.Appearance.Button
         Me.Special.AutoSize = True
-        Me.Special.Location = New System.Drawing.Point(312, 86)
+        Me.Special.Location = New System.Drawing.Point(486, 93)
         Me.Special.Name = "Special"
         Me.Special.Size = New System.Drawing.Size(52, 23)
         Me.Special.TabIndex = 16
@@ -282,7 +282,7 @@ Partial Class Form
         Me.Specials.Controls.Add(Me.SeriesNumberApproximate)
         Me.Specials.Controls.Add(Me.SeriesNumber)
         Me.Specials.Enabled = False
-        Me.Specials.Location = New System.Drawing.Point(115, 115)
+        Me.Specials.Location = New System.Drawing.Point(289, 122)
         Me.Specials.Name = "Specials"
         Me.Specials.Size = New System.Drawing.Size(237, 168)
         Me.Specials.TabIndex = 17
@@ -421,7 +421,7 @@ Partial Class Form
         '
         Me.Continued.Appearance = System.Windows.Forms.Appearance.Button
         Me.Continued.AutoSize = True
-        Me.Continued.Location = New System.Drawing.Point(370, 86)
+        Me.Continued.Location = New System.Drawing.Point(544, 93)
         Me.Continued.Name = "Continued"
         Me.Continued.Size = New System.Drawing.Size(91, 23)
         Me.Continued.TabIndex = 18
@@ -439,7 +439,7 @@ Partial Class Form
         Me.ContinuedFrom.Controls.Add(Me.ContinuedFromMidfix)
         Me.ContinuedFrom.Controls.Add(Me.ContinuedFromSuffix)
         Me.ContinuedFrom.Controls.Add(Me.ContinuedFromNumber)
-        Me.ContinuedFrom.Location = New System.Drawing.Point(359, 115)
+        Me.ContinuedFrom.Location = New System.Drawing.Point(533, 122)
         Me.ContinuedFrom.Name = "ContinuedFrom"
         Me.ContinuedFrom.Size = New System.Drawing.Size(178, 168)
         Me.ContinuedFrom.TabIndex = 19
@@ -563,7 +563,7 @@ Partial Class Form
         '
         Me.Multiple.Appearance = System.Windows.Forms.Appearance.Button
         Me.Multiple.AutoSize = True
-        Me.Multiple.Location = New System.Drawing.Point(253, 86)
+        Me.Multiple.Location = New System.Drawing.Point(427, 93)
         Me.Multiple.Name = "Multiple"
         Me.Multiple.Size = New System.Drawing.Size(53, 23)
         Me.Multiple.TabIndex = 20
@@ -575,7 +575,7 @@ Partial Class Form
         '
         Me.NoNarration.Appearance = System.Windows.Forms.Appearance.Button
         Me.NoNarration.AutoSize = True
-        Me.NoNarration.Location = New System.Drawing.Point(467, 86)
+        Me.NoNarration.Location = New System.Drawing.Point(641, 93)
         Me.NoNarration.Name = "NoNarration"
         Me.NoNarration.Size = New System.Drawing.Size(77, 23)
         Me.NoNarration.TabIndex = 21
@@ -586,7 +586,7 @@ Partial Class Form
         '
         Me.Speedrun.Appearance = System.Windows.Forms.Appearance.Button
         Me.Speedrun.AutoSize = True
-        Me.Speedrun.Location = New System.Drawing.Point(538, 59)
+        Me.Speedrun.Location = New System.Drawing.Point(712, 66)
         Me.Speedrun.Name = "Speedrun"
         Me.Speedrun.Size = New System.Drawing.Size(63, 23)
         Me.Speedrun.TabIndex = 22
@@ -595,7 +595,7 @@ Partial Class Form
         '
         'SpeedrunMultiplier
         '
-        Me.SpeedrunMultiplier.Location = New System.Drawing.Point(608, 59)
+        Me.SpeedrunMultiplier.Location = New System.Drawing.Point(782, 66)
         Me.SpeedrunMultiplier.Maximum = New Decimal(New Integer() {64, 0, 0, 0})
         Me.SpeedrunMultiplier.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.SpeedrunMultiplier.Name = "SpeedrunMultiplier"
@@ -607,7 +607,7 @@ Partial Class Form
         '
         Me.Extra.Appearance = System.Windows.Forms.Appearance.Button
         Me.Extra.AutoSize = True
-        Me.Extra.Location = New System.Drawing.Point(551, 86)
+        Me.Extra.Location = New System.Drawing.Point(725, 93)
         Me.Extra.Name = "Extra"
         Me.Extra.Size = New System.Drawing.Size(41, 23)
         Me.Extra.TabIndex = 24
@@ -618,7 +618,7 @@ Partial Class Form
         '
         Me.NotSuggested.Appearance = System.Windows.Forms.Appearance.Button
         Me.NotSuggested.AutoSize = True
-        Me.NotSuggested.Location = New System.Drawing.Point(551, 115)
+        Me.NotSuggested.Location = New System.Drawing.Point(725, 122)
         Me.NotSuggested.Name = "NotSuggested"
         Me.NotSuggested.Size = New System.Drawing.Size(88, 23)
         Me.NotSuggested.TabIndex = 25
@@ -629,7 +629,7 @@ Partial Class Form
         '
         Me.JustRecord.Appearance = System.Windows.Forms.Appearance.Button
         Me.JustRecord.AutoSize = True
-        Me.JustRecord.Location = New System.Drawing.Point(551, 144)
+        Me.JustRecord.Location = New System.Drawing.Point(725, 151)
         Me.JustRecord.Name = "JustRecord"
         Me.JustRecord.Size = New System.Drawing.Size(74, 23)
         Me.JustRecord.TabIndex = 26
@@ -643,14 +643,14 @@ Partial Class Form
         Me.Output.Location = New System.Drawing.Point(13, 294)
         Me.Output.Name = "Output"
         Me.Output.ReadOnly = True
-        Me.Output.Size = New System.Drawing.Size(566, 20)
+        Me.Output.Size = New System.Drawing.Size(747, 20)
         Me.Output.TabIndex = 27
         '
         'Copy
         '
         Me.Copy.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Copy.AutoSize = True
-        Me.Copy.Location = New System.Drawing.Point(585, 294)
+        Me.Copy.Location = New System.Drawing.Point(766, 294)
         Me.Copy.Name = "Copy"
         Me.Copy.Size = New System.Drawing.Size(47, 23)
         Me.Copy.TabIndex = 28
@@ -661,7 +661,7 @@ Partial Class Form
         '
         Me.Beta.Appearance = System.Windows.Forms.Appearance.Button
         Me.Beta.AutoSize = True
-        Me.Beta.Location = New System.Drawing.Point(421, 30)
+        Me.Beta.Location = New System.Drawing.Point(595, 37)
         Me.Beta.Name = "Beta"
         Me.Beta.Size = New System.Drawing.Size(39, 23)
         Me.Beta.TabIndex = 29
@@ -682,7 +682,7 @@ Partial Class Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(644, 326)
+        Me.ClientSize = New System.Drawing.Size(825, 326)
         Me.Controls.Add(Me.LoadFiles)
         Me.Controls.Add(Me.Beta)
         Me.Controls.Add(Me.Copy)
