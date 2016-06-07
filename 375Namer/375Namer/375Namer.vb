@@ -269,6 +269,27 @@ Retry:  Try
         End If
         Series.Text = Serie
         Input = Input.Substring(Input.IndexOf(Midfix.Text) + 1)
+        If Input.StartsWith("Beta ") Then
+            Beta.Checked = True
+            Input = Input.Substring(5)
+        End If
+        Dim SerieNumber As String = Input.Substring(1).TakeWhile(Function(c As Char) c <> Colon.Text).ToArray
+        Dim Match As System.Text.RegularExpressions.Match = System.Text.RegularExpressions.Regex.Match(Serie, "(?<=\d+)([a-z]|[A-Z]|_\d\d?)(?=：)")
+        If Match.Success Then
+            If Match.Value.Length = 1 Then
+                ExpectedCut.Checked = True
+            ElseIf Match.Value.Length = 2 Or Match.Value.Length = 3 Then
+                ExpectedCut.Checked = False
+            Else
+                ThrowFormatException("There are more than three characters as the number suffix.")
+            End If
+            NumberSuffix.Text = Match.Value
+        Else
+            NumberSuffix.Text = String.Empty
+        End If
+        If Input.Contains(" "c) Then
+
+        End If
     End Sub
 
     Friend Function ThrowFormatException(Message As String) As Type
