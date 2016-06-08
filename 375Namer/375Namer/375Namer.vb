@@ -287,8 +287,29 @@ Retry:  Try
         Else
             NumberSuffix.Text = String.Empty
         End If
-        If Input.Contains(" "c) Then
-
+        Match = System.Text.RegularExpressions.Regex.Match(Input, "(?<=\s)(\[([a-z]|[A-Z]|[0-9]|-|\(|\))+\])+$")
+        If Match.Success Then
+            For Each Suffix As String In Match.Value.Split({"["c, "]"c}, StringSplitOptions.RemoveEmptyEntries)
+                Select Case Suffix
+                    Case "D"
+                        Duo.Checked = True
+                    Case "T"
+                        Triple.Checked = True
+                    Case "M"
+                        Multiple.Checked = True
+                    Case "NN"
+                        NoNarration.Checked = True
+                    Case "E"
+                        Extra.Checked = True
+                    Case "X"
+                        NotSuggested.Checked = True
+                    Case "J"
+                        JustRecord.Checked = True
+                    Case Else
+                        Match = System.Text.RegularExpressions.Regex.Match(Suffix,
+                                    "^(C-([a-z]|[A-Z]|[0-9])+\d\d?|(\[([a-z]|[A-Z]|[0-9]|-|\(|\))+\])+|S-((SM|V|S)\d+(\(\d+\))?\,?)+|R\d\d?)$")
+                End Select
+            Next
         End If
     End Sub
 
