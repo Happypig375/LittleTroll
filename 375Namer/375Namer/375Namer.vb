@@ -307,7 +307,7 @@ Retry:  Try
                         JustRecord.Checked = True
                     Case Else
                         Match = System.Text.RegularExpressions.Regex.Match(Suffix,
-                                    "^(C-([a-z]|[A-Z]|[0-9])+\d\d?|(\[([a-z]|[A-Z]|[0-9]|-|\(|\))+\])+|S-((SM|V|S)\d+(\(\d+\))?\,?)+|R\d\d?)$")
+                                    "^(C-([a-z]|[A-Z])+b?\d\d?|(\[([a-z]|[A-Z]|[0-9]|-|\(|\))+\])+|S-((SM|V|S)\d+(\(\d+\))?\,?)+|R\d\d?)$")
                 End Select
             Next
         End If
