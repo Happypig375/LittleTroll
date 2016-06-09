@@ -5,6 +5,7 @@
     Private Sub Form_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
         Dim Writer As New IO.StreamWriter(AVI, False) With {.NewLine = vbCrLf}
         Writer.WriteLine(List.SelectedItem & Delimiter & Output.Text)
+
 #If False Then
         MsgBox(List.SelectedItem & Delimiter & Series.Text & Delimiter & SubSeries.Text & Delimiter &
                      Beta.Checked & Delimiter & Number.Value & Delimiter & NumberSuffix.Text & Delimiter &
@@ -23,7 +24,26 @@
         Next
         Return Nothing
     End Function
+    Function GetThreadState(ProcId As Integer, ThreadId As Integer) As Threading.ThreadState
+        For Each Thr As Threading.Thread In Process.GetProcessById(ProcId).Threads
+            If Thr.ManagedThreadId = ThreadId Then Return Thr.ThreadState
+        Next
+        Throw New ArgumentOutOfRangeException("Thread not found.")
+    End Function
+    Public Class PairOfThing
+        Public Property Phrase As String
+        Public Property Key As String
+    End Class
+
+Dim codes As New Dictionary(Of String, PairOfThing) From 
+{
+    {"E1", New PairOfThing With {.Phrase = "Example 1", .Key = "E1"}},
+    {"E2", New PairOfThing With {.Phrase = "Example 2", .Key = "E2"}},
+}
+
+    Dim data As DictionaryEntry = codes.Item("E1")
     Private Sub Me_Load(sender As Object, e As EventArgs) Handles Me.Load
+
         Series.SelectedIndex = 0
         ContinuedFromSeries.SelectedIndex = 0
         Title.Text = Chr(0)
@@ -140,53 +160,36 @@ Retry:  Try
             If(SubscribeCount.Checked, ","c, String.Empty), String.Empty) &
             "]"c, String.Empty) &
  _
-            If(Continued.Checked, "[C-" & GetCode(ContinuedFromSeries.SelectedItem) & If(ContinuedFromBeta.Checked, "b"c, String.Empty) &
+            If(Continued.Checked, "[C-" & ConvertCode(ContinuedFromSeries.SelectedItem, False) & If(ContinuedFromBeta.Checked, "b"c, String.Empty) &
                ContinuedFromNumber.Value & ContinuedFromSuffix.Text & "]"c, String.Empty) &
  _
            If(NoNarration.Checked, "[NN]", String.Empty) & If(Speedrun.Checked, "[R" & SpeedrunMultiplier.Value & "]"c, String.Empty) &
            If(Extra.Checked, "[E]", String.Empty) & If(NotSuggested.Checked, "[X]", String.Empty) & If(JustRecord.Checked, "[J]", String.Empty)
     End Sub
-    Friend Function GetCode(Name As String) As String
-        Select Case Name
-            Case "Minecraft遊記"
-                Return "M"
-            Case "Minecraft編輯遊記"
-                Return "ME"
-            Case "Minecraft Hide&Seek遊記"
-                Return "MH"
-            Case "Minecraft Universe遊記"
-                Return "MU"
-            Case "Minecraft版本遊記"
-                Return "MV"
-            Case "Minecraft玩人記"
-                Return "MT"
-            Case "Minecraft Skyblock遊記"
-                Return "MB"
-            Case "Minecraft生存"
-                Return "MS"
-            Case "Minecraft村莊生存"
-                Return "MVS"
-            Case "LAN連線記"
-                Return "L"
-            Case "頻道更新"
-                Return "U"
-            Case "Agar.io"
-                Return "A"
-            Case "Vlog"
-                Return "V"
-            Case "趣遊"
-                Return "F"
-            Case "小遊戲時間"
-                Return "G"
-            Case "VVVVVV"
-                Return "VV"
-            Case ""
-                Return ""
-            Case Else
-                '  Throw New ArgumentException
-                Error 11
-        End Select
+    Friend Function ConvertCode(Input As String, Code As Boolean) As String
+        Dim Codes As New Dictionary(Of String, String) From {
+            {"Minecraft遊記", "M"},
+            {"Minecraft編輯遊記", "ME"},
+            {"Minecraft Hide&Seek遊記", "MH"},
+            {"Minecraft Universe遊記", "MU"},
+            {"Minecraft版本遊記", "MV"},
+            {"Minecraft玩人記", "MT"},
+            {"Minecraft Skyblock遊記", "MB"},
+            {"Minecraft生存", "MS"},
+            {"Minecraft村莊生存", "MVS"},
+            {"LAN連線記", "L"},
+            {"頻道更新", "U"},
+            {"Agar.io", "A"},
+            {"Vlog", "V"},
+            {"趣遊", "F"},
+            {"小遊戲時間", "G"},
+            {"VVVVVV", "VV"},
+            {"", ""}
+        }
+
+        String.Join(" / ", From term In (New System.Text.StringBuilder()).ToString Select Codes(term))
     End Function
+
     Friend Enum Serie As Byte
         Minecraft遊記
         Minecraft編輯遊記
@@ -307,7 +310,16 @@ Retry:  Try
                         JustRecord.Checked = True
                     Case Else
                         Match = System.Text.RegularExpressions.Regex.Match(Suffix,
-                                    "^(C-([a-z]|[A-Z])+b?\d\d?|(\[([a-z]|[A-Z]|[0-9]|-|\(|\))+\])+|S-((SM|V|S)\d+(\(\d+\))?\,?)+|R\d\d?)$")
+                                    "^(C-[A-Z]+b?\d\d?|(\[([A-Z]|[0-9]|-|\(|\))+\])+|S-((SM|V|S)\d+(\(\d+\))?\,?)+|R\d\d?)$")
+                        If Match.Success Then
+                            Select Case Match.Value(0)
+                                Case "C"c
+                                    Continued.Checked = True
+
+                                Case "S"c
+                                Case "R"c
+                            End Select
+                        End If
                 End Select
             Next
         End If
