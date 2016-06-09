@@ -30,18 +30,6 @@
         Next
         Throw New ArgumentOutOfRangeException("Thread not found.")
     End Function
-    Public Class PairOfThing
-        Public Property Phrase As String
-        Public Property Key As String
-    End Class
-
-Dim codes As New Dictionary(Of String, PairOfThing) From 
-{
-    {"E1", New PairOfThing With {.Phrase = "Example 1", .Key = "E1"}},
-    {"E2", New PairOfThing With {.Phrase = "Example 2", .Key = "E2"}},
-}
-
-    Dim data As DictionaryEntry = codes.Item("E1")
     Private Sub Me_Load(sender As Object, e As EventArgs) Handles Me.Load
 
         Series.SelectedIndex = 0
@@ -187,9 +175,35 @@ Retry:  Try
             {"", ""}
         }
 
-        String.Join(" / ", From term In (New System.Text.StringBuilder()).ToString Select Codes(term))
-    End Function
 
+    End Function
+    Structure OtherValueInfo
+        Implements SqlTypes.INullable
+        Private ReadOnly _IsNull As Boolean
+        ReadOnly Property IsNull As Boolean Implements SqlTypes.INullable.IsNull
+            Get
+                Return _IsNull
+            End Get
+        End Property
+        Public ReadOnly Key As String
+        Public ReadOnly Value As String
+        Public ReadOnly IndexPos As Integer
+        Sub New(Key_ As String, Value_ As String, IndexPos_ As Integer)
+            If Key_ = Nothing Or Value_ Is Nothing OrElse IndexPos_.Equals(Nothing) Then _IsNull = True
+            Key = Key_
+            Value = Value_
+            IndexPos = IndexPos_
+        End Sub
+    End Structure
+    Public Function GetOther(Codes As Dictionary(Of String, String), ByVal Key As String) As OtherValueInfo
+        If (Codes.ContainsKey(Key)) Then
+            Dim v As New KeyValuePair(Of String, String)
+            v = Codes.First(Function(S) S.Key.Equals(Key))
+            Return New OtherValueInfo(Key, Codes(Key), Codes.ToList().IndexOf(v))
+        Else
+            Return New OtherValueInfo(Nothing, Nothing, Nothing)
+        End If
+    End Function
     Friend Enum Serie As Byte
         Minecraft遊記
         Minecraft編輯遊記
