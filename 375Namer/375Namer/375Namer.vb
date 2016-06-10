@@ -18,6 +18,20 @@
                      SubscribeCountApproximate.Value & Delimiter & ...)
 #End If
     End Sub
+    'FileIO.FileSystem.FindInFiles(Drive.Name, PartOfFile, IgnoreCase, FileIO.SearchOption.SearchAllSubDirectories)
+    ''' <summary>
+    ''' Gets all dirctories containing the file which its part is specified.
+    ''' </summary>
+    ''' <param name="PartOfTXT">The file specified. Do not contain the TXT extension.</param>
+    ''' <returns>All dirctories containing the file which its part is specified.</returns>
+    ''' <remarks>Comment if anything is wrong.</remarks>
+    Function GetTXTDirectory(PartOfTXT As String) As String()
+        Dim List As New System.Collections.Generic.List(Of String)
+        For Each Drive As System.IO.DriveInfo In System.IO.DriveInfo.GetDrives
+            List.AddRange(System.IO.Directory.GetFiles(Drive.Name, "*"c & PartOfTXT & "*.txt", IO.SearchOption.AllDirectories))
+        Next
+        Return List.ToArray
+    End Function
     Friend Function SelectedRadioButton(Container As Control) As RadioButton
         For Each c As Control In Container.Controls
             If TypeOf c Is RadioButton AndAlso CType(c, RadioButton).Checked = True Then Return c
@@ -175,8 +189,63 @@ Retry:  Try
             {"", ""}
         }
 
-
     End Function
+
+    ''' <summary>
+    ''' Uploads a file to  Microsoft OneDrive.
+    ''' </summary>
+    ''' <param name="FilePath">Path of a file to upload from.</param>
+    ''' <exception cref="KeyNotFoundException">The registry key of MS OneDrive is not found.</exception>
+    ''' <returns>The path of file inside MS OneDrive folder.</returns>
+    ''' <remarks></remarks>
+    Function UploadToMSOneDrive(FilePath As String) As String
+        Const keyName As String = "HKEY_CURRENT_USER" & "\\" & "Software\Microsoft\Windows\CurrentVersion\SkyDrive"
+        Const DefaultKey As String = "OMG Teh ReGiStRy DOesn''''t E.x;I's|T!!!"
+        Dim OneDrivePath As String = DirectCast(Microsoft.Win32.Registry.GetValue(keyName, "UserFolder", DefaultKey), String)
+        Dim MSOneDriveProgram As String = IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft\OneDrive\OneDrive.exe")
+        Dim Destination As String = IO.Path.Combine(If(OneDrivePath = DefaultKey, OneDrivePath, ThrowKeyNotFoundException("Is MS OneDrive not installed?")), IO.Path.GetFileName(FilePath))
+        My.Computer.FileSystem.CopyFile(FilePath, Destination)
+        Process.Start(MSOneDriveProgram)
+        Return Destination
+    End Function
+    Class SimulateWriting
+        Protected WithEvents TextBox1 As TextBox
+        Protected WithEvents ProcName As String
+        Sub New(Text As String, Optional Interval As Double = 1000, Optional ProcName As String = "notepad")
+            Timer.Interval = Interval
+            TextBox1.Text = Text
+            Me.ProcName = ProcName
+        End Sub
+        Sub New(ByRef TextBox As TextBox, Optional Interval As Double = 1000, Optional ProcName As String = "notepad")
+            Timer.Interval = Interval
+            TextBox1 = TextBox
+            Me.ProcName = ProcName
+        End Sub
+        Overridable Sub SimulateWriting()
+            InitalizeTimer(True, True, True)
+            Process.Start(ProcName)
+        End Sub
+        Protected Sub InitalizeTimer(AutoReset As Boolean, Enabled As Boolean, Start As Boolean)
+            With Timer
+                .BeginInit()
+                .AutoReset = AutoReset
+                .Enabled = Enabled
+                .InitializeLifetimeService()
+                .EndInit()
+                If Start Then .Start()
+            End With
+        End Sub
+        Protected WithEvents Timer As New Timers.Timer(1000)
+        Protected Sub Timer_Tick(sender As Object, e As System.Timers.ElapsedEventArgs) Handles Timer.Elapsed
+            Static Counter As Integer = 0
+            SendKeys.Send(TextBox1.Text(Counter))
+            Counter += 1
+            If Counter >= TextBox1.Text.Length Then
+                Counter = 0
+                Timer.Stop()
+            End If
+        End Sub
+    End Class
     Structure OtherValueInfo
         Implements SqlTypes.INullable
         Private ReadOnly _IsNull As Boolean
@@ -343,7 +412,10 @@ Retry:  Try
         Throw New FormatException(Message)
         Return GetType(Void)
     End Function
-
+    Friend Function ThrowKeyNotFoundException(Message As String) As Type
+        Throw New KeyNotFoundException(Message)
+        Return GetType(Void)
+    End Function
 End Class
 #If False Then
 Namespace Global
@@ -354,5 +426,95 @@ Namespace Global
             End Operator
         End Structure
     End Namespace
+End Namespace
+Namespace AntiKeylogger
+    Class Program
+        <Runtime.InteropServices.DllImport("user32.dll")> _
+        Public Shared Function CreateDesktop(lpszDesktop As String, lpszDevice As IntPtr, pDevmode As IntPtr, dwFlags As Integer, dwDesiredAccess As UInteger, lpsa As IntPtr) As IntPtr
+        End Function
+
+        <Runtime.InteropServices.DllImport("user32.dll")> _
+        Private Shared Function SwitchDesktop(hDesktop As IntPtr) As Boolean
+        End Function
+
+        <Runtime.InteropServices.DllImport("user32.dll")> _
+        Public Shared Function CloseDesktop(handle As IntPtr) As Boolean
+        End Function
+
+        <Runtime.InteropServices.DllImport("user32.dll")> _
+        Public Shared Function SetThreadDesktop(hDesktop As IntPtr) As Boolean
+        End Function
+
+        <Runtime.InteropServices.DllImport("user32.dll")> _
+        Public Shared Function GetThreadDesktop(dwThreadId As Integer) As IntPtr
+        End Function
+
+        <Runtime.InteropServices.DllImport("kernel32.dll")> _
+        Public Shared Function GetCurrentThreadId() As Integer
+        End Function
+
+        Private Enum DESKTOP_ACCESS As UInteger
+            DESKTOP_NONE = 0
+            DESKTOP_READOBJECTS = &H1
+            DESKTOP_CREATEWINDOW = &H2
+            DESKTOP_CREATEMENU = &H4
+            DESKTOP_HOOKCONTROL = &H8
+            DESKTOP_JOURNALRECORD = &H10
+            DESKTOP_JOURNALPLAYBACK = &H20
+            DESKTOP_ENUMERATE = &H40
+            DESKTOP_WRITEOBJECTS = &H80
+            DESKTOP_SWITCHDESKTOP = &H100
+
+            GENERIC_ALL = (DESKTOP_READOBJECTS Or DESKTOP_CREATEWINDOW Or DESKTOP_CREATEMENU Or DESKTOP_HOOKCONTROL Or DESKTOP_JOURNALRECORD Or DESKTOP_JOURNALPLAYBACK Or DESKTOP_ENUMERATE Or DESKTOP_WRITEOBJECTS Or DESKTOP_SWITCHDESKTOP)
+        End Enum
+
+        Private Shared Sub Main(args As String())
+            ' old desktop's handle, obtained by getting the current desktop assigned for this thread
+            Dim hOldDesktop As IntPtr = GetThreadDesktop(GetCurrentThreadId())
+
+            ' new desktop's handle, assigned automatically by CreateDesktop
+            Dim hNewDesktop As IntPtr = CreateDesktop("RandomDesktopName", IntPtr.Zero, IntPtr.Zero, 0, CUInt(DESKTOP_ACCESS.GENERIC_ALL), IntPtr.Zero)
+
+            ' switching to the new desktop
+            SwitchDesktop(hNewDesktop)
+
+            ' Random login form: used for testing / not required
+            Dim passwd As String = ""
+
+            ' running on a different thread, this way SetThreadDesktop won't fail
+            ' assigning the new desktop to this thread - 
+            ' so the Form will be shown in the new desktop)
+
+
+
+
+            System.Threading.Tasks.Task.Factory.StartNew(Function()
+                                                             SetThreadDesktop(hNewDesktop)
+                                                             Dim loginWnd As New Form()
+                                                             Dim passwordTextBox As New TextBox()
+                                                             passwordTextBox.Location = New Point(10, 30)
+                                                             passwordTextBox.Width = 250
+                                                             passwordTextBox.Font = New Font("Arial", 20, FontStyle.Regular)
+                                                             loginWnd.Controls.Add(passwordTextBox)
+                                                             loginWnd.FormClosing += Function(sender, e)
+                                                                                         passwd = passwordTextBox.Text
+
+                                                                                     End Function
+                                                             Application.Run(loginWnd)
+
+                                                         End Function).Wait()
+            ' waits for the task to finish
+            ' end of login form
+
+            ' if got here, the form is closed => switch back to the old desktop
+            SwitchDesktop(hOldDesktop)
+
+            ' disposing the secure desktop since it's no longer needed
+            CloseDesktop(hNewDesktop)
+
+            Console.WriteLine(Convert.ToString("Password, typed inside secure desktop: ") & passwd)
+            Console.ReadLine()
+        End Sub
+    End Class
 End Namespace
 #End If
