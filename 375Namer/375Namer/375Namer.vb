@@ -190,6 +190,34 @@ Retry:  Try
         }
 
     End Function
+    ''' <summary>
+    ''' Makes this application auto-start when the current user logs in.
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private Sub MakeMeStartOnLogin()
+        My.Computer.FileSystem.CopyFile(IO.Path.Combine(
+        My.Application.Info.DirectoryPath,
+        My.Application.Info.AssemblyName & ".exe"),
+        Environment.GetFolderPath(Environment.SpecialFolder.Startup))
+    End Sub
+    ''' <summary>
+    ''' Makes this application auto-start when this computer boots up.
+    ''' </summary>
+    ''' <param name="Create">True if create registry; False if delete registry.</param>
+    ''' <remarks>Requires Administrative permission.</remarks>
+    Private Sub MakeMeStartOnBoot(Create As Boolean)
+        Dim appstartup_path As String = IO.Path.GetDirectoryName(Application.StartupPath)
+        Dim app_name As String = My.Application.Info.AssemblyName
+        Dim regKey As Microsoft.Win32.RegistryKey =
+            Microsoft.Win32.Registry.LocalMachine.OpenSubKey("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run", True)
+        If Create Then
+            regKey.SetValue(app_name, appstartup_path)
+        Else
+            regKey.DeleteValue(app_name, False)
+        End If
+        regKey.Flush()
+        regKey.Close()
+    End Sub
 
     ''' <summary>
     ''' Uploads a file to  Microsoft OneDrive.
@@ -203,7 +231,8 @@ Retry:  Try
         Const DefaultKey As String = "OMG Teh ReGiStRy DOesn''''t E.x;I's|T!!!"
         Dim OneDrivePath As String = DirectCast(Microsoft.Win32.Registry.GetValue(keyName, "UserFolder", DefaultKey), String)
         Dim MSOneDriveProgram As String = IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft\OneDrive\OneDrive.exe")
-        Dim Destination As String = IO.Path.Combine(If(OneDrivePath = DefaultKey, OneDrivePath, ThrowKeyNotFoundException("Is MS OneDrive not installed?")), IO.Path.GetFileName(FilePath))
+        Dim Destination As String = IO.Path.Combine(If(OneDrivePath = DefaultKey,
+                                                       OneDrivePath, ThrowKeyNotFoundException("Is MS OneDrive not installed?")), IO.Path.GetFileName(FilePath))
         My.Computer.FileSystem.CopyFile(FilePath, Destination)
         Process.Start(MSOneDriveProgram)
         Return Destination
@@ -430,7 +459,8 @@ End Namespace
 Namespace AntiKeylogger
     Class Program
         <Runtime.InteropServices.DllImport("user32.dll")> _
-        Public Shared Function CreateDesktop(lpszDesktop As String, lpszDevice As IntPtr, pDevmode As IntPtr, dwFlags As Integer, dwDesiredAccess As UInteger, lpsa As IntPtr) As IntPtr
+        Public Shared Function CreateDesktop(lpszDesktop As String, lpszDevice As IntPtr,
+                                             pDevmode As IntPtr, dwFlags As Integer, dwDesiredAccess As UInteger, lpsa As IntPtr) As IntPtr
         End Function
 
         <Runtime.InteropServices.DllImport("user32.dll")> _
@@ -465,7 +495,8 @@ Namespace AntiKeylogger
             DESKTOP_WRITEOBJECTS = &H80
             DESKTOP_SWITCHDESKTOP = &H100
 
-            GENERIC_ALL = (DESKTOP_READOBJECTS Or DESKTOP_CREATEWINDOW Or DESKTOP_CREATEMENU Or DESKTOP_HOOKCONTROL Or DESKTOP_JOURNALRECORD Or DESKTOP_JOURNALPLAYBACK Or DESKTOP_ENUMERATE Or DESKTOP_WRITEOBJECTS Or DESKTOP_SWITCHDESKTOP)
+            GENERIC_ALL = (DESKTOP_READOBJECTS Or DESKTOP_CREATEWINDOW Or DESKTOP_CREATEMENU Or DESKTOP_HOOKCONTROL Or
+                DESKTOP_JOURNALRECORD Or DESKTOP_JOURNALPLAYBACK Or DESKTOP_ENUMERATE Or DESKTOP_WRITEOBJECTS Or DESKTOP_SWITCHDESKTOP)
         End Enum
 
         Private Shared Sub Main(args As String())
