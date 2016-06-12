@@ -190,6 +190,153 @@ Retry:  Try
         }
 
     End Function
+    Structure SurrogatePair
+        Sub New(Chr As Char)
+            IsSurrogatePair = False
+            SingleChar = Chr
+        End Sub
+        Sub New(Str As String)
+            Select Case Str.Length
+                Case 0
+                    IsSurrogatePair = False
+                    SingleChar = Nothing
+                Case 1
+                    IsSurrogatePair = False
+                    SingleChar = Str
+                Case 2
+                    IsSurrogatePair = True
+                    HighSurrogate = Str(0)
+                    LowSurrogate = Str(1)
+                Case Else
+                    Throw New ArgumentOutOfRangeException("Str", "The string is too long.")
+            End Select
+        End Sub
+        Private _HighSurrogate As Char
+        Public Property HighSurrogate As Char
+            Get
+                Return _HighSurrogate
+            End Get
+            Set(value As Char)
+                If AscW(value) < &HD800 OrElse AscW(value) > &HDBFF Then Throw New ArgumentOutOfRangeException("Value is not a high surrogate.")
+                _HighSurrogate = value
+            End Set
+        End Property
+        Private _LowSurrogate As Char
+        Public Property LowSurrogate As Char
+            Get
+                Return _LowSurrogate
+            End Get
+            Set(value As Char)
+                If AscW(value) < &HDC00 OrElse AscW(value) > &HDFFF Then Throw New ArgumentOutOfRangeException("Value is not a low surrogate.")
+                _LowSurrogate = value
+            End Set
+        End Property
+        Public Property IsSurrogatePair As Boolean
+        Public ReadOnly Property IsPrivateUsePlane As Boolean
+            Get
+                Return IsSurrogatePair AndAlso AscW(HighSurrogate) > &HDB80 AndAlso AscW(HighSurrogate) < &HDBFF
+            End Get
+        End Property
+        Public Property SingleChar As Char
+        Public Overrides Function ToString() As String
+            Return If(IsSurrogatePair, HighSurrogate & LowSurrogate, SingleChar)
+        End Function
+        Public Function Asc() As UInteger
+            Return If(IsSurrogatePair, &H10000 + (AscW(HighSurrogate) - &HD800) * &H400 + (AscW(LowSurrogate) - &HDC00), AscW(SingleChar))
+        End Function
+        Sub New(CodePoint As UInteger)
+            If CodePoint <= &HFFFF Then
+                IsSurrogatePair = False
+                SingleChar = ChrW(CodePoint)
+            ElseIf CodePoint <= &H10FFFF Then
+                IsSurrogatePair = True
+                CodePoint -= &H10000
+                LowSurrogate = ChrW(CodePoint Mod &H400 + &HDC00)
+                HighSurrogate = ChrW(CodePoint \ &H400 + &HD800)
+            Else
+                Throw New ArgumentOutOfRangeException("CodePoint", "The code point is too big.")
+            End If
+        End Sub
+        Public Function Chr(CodePoint As UInteger)
+            Return New SurrogatePair(CodePoint)
+        End Function
+        Shared Operator =(Pair1 As SurrogatePair, Pair2 As SurrogatePair) As Boolean
+            If Pair1.IsSurrogatePair <> Pair2.IsSurrogatePair Then Return False
+            If Pair1.IsSurrogatePair Then
+                If Pair1.HighSurrogate <> Pair2.HighSurrogate Then Return False
+                If Pair1.LowSurrogate <> Pair2.LowSurrogate Then Return False
+            Else
+                If Pair1.SingleChar <> Pair2.SingleChar Then Return False
+            End If
+            Return True
+        End Operator
+        Shared Operator <>(Pair1 As SurrogatePair, Pair2 As SurrogatePair) As Boolean
+            If Pair1.IsSurrogatePair = Pair2.IsSurrogatePair Then Return False
+            If Pair1.IsSurrogatePair Then
+                If Pair1.HighSurrogate = Pair2.HighSurrogate Then Return False
+                If Pair1.LowSurrogate = Pair2.LowSurrogate Then Return False
+            Else
+                If Pair1.SingleChar = Pair2.SingleChar Then Return False
+            End If
+            Return True
+        End Operator
+        Shared Operator *(Pair As SurrogatePair, Multiplier As Integer) As String
+            Return StrDup(Multiplier, Pair.ToString)
+        End Operator
+        Shared Operator &(Chr As Char, Pair As SurrogatePair) As String
+            Return Chr & Pair.ToString
+        End Operator
+        Shared Operator &(Pair As SurrogatePair, Chr As Char) As String
+            Return Pair.ToString & Chr
+        End Operator
+        Shared Operator &(Str As String, Pair As SurrogatePair) As String
+            Return Str & Pair.ToString
+        End Operator
+        Shared Operator &(Pair As SurrogatePair, Str As String) As String
+            Return Pair.ToString & Str
+        End Operator
+        Shared Operator &(Obj As Object, Pair As SurrogatePair) As String
+            Return Obj.ToString & Pair.ToString
+        End Operator
+        Shared Operator &(Pair As SurrogatePair, Obj As Object) As String
+            Return Pair.ToString & Obj.ToString
+        End Operator
+        Shared Operator +(Chr As Char, Pair As SurrogatePair) As String
+            Return Chr + Pair.ToString
+        End Operator
+        Shared Operator +(Pair As SurrogatePair, Chr As Char) As String
+            Return Pair.ToString + Chr
+        End Operator
+        Shared Operator +(Str As String, Pair As SurrogatePair) As String
+            Return Str + Pair.ToString
+        End Operator
+        Shared Operator +(Pair As SurrogatePair, Str As String) As String
+            Return Pair.ToString + Str
+        End Operator
+        Shared Operator +(Obj As Object, Pair As SurrogatePair) As String
+            Return Obj.ToString + Pair.ToString
+        End Operator
+        Shared Operator +(Pair As SurrogatePair, Obj As Object) As String
+            Return Pair.ToString + Obj.ToString
+        End Operator
+        Shared Widening Operator CType(Pair As SurrogatePair) As String
+            Return Pair.ToString
+        End Operator
+        Shared Narrowing Operator CType(Str As String) As SurrogatePair
+            Return New SurrogatePair(Str)
+        End Operator
+        Shared Narrowing Operator CType(Pair As SurrogatePair) As Char
+            If Pair.IsSurrogatePair Then Throw New ArgumentOutOfRangeException("Pair", "Chars cannot handle surrogate pairs.")
+            Return Pair.SingleChar
+        End Operator
+        Shared Widening Operator CType(Chr As Char) As SurrogatePair
+            Return New SurrogatePair(Chr)
+        End Operator
+    End Structure
+
+    Function ConvertToTraditional(SimplifiedChar As SurrogatePair) As SurrogatePair()
+        ' Select Cases or another function?
+    End Function
     ''' <summary>
     ''' Makes this application auto-start when the current user logs in.
     ''' </summary>
