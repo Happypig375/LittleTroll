@@ -168,7 +168,7 @@ Retry:  Try
            If(NoNarration.Checked, "[NN]", String.Empty) & If(Speedrun.Checked, "[R" & SpeedrunMultiplier.Value & "]"c, String.Empty) &
            If(Extra.Checked, "[E]", String.Empty) & If(NotSuggested.Checked, "[X]", String.Empty) & If(JustRecord.Checked, "[J]", String.Empty)
     End Sub
-    Friend Function ConvertCode(Input As String, Code As Boolean) As String
+    Friend Function ConvertCode(Input As String, ToCode As Boolean) As String
         Dim Codes As New Dictionary(Of String, String) From {
             {"Minecraft遊記", "M"},
             {"Minecraft編輯遊記", "ME"},
@@ -188,7 +188,14 @@ Retry:  Try
             {"VVVVVV", "VV"},
             {"", ""}
         }
-
+        For Each Pair As KeyValuePair(Of String, String) In Codes
+            If ToCode Then
+                If Pair.Key = Input Then Return Pair.Value
+            Else
+                If Pair.Value = Input Then Return Pair.Key
+            End If
+        Next
+        Throw New KeyNotFoundException("Input is unconvertable.")
     End Function
     Structure SurrogatePair
         Sub New(Chr As Char)
@@ -521,13 +528,16 @@ Retry:  Try
     End Sub
 
     Friend Sub Parse(Input As String)
-        If Input = "" Then Parse("├Minecraft遊記:┤1a： ")
+        If Input = "" Then
+            Parse("├Minecraft遊記:┤1a： ")
+            Exit Sub
+        End If
         If Input(0) <> Prefix.Text Then ThrowFormatException("First character is not prefix.")
         Dim Serie As String = Input.Substring(1).TakeWhile(Function(c As Char) c <> Midfix.Text).ToArray
         If Serie.Contains(SeriesColon.Text) Then
             Dim Subserie As String = Serie.SkipWhile(Function(c As Char) c <> SeriesColon.Text).ToArray
             Serie = Serie.TakeWhile(Function(c As Char) c <> SeriesColon.Text).ToArray
-            SubSeries.Text = Subserie
+            SubSeries.Text = Subserie.Substring(1)
         End If
         Series.Text = Serie
         Input = Input.Substring(Input.IndexOf(Midfix.Text) + 1)
@@ -576,7 +586,9 @@ Retry:  Try
                                     Continued.Checked = True
 
                                 Case "S"c
+
                                 Case "R"c
+                                    SpeedrunMultiplier.Value = CDec(Match.Value.Substring(1))
                             End Select
                         End If
                 End Select
@@ -592,6 +604,10 @@ Retry:  Try
         Throw New KeyNotFoundException(Message)
         Return GetType(Void)
     End Function
+
+    Private Sub LoadYoutube_Click(sender As Object, e As EventArgs) Handles LoadYoutube.Click
+        YoutubeInput.Show()
+    End Sub
 End Class
 #If False Then
 Namespace Global

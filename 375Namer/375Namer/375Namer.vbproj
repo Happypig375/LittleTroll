@@ -93,6 +93,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="YoutubeInput.Designer.vb">
+      <DependentUpon>YoutubeInput.vb</DependentUpon>
+    </Compile>
+    <Compile Include="YoutubeInput.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="375Namer.resx">
@@ -103,6 +109,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="YoutubeInput.resx">
+      <DependentUpon>YoutubeInput.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

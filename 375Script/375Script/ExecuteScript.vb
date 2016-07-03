@@ -110,8 +110,8 @@ Reloop: Dim Variables As New Dictionary(Of String, String)
             If Line = "" Then Continue For
             Dim Content As String = Line.Substring(Line.IndexOf(" "c) + 1)
             Try
-                Content = System.Text.RegularExpressions.Regex.Replace(Content, "\s*\$\S+\b", New System.Text.RegularExpressions.MatchEvaluator(
-                                                             Function(M As System.Text.RegularExpressions.Match) (Variables(M.Value.Substring(1)))))
+                Content = System.Text.RegularExpressions.Regex.Replace(Content, "(?<=[\s\n\r])*\$[^\s\r\n]+(?=[\s\n\r]|$)", New System.Text.
+                RegularExpressions.MatchEvaluator(Function(M As System.Text.RegularExpressions.Match) (Variables(M.Value.Substring(1)))))
                 'New Regex("cc").Replace("aabbccddeeffcccgghhcccciijjcccckkcc", New MatchEvaluator(AddressOf ReplaceCC))
                 Select Case Line.Split({" "c}, 2)(0).ToLower
                     Case "close"
@@ -200,7 +200,8 @@ Reloop: Dim Variables As New Dictionary(Of String, String)
                 End Select
             Catch ex As Exception
                 If Debug Then
-                    _375Script.Debug.Console.AppendText(String.Format("An error ({0}) occured at line {1} of {2}. ", ex.Message, LineNum, ScriptName))
+                    _375Script.Debug.Console.AppendText(String.Format("An error ({0}) occured at line {1} of {2}. ",
+                                                                      ex.Message, LineNum, ScriptName))
                     _375Script.Debug.Console.AppendText(String.Format("The line: " & Line))
                 End If
             End Try
@@ -219,7 +220,7 @@ Reloop: Dim Variables As New Dictionary(Of String, String)
         If Line = "" Then Exit Function
         Dim Content As String = Line.Substring(Line.IndexOf(" "c) + 1)
         Content = System.Text.RegularExpressions.Regex.Replace(Content, "\s*\$\S+\b", New System.Text.RegularExpressions.MatchEvaluator(
-                                                     Function(M As System.Text.RegularExpressions.Match) (ReadOnlyVariables(M.Value.Substring(1)))))
+                                         Function(M As System.Text.RegularExpressions.Match) (ReadOnlyVariables(M.Value.Substring(1)))))
         'New Regex("cc").Replace("aabbccddeeffcccgghhcccciijjcccckkcc", New MatchEvaluator(AddressOf ReplaceCC))
         Select Case Line.Split({" "c}, 2)(0).ToLower
             Case "close"

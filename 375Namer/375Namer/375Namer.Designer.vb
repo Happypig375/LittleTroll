@@ -72,6 +72,7 @@ Partial Class Form
         Me.Copy = New System.Windows.Forms.Button()
         Me.Beta = New System.Windows.Forms.CheckBox()
         Me.LoadFiles = New System.Windows.Forms.Button()
+        Me.LoadYoutube = New System.Windows.Forms.Button()
         CType(Me.Number, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Specials.SuspendLayout()
         CType(Me.SubscribeCounter, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -678,11 +679,21 @@ Partial Class Form
         Me.LoadFiles.Text = "Load Files"
         Me.LoadFiles.UseVisualStyleBackColor = True
         '
+        'LoadYoutube
+        '
+        Me.LoadYoutube.Location = New System.Drawing.Point(95, 3)
+        Me.LoadYoutube.Name = "LoadYoutube"
+        Me.LoadYoutube.Size = New System.Drawing.Size(114, 23)
+        Me.LoadYoutube.TabIndex = 31
+        Me.LoadYoutube.Text = "Load Youtube Page"
+        Me.LoadYoutube.UseVisualStyleBackColor = True
+        '
         'Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(825, 326)
+        Me.Controls.Add(Me.LoadYoutube)
         Me.Controls.Add(Me.LoadFiles)
         Me.Controls.Add(Me.Beta)
         Me.Controls.Add(Me.Copy)
@@ -782,5 +793,5 @@ Partial Class Form
     Friend WithEvents ContinuedFromBeta As System.Windows.Forms.CheckBox
     Friend WithEvents ContinuedFromExpectedCut As System.Windows.Forms.CheckBox
     Friend WithEvents LoadFiles As System.Windows.Forms.Button
-
+    Friend WithEvents LoadYoutube As Button
 End Class
