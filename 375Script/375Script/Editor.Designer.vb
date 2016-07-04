@@ -584,9 +584,8 @@ Partial Class Editor
         Me.Menu.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
-
     End Sub
-    Friend WithEvents Menu As System.Windows.Forms.MenuStrip
+    Friend Shadows WithEvents Menu As System.Windows.Forms.MenuStrip
     Friend WithEvents MenuFile As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FileNew As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FileOpen As System.Windows.Forms.ToolStripMenuItem

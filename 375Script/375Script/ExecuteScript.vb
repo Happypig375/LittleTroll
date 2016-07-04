@@ -1,61 +1,4 @@
 ﻿Partial Public Class Editor
-    Private Sub Editor_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        With RTBWrapper
-            .bind(Edit)
-            .rtfSyntax.add("^\s*?close\b", True, True, Color.Blue.ToArgb)
-            .rtfSyntax.add("^\s*?execute\b", True, True, Color.Blue.ToArgb)
-            .rtfSyntax.add("^\s*?hide\b", True, True, Color.Blue.ToArgb)
-            '.rtfSyntax.add("^\s*?play(:l(oop)?|:stop|:x|:s(ystem(sound)?)?|:w(ait(tocomplete)?)?)\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("^\s*?loop\b", True, True, Color.Red.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?play:l)oop\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?play):l\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?play:s)top\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?play):x\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?play:system)sound\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?play:s)ystem\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?play):s\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?play:wait)tocomplete\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?play:w)ait\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?play):w\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("^\s*?play\b", True, True, Color.DarkCyan.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?message:c)ritical\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?message):c\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?message):x\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?message:q)uestion\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?message):q\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?message):?\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?message:e)xclamation\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?message):e\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?message):!\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?message:q)uestion\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?message):q\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?message):?\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?message:info)rmation\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?message:i)nfo\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?message):i\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("^\s*?message\b", True, True, Color.Orange.ToArgb)
-            .rtfSyntax.add("^\s*?repeat\b", True, True, Color.Red.ToArgb)
-            .rtfSyntax.add("^\s*?show\b", True, True, Color.Blue.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?stop:a)ll\b", True, True, Color.Red.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?stop):a\b", True, True, Color.Red.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?stop:o)thers\b", True, True, Color.Red.ToArgb)
-            .rtfSyntax.add("(?<=^\s*?stop):o\b", True, True, Color.Red.ToArgb)
-            .rtfSyntax.add("^\s*?stop\b", True, True, Color.Red.ToArgb)
-            .rtfSyntax.add("^\s*?waituntil\b", True, True, Color.Red.ToArgb)
-            .rtfSyntax.add("^\s*?wait\b", True, True, Color.Red.ToArgb)
-#If False Then
-            .rtfSyntax.add("<span.*?>", True, True, Color.Red.ToArgb)
-            .rtfSyntax.add("<p.*>", True, True, Color.Darkdarkcyan.ToArgb)
-            .rtfSyntax.add("<a.*?>", True, True, Color.Blue.ToArgb)
-            .rtfSyntax.add("<table.*?>", True, True, Color.Tan.ToArgb)
-            .rtfSyntax.add("<tr.*?>", True, True, Color.Brown.ToArgb)
-            .rtfSyntax.add("<td.*?>", True, True, Color.Brown.ToArgb)
-            .rtfSyntax.add("<img.*?>", True, True, Color.Red.ToArgb)
-            .rtfSyntax.add("not regex and case sensitive", False, False, Color.Red.ToArgb)
-            .rtfSyntax.add("not regex and case insensitive", False, True, Color.Red.ToArgb)
-#End If
-        End With
-    End Sub
     'Declare Function AttachConsole Lib "kernel32.dll" (dwProcessId As UInt32) As Boolean
     Declare Function AllocConsole Lib "kernel32" () As Int32
     Declare Function FreeConsole Lib "kernel32" () As Int32
@@ -103,7 +46,7 @@
 Reloop: Dim Variables As New Dictionary(Of String, String)
         Dim LineNum As ULong = 0
         Process = New Process
-        For Each Line As String In Input.Split(Chr(10), Chr(13), Chr(8232), Chr(8233))
+        For Each Line As String In Input.Split(Chr(10), Chr(13), Chr(8232), Chr(8233)) '
             LineNum += 1
             If StopLoop Then Exit For
             Line = Trim(Line)
@@ -114,6 +57,8 @@ Reloop: Dim Variables As New Dictionary(Of String, String)
                 RegularExpressions.MatchEvaluator(Function(M As System.Text.RegularExpressions.Match) (Variables(M.Value.Substring(1)))))
                 'New Regex("cc").Replace("aabbccddeeffcccgghhcccciijjcccckkcc", New MatchEvaluator(AddressOf ReplaceCC))
                 Select Case Line.Split({" "c}, 2)(0).ToLower
+                    Case "beep"
+                        Beep()
                     Case "close"
                         Me.Close()
                     Case "define"
