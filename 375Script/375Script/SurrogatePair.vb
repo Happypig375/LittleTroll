@@ -53,7 +53,8 @@
         Return If(IsSurrogatePair, &H10000 + (AscW(HighSurrogate) - &HD800) * &H400 + (AscW(LowSurrogate) - &HDC00), AscW(SingleChar))
     End Function
     Public Shared Function Asc(Pair As SurrogatePair) As UInteger
-        Return If(Pair.IsSurrogatePair, &H10000 + (AscW(Pair.HighSurrogate) - &HD800) * &H400 + (AscW(Pair.LowSurrogate) - &HDC00), AscW(Pair.SingleChar))
+        Return If(Pair.IsSurrogatePair, &H10000 + (AscW(Pair.HighSurrogate) - &HD800) *
+            &H400 + (AscW(Pair.LowSurrogate) - &HDC00), AscW(Pair.SingleChar))
     End Function
     Public Shared Function Chr(CodePoint As UInteger) As SurrogatePair
         Return New SurrogatePair(CodePoint)
@@ -70,6 +71,9 @@
         Else
             Throw New ArgumentOutOfRangeException("CodePoint", "The code point is too big.")
         End If
+    End Sub
+    Sub New(CodePoint As Integer)
+        Me.New(Convert.ToUInt32(CodePoint))
     End Sub
     Sub New(Plane As Planes, CodePoint As UShort)
         If Plane = Planes.Basic_Multilingual_Plane Then

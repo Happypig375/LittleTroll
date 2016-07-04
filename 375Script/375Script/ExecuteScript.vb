@@ -43,10 +43,11 @@
 #End If
     Friend Sub Execute(Input As String, ScriptName As String, Optional Debug As Boolean = False)
         If Debug Then _375Script.Debug.Show()
-Reloop: Dim Variables As New Dictionary(Of String, String)
+Reloop : Dim Variables As New Dictionary(Of String, String)
         Dim LineNum As ULong = 0
         Process = New Process
-        For Each Line As String In Input.Split(Chr(10), Chr(13), Chr(8232), Chr(8233)) '
+        For Each Line As String In Input.Split({Chr(10), Chr(13), New SurrogatePair(8232).ToString,
+                                               New SurrogatePair(8233).ToString}, StringSplitOptions.RemoveEmptyEntries)
             LineNum += 1
             If StopLoop Then Exit For
             Line = Trim(Line)
@@ -66,7 +67,7 @@ Reloop: Dim Variables As New Dictionary(Of String, String)
                         Content = New String(Content.SkipWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
                         Variables.Add(Var, Content)
                     Case "execute"
-                        Execute(New System.IO.StreamReader(Content).ReadToEnd, System.IO.Path.GetFileNameWithoutExtension(Content))
+                        Execute(My.Computer.FileSystem.ReadAllText(Content), IO.Path.GetFileNameWithoutExtension(Content))
                     Case "hide"
                         Me.Hide()
                     Case "loop"

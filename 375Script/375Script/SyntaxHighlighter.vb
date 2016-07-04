@@ -1,8 +1,6 @@
 ﻿Imports _375Script.Editor.SyntaxColor
 Partial Public Class Editor
     Private Sub InitializeSyntax(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        MsgBox(Color.Red.ToArgb)
-        End
         RTBWrapper.bind(Edit)
         With RTBWrapper.rtfSyntax
             .add("^\s*?beep\b", True, True, AudioEmitting)
