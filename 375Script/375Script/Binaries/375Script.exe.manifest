@@ -53,14 +53,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="375Script.exe" size="171896">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="375Script.exe" size="174456">
       <assemblyIdentity name="375Script" version="0.1.1.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>FKo3u1Z/3su7NjuGUr6XC0lJee4=</dsig:DigestValue>
+        <dsig:DigestValue>jsZwaIVMzDMBXelUypDfD8uOmjU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
