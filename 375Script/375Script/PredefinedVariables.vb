@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.Serialization
 
 Partial Public Class Editor
-    Public PredefinedVariables As New ReadOnlyDictionary(Of String, String)()
+    Public PredefinedVariables As New ReadOnlyDictionary(Of String, String)({"tableflip", "(╯°□°)╯︵ ┻━┻"})
 
     Public Class ReadOnlyDictionary(Of TKey, TValue)
         Inherits ReadOnlyCollectionBase
@@ -16,10 +16,6 @@ Partial Public Class Editor
 
         Public Sub New(dictionary As IDictionary(Of TKey, TValue))
             _dictionary = New Dictionary(Of TKey, TValue)(dictionary)
-        End Sub
-
-        Public Sub New(dictionary As IDictionary(Of TKey, TValue), comparer As IComparer(Of TKey))
-            _dictionary = New Dictionary(Of TKey, TValue)(dictionary, comparer)
         End Sub
 
         Public Sub New(Key As TKey, Value As TValue)
@@ -38,10 +34,45 @@ Partial Public Class Editor
         End Sub
 
         Public Sub New(ParamArray KeyValuePairs As Object()())
+            Me.New
             For Each KeyValue As Object() In KeyValuePairs
                 _dictionary.Add(KeyValue(0), KeyValue(1))
             Next
         End Sub
+
+#Region "IEqualityComparer<TKey> Constructers"
+
+        Public Sub New(comparer As IEqualityComparer(Of TKey))
+            _dictionary = New Dictionary(Of TKey, TValue)(comparer)
+        End Sub
+
+        Public Sub New(dictionary As IDictionary(Of TKey, TValue), comparer As IEqualityComparer(Of TKey))
+            _dictionary = New Dictionary(Of TKey, TValue)(dictionary, comparer)
+        End Sub
+
+        Public Sub New(Key As TKey, Value As TValue, comparer As IEqualityComparer(Of TKey))
+            Me.New(comparer)
+            _dictionary.Add(Key, Value)
+        End Sub
+
+        Public Sub New(KeyValuePair As KeyValuePair(Of TKey, TValue), comparer As IEqualityComparer(Of TKey))
+            Me.New(comparer)
+            _dictionary.Add(KeyValuePair)
+        End Sub
+
+        Public Sub New(KeyValuePairs As KeyValuePair(Of TKey, TValue)(), comparer As IEqualityComparer(Of TKey))
+            Me.New(comparer)
+            _dictionary = KeyValuePairs.ToDictionary(Function(x) x.Key, Function(x) x.Value)
+        End Sub
+
+        Public Sub New(comparer As IEqualityComparer(Of TKey), ParamArray KeyValuePairs As Object()())
+            Me.New(comparer)
+            For Each KeyValue As Object() In KeyValuePairs
+                _dictionary.Add(KeyValue(0), KeyValue(1))
+            Next
+        End Sub
+
+#End Region
 
 #Region "IDictionary<TKey,TValue> Members"
 
