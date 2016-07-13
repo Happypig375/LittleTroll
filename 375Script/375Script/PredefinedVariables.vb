@@ -1,7 +1,23 @@
 ﻿Imports System.Runtime.Serialization
 
 Partial Public Class Editor
-    Public PredefinedVariables As New ReadOnlyDictionary(Of String, String)({"tableflip", "(╯°□°)╯︵ ┻━┻"})
+    Public Function GetPredefinedVariable(Name As String) As String
+        Select Case Name
+            Case "filename"
+                Return Open.SafeFileName
+            Case "filelocation"
+                Return Open.FileName
+            Case Else
+                If IsNumeric(Name) Then Return SurrogatePair.Chr(Name)
+                Return PredefinedVariables(Name)
+        End Select
+    End Function
+    Public PredefinedVariables As New ReadOnlyDictionary(Of String, String)(
+        {"", " $$ "},
+        {"tableflip", "(╯°□°)╯︵ ┻━┻"},
+        {"version", My.Application.Info.Version.ToString},
+        {"systemversion", My.Computer.Info.OSVersion},
+        {"directory", My.Application.Info.DirectoryPath})
 
     Public Class ReadOnlyDictionary(Of TKey, TValue)
         Inherits ReadOnlyCollectionBase
@@ -40,6 +56,28 @@ Partial Public Class Editor
             Next
         End Sub
 
+        Public Sub New(dictionary As IDictionary(Of TKey, TValue), Key As TKey, Value As TValue)
+            Me.New(dictionary)
+            _dictionary.Add(Key, Value)
+        End Sub
+
+        Public Sub New(dictionary As IDictionary(Of TKey, TValue), KeyValuePair As KeyValuePair(Of TKey, TValue))
+            Me.New(dictionary)
+            _dictionary.Add(KeyValuePair)
+        End Sub
+
+        Public Sub New(dictionary As IDictionary(Of TKey, TValue), KeyValuePairs As KeyValuePair(Of TKey, TValue)())
+            Me.New(dictionary)
+            _dictionary = KeyValuePairs.ToDictionary(Function(x) x.Key, Function(x) x.Value)
+        End Sub
+
+        Public Sub New(dictionary As IDictionary(Of TKey, TValue), ParamArray KeyValuePairs As Object()())
+            Me.New(dictionary)
+            For Each KeyValue As Object() In KeyValuePairs
+                _dictionary.Add(KeyValue(0), KeyValue(1))
+            Next
+        End Sub
+
 #Region "IEqualityComparer<TKey> Constructers"
 
         Public Sub New(comparer As IEqualityComparer(Of TKey))
@@ -72,6 +110,27 @@ Partial Public Class Editor
             Next
         End Sub
 
+        Public Sub New(dictionary As IDictionary(Of TKey, TValue), Key As TKey, Value As TValue, comparer As IEqualityComparer(Of TKey))
+            Me.New(dictionary, comparer)
+            _dictionary.Add(Key, Value)
+        End Sub
+
+        Public Sub New(dictionary As IDictionary(Of TKey, TValue), KeyValuePair As KeyValuePair(Of TKey, TValue), comparer As IEqualityComparer(Of TKey))
+            Me.New(dictionary, comparer)
+            _dictionary.Add(KeyValuePair)
+        End Sub
+
+        Public Sub New(dictionary As IDictionary(Of TKey, TValue), KeyValuePairs As KeyValuePair(Of TKey, TValue)(), comparer As IEqualityComparer(Of TKey))
+            Me.New(dictionary, comparer)
+            _dictionary = KeyValuePairs.ToDictionary(Function(x) x.Key, Function(x) x.Value)
+        End Sub
+
+        Public Sub New(dictionary As IDictionary(Of TKey, TValue), comparer As IEqualityComparer(Of TKey), ParamArray KeyValuePairs As Object()())
+            Me.New(dictionary, comparer)
+            For Each KeyValue As Object() In KeyValuePairs
+                _dictionary.Add(KeyValue(0), KeyValue(1))
+            Next
+        End Sub
 #End Region
 
 #Region "IDictionary<TKey,TValue> Members"
@@ -112,7 +171,7 @@ Partial Public Class Editor
 
         Default Public Property IDictionary_Item(key As TKey) As TValue Implements IDictionary(Of TKey, TValue).Item
             Get
-                Return Me(key)
+                Return _dictionary(key)
             End Get
             Set
                 Throw ReadOnlyException()
@@ -250,6 +309,8 @@ End Class
 Interface IEmptyInterface
 
 End Interface
+<ComponentModel.EditorBrowsable(ComponentModel.EditorBrowsableState.Never)>
+<Obsolete("This class is not intended to be used.", True)>
 Class Test
     Sub Main()
         Dim a As new Dictionary(Of String, String)()

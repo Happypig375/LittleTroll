@@ -372,6 +372,12 @@ The characters CHARACTER TABULATION (U+0009), LINE FEED (U+000A), LINE TABULATIO
     End Sub
 
     Private Sub InsertChar_Click(sender As Object, e As EventArgs) Handles InsertChar.Click
+        Edit.SelectedText = SurrogatePair.Chr(InputBox(
+        "Input the character's unicode value: 
+(You can use $$<value> as a substitute in your script though)", "Insert Char"))
+    End Sub
 
+    Private Sub InsertTimeDate_Click(sender As Object, e As EventArgs) Handles InsertTimeDate.Click
+        Edit.SelectedText = Now.ToString
     End Sub
 End Class

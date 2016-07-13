@@ -5,6 +5,7 @@ Partial Public Class Editor
         With RTBWrapper.rtfSyntax
             .add("^\s*?beep\b", True, True, AudioEmitting)
             .add("^\s*?close\b", True, True, EditorBehaviours)
+            .add("^\s*?define\b", True, True, ControlLogic)
             .add("^\s*?execute\b", True, True, EditorBehaviours)
             .add("^\s*?hide\b", True, True, EditorBehaviours)
             '.rtfSyntax.add("^\s*?play(:l(oop)?|:stop|:x|:s(ystem(sound)?)?|:w(ait(tocomplete)?)?)\b", True, True, AudioEmitting)

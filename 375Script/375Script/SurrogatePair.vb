@@ -56,7 +56,13 @@
         Return If(Pair.IsSurrogatePair, &H10000 + (AscW(Pair.HighSurrogate) - &HD800) *
             &H400 + (AscW(Pair.LowSurrogate) - &HDC00), AscW(Pair.SingleChar))
     End Function
-    Public Shared Function Chr(CodePoint As UInteger) As SurrogatePair
+    Public Shared Function Chr(CodePoint As String) As String
+        Return Chr(Convert.ToUInt32(Val(CodePoint))).ToString
+    End Function
+    Public Shared Function Chr(CodePoint As UInteger) As String
+        Return New SurrogatePair(CodePoint).ToString
+    End Function
+    Public Shared Function Parse(CodePoint As UInteger) As SurrogatePair
         Return New SurrogatePair(CodePoint)
     End Function
     Sub New(CodePoint As UInteger)

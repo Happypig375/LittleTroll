@@ -55,7 +55,8 @@ Reloop : Dim Variables As New Dictionary(Of String, String)
             Dim Content As String = Line.Substring(Line.IndexOf(" "c) + 1)
             Try
                 Content = System.Text.RegularExpressions.Regex.Replace(Content, "(?<=[\s\n\r])*\$[^\s\r\n]+(?=[\s\n\r]|$)", New System.Text.
-                RegularExpressions.MatchEvaluator(Function(M As System.Text.RegularExpressions.Match) (Variables(M.Value.Substring(1)))))
+                RegularExpressions.MatchEvaluator(Function(M As System.Text.RegularExpressions.Match) (
+                If(M.Value(1) = "$"c, GetPredefinedVariable(M.Value.Substring(2)), Variables(M.Value.Substring(1))))))
                 'New Regex("cc").Replace("aabbccddeeffcccgghhcccciijjcccckkcc", New MatchEvaluator(AddressOf ReplaceCC))
                 Select Case Line.Split({" "c}, 2)(0).ToLower
                     Case "beep"
@@ -66,6 +67,8 @@ Reloop : Dim Variables As New Dictionary(Of String, String)
                         Dim Var As New String(Content.TakeWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
                         Content = New String(Content.SkipWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
                         Variables.Add(Var, Content)
+                    Case "display"
+                        InputBox("Displaying text...", "Display", Content)
                     Case "execute"
                         Execute(My.Computer.FileSystem.ReadAllText(Content), IO.Path.GetFileNameWithoutExtension(Content))
                     Case "hide"
@@ -161,12 +164,13 @@ Reloop : Dim Variables As New Dictionary(Of String, String)
     End Sub
 
     Friend Function ExecuteLine(Line As String, ScriptName As String, ByRef Variables As Dictionary(Of String, String)) As String
-        Dim ReadOnlyVariables As New Dictionary(Of String, String)(Variables)
+        Dim ReadOnlyVariables As New ReadOnlyDictionary(Of String, String)(Variables)
         Line = Trim(Line)
         If Line = "" Then Exit Function
         Dim Content As String = Line.Substring(Line.IndexOf(" "c) + 1)
         Content = System.Text.RegularExpressions.Regex.Replace(Content, "\s*\$\S+\b", New System.Text.RegularExpressions.MatchEvaluator(
-                                         Function(M As System.Text.RegularExpressions.Match) (ReadOnlyVariables(M.Value.Substring(1)))))
+                                   Function(M As System.Text.RegularExpressions.Match) (
+                                   If(M.Value(1) = "$"c, GetPredefinedVariable(M.Value.Substring(2)), ReadOnlyVariables(M.Value.Substring(1))))))
         'New Regex("cc").Replace("aabbccddeeffcccgghhcccciijjcccckkcc", New MatchEvaluator(AddressOf ReplaceCC))
         Select Case Line.Split({" "c}, 2)(0).ToLower
             Case "close"
