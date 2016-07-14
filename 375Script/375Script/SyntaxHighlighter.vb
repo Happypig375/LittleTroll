@@ -3,9 +3,11 @@ Partial Public Class Editor
     Private Sub InitializeSyntax(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         RTBWrapper.bind(Edit)
         With RTBWrapper.rtfSyntax
+            .add("^\s*?append\b", True, True, EditorBehaviours)
             .add("^\s*?beep\b", True, True, AudioEmitting)
             .add("^\s*?close\b", True, True, EditorBehaviours)
             .add("^\s*?define\b", True, True, ControlLogic)
+            .add("^\s*?display\b", True, True, MessagePopups)
             .add("^\s*?execute\b", True, True, EditorBehaviours)
             .add("^\s*?hide\b", True, True, EditorBehaviours)
             '.rtfSyntax.add("^\s*?play(:l(oop)?|:stop|:x|:s(ystem(sound)?)?|:w(ait(tocomplete)?)?)\b", True, True, AudioEmitting)
@@ -37,6 +39,9 @@ Partial Public Class Editor
             .add("(?<=^\s*?message:i)nfo\b", True, True, MessagePopups)
             .add("(?<=^\s*?message):i\b", True, True, MessagePopups)
             .add("^\s*?message\b", True, True, MessagePopups)
+            .add("(?<=^\s*?redefine:e)xact\b", True, True, ControlLogic)
+            .add("(?<=^\s*?redefine):e\b", True, True, ControlLogic)
+            .add("^\s*?redefine\b", True, True, ControlLogic)
             .add("^\s*?repeat\b", True, True, ControlLogic)
             .add("^\s*?show\b", True, True, EditorBehaviours)
             .add("(?<=^\s*?stop:a)ll\b", True, True, ControlLogic)
@@ -44,6 +49,7 @@ Partial Public Class Editor
             .add("(?<=^\s*?stop:o)thers\b", True, True, ControlLogic)
             .add("(?<=^\s*?stop):o\b", True, True, ControlLogic)
             .add("^\s*?stop\b", True, True, ControlLogic)
+            .add("^\s*?undefine\b", True, True, ControlLogic)
             .add("^\s*?waituntil\b", True, True, ControlLogic)
             .add("^\s*?wait\b", True, True, ControlLogic)
 #If False Then
@@ -61,7 +67,7 @@ Partial Public Class Editor
     End Sub
     Friend Enum SyntaxColor
         EditorBehaviours = &HFF0000FF 'Blue
-        ControlLogic = &HFFFF00 'Red
+        ControlLogic = &HFF0000 'Red
         AudioEmitting = &HFF008B8B 'DarkCyan
         MessagePopups = &HFFFFA500 'Orange
     End Enum

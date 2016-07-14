@@ -59,6 +59,9 @@ Reloop : Dim Variables As New Dictionary(Of String, String)
                 If(M.Value(1) = "$"c, GetPredefinedVariable(M.Value.Substring(2)), Variables(M.Value.Substring(1))))))
                 'New Regex("cc").Replace("aabbccddeeffcccgghhcccciijjcccckkcc", New MatchEvaluator(AddressOf ReplaceCC))
                 Select Case Line.Split({" "c}, 2)(0).ToLower
+                    Case "append"
+                        Edit.AppendText(vbCrLf & "stop" & vbCrLf & "===Output (as of " & Now.ToString & ")===" & vbCrLf)
+                        Edit.AppendText(Content)
                     Case "beep"
                         Beep()
                     Case "close"
@@ -107,7 +110,7 @@ Reloop : Dim Variables As New Dictionary(Of String, String)
                     Case "message:information", "message:info", "message:i"
                         MsgBox(Content, MsgBoxStyle.Information, ScriptName)
                     Case "process"
-                        Process.Start()
+                        Process.Start(Content)
                     Case "redefine"
                         Dim Var As New String(Content.TakeWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
                         Content = New String(Content.SkipWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)

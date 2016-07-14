@@ -53,14 +53,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="375Script.exe" size="178552">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="375Script.exe" size="182648">
       <assemblyIdentity name="375Script" version="0.1.1.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>TowlOeCzi9Wa+k6zpuvW5k+UH64=</dsig:DigestValue>
+        <dsig:DigestValue>nh/9PrCoatiQmFwct2fdrgFf/5M=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -72,7 +72,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>1zioXqLm/rDPJRy5Q84Sk4+WcRY=</dsig:DigestValue>
+        <dsig:DigestValue>3N+00hKqYG2v8hCh0qUsevfZHtU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -100,7 +100,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>1zioXqLm/rDPJRy5Q84Sk4+WcRY=</dsig:DigestValue>
+      <dsig:DigestValue>3N+00hKqYG2v8hCh0qUsevfZHtU=</dsig:DigestValue>
     </hash>
   </file>
   <file name="favicon(1).ico" size="1150">
