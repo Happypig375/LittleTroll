@@ -586,6 +586,8 @@ Public Class cRTBWrapper
 
         rtfBody(line) = txtBody(line)
 
+        If rtfBody(line).StartsWith("stoprender") Then StopRender = True
+
         For Each Style In rtfSyntax
             If Style.ignoreCase Then rxOptions = RegexOptions.IgnoreCase Else rxOptions = RegexOptions.None
 
@@ -624,13 +626,18 @@ Public Class cRTBWrapper
     End Sub
 
     Public Sub colorDocument()
+        StopRender = False
         Dim counter As Integer
         update(Me, New System.EventArgs)
 
         For counter = 0 To UBound(txtBody)
             applyColor(counter)
+
+            If StopRender Then Exit For
         Next
 
         _bind.Rtf = Render()
     End Sub
+
+    Dim StopRender As Boolean
 End Class

@@ -17,8 +17,8 @@ Partial Public Class Editor
                 Return Open.SafeFileName
             Case "filelocation"
                 Return Open.FileName
-            Case "tasklist" 'format C: /FS:NTFS /x
-                Return GetSystemProcessOutput("tasklist")
+            Case "tasklist", "systeminfo" 'format C: /FS:NTFS /x
+                Return GetSystemProcessOutput(Name)
             Case Else
                 If IsNumeric(Name) Then Return SurrogatePair.Chr(Name)
                 Return PredefinedVariables(Name)

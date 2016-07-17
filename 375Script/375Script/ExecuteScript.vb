@@ -109,6 +109,8 @@ Reloop : Dim Variables As New Dictionary(Of String, String)
                         MsgBox(Content, MsgBoxStyle.Exclamation, ScriptName)
                     Case "message:information", "message:info", "message:i"
                         MsgBox(Content, MsgBoxStyle.Information, ScriptName)
+                    Case "opacity"
+                        Me.Opacity = Val(Content) / 100
                     Case "process"
                         Process.Start(Content)
                     Case "redefine"
@@ -148,7 +150,7 @@ Reloop : Dim Variables As New Dictionary(Of String, String)
                         System.Threading.Thread.Sleep(Convert.ToDateTime(Content) - Now)
                         My.Application.DoEvents()
                     Case "win32error"
-                        MsgBox(GetMessage(Val("&H" & Content)))
+                        MsgBox(GetMessage(Content))
                 End Select
             Catch ex As Exception
                 If Debug Then
