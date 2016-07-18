@@ -89,6 +89,7 @@ Partial Class Editor
         Me.SetFont = New System.Windows.Forms.FontDialog()
         Me.Background = New System.Windows.Forms.ColorDialog()
         Me.LineNumbers = New _375Script.LineNumbers_For_RichTextBox()
+        Me.OpenHookTest = New System.Windows.Forms.ToolStripMenuItem()
         Me.Menu.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -358,7 +359,7 @@ Partial Class Editor
         '
         'MenuDebug
         '
-        Me.MenuDebug.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DebugOpenCRTFSyntax, Me.DebugOpenRTFDebug, Me.DebugOpenForm1, Me.DebugTestSelectedText})
+        Me.MenuDebug.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DebugOpenCRTFSyntax, Me.DebugOpenRTFDebug, Me.DebugOpenForm1, Me.DebugTestSelectedText, Me.OpenHookTest})
         Me.MenuDebug.Name = "MenuDebug"
         Me.MenuDebug.Size = New System.Drawing.Size(54, 20)
         Me.MenuDebug.Text = "&Debug"
@@ -563,6 +564,12 @@ Partial Class Editor
         Me.LineNumbers.Size = New System.Drawing.Size(19, 215)
         Me.LineNumbers.TabIndex = 9
         '
+        'OpenHookTest
+        '
+        Me.OpenHookTest.Name = "OpenHookTest"
+        Me.OpenHookTest.Size = New System.Drawing.Size(165, 22)
+        Me.OpenHookTest.Text = "Open &HookTest"
+        '
         'Editor
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -649,5 +656,5 @@ Partial Class Editor
     Friend WithEvents InsertTimeDate As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents InsertChar As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MenuWindow As System.Windows.Forms.ToolStripMenuItem
-
+    Friend WithEvents OpenHookTest As ToolStripMenuItem
 End Class

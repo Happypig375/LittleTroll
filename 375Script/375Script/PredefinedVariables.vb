@@ -433,7 +433,7 @@ Partial Public Class Editor
 End Class
 <ComponentModel.EditorBrowsable(ComponentModel.EditorBrowsableState.Never)>
 <Obsolete("This class is not intended to be used.", True)>
-Class Test
+Class CodeTest
     Sub Main()
         Dim a As New Dictionary(Of String, String)()
         a?.Add("", "")

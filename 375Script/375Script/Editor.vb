@@ -380,4 +380,8 @@ The characters CHARACTER TABULATION (U+0009), LINE FEED (U+000A), LINE TABULATIO
     Private Sub InsertTimeDate_Click(sender As Object, e As EventArgs) Handles InsertTimeDate.Click
         Edit.SelectedText = Now.ToString
     End Sub
+
+    Private Sub OpenHookTest_Click(sender As Object, e As EventArgs) Handles OpenHookTest.Click
+        HookTest.Show()
+    End Sub
 End Class
