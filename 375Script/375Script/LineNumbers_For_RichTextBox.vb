@@ -110,7 +110,7 @@ Public Class LineNumbers_For_RichTextBox : Inherits System.Windows.Forms.Control
         End Set
     End Property
 
-    <System.ComponentModel.Description("Use this property to automatically resize the control (and reposition it if needed).")> _
+    <System.ComponentModel.Description("Use this property to automatically resize the control (and reposition it if needed).")>
     <System.ComponentModel.Category("Additional Behavior")> Public Property AutoSizing() As Boolean
         Get
             Return zAutoSizing
@@ -122,7 +122,7 @@ Public Class LineNumbers_For_RichTextBox : Inherits System.Windows.Forms.Control
         End Set
     End Property
 
-    <System.ComponentModel.Description("Use this property to enable LineNumbers for the chosen RichTextBox.")> _
+    <System.ComponentModel.Description("Use this property to enable LineNumbers for the chosen RichTextBox.")>
     <System.ComponentModel.Category("Add LineNumbers to")> Public Property ParentRichTextBox() As RichTextBox
         Get
             Return zParent
@@ -139,7 +139,7 @@ Public Class LineNumbers_For_RichTextBox : Inherits System.Windows.Forms.Control
         End Set
     End Property
 
-    <System.ComponentModel.Description("Use this property to dock the LineNumbers to a chosen side of the chosen RichTextBox.")> _
+    <System.ComponentModel.Description("Use this property to dock the LineNumbers to a chosen side of the chosen RichTextBox.")>
     <System.ComponentModel.Category("Additional Behavior")> Public Property DockSide() As LineNumberDockSide
         Get
             Return zDockSide
@@ -151,7 +151,7 @@ Public Class LineNumbers_For_RichTextBox : Inherits System.Windows.Forms.Control
         End Set
     End Property
 
-    <System.ComponentModel.Description("Use this property to enable the control to act as an overlay ontop of the RichTextBox.")> _
+    <System.ComponentModel.Description("Use this property to enable the control to act as an overlay ontop of the RichTextBox.")>
     <System.ComponentModel.Category("Additional Behavior")> Public Property _SeeThroughMode_() As Boolean
         Get
             Return zSeeThroughMode
@@ -162,7 +162,7 @@ Public Class LineNumbers_For_RichTextBox : Inherits System.Windows.Forms.Control
         End Set
     End Property
 
-    <System.ComponentModel.Description("BorderLines are shown on all sides of the LineNumber control.")> _
+    <System.ComponentModel.Description("BorderLines are shown on all sides of the LineNumber control.")>
     <System.ComponentModel.Category("Additional Behavior")> Public Property Show_BorderLines() As Boolean
         Get
             Return zBorderLines_Show
@@ -204,7 +204,7 @@ Public Class LineNumbers_For_RichTextBox : Inherits System.Windows.Forms.Control
         End Set
     End Property
 
-    <System.ComponentModel.Description("GridLines are the horizontal divider-lines shown above each LineNumber.")> _
+    <System.ComponentModel.Description("GridLines are the horizontal divider-lines shown above each LineNumber.")>
     <System.ComponentModel.Category("Additional Behavior")> Public Property Show_GridLines() As Boolean
         Get
             Return zGridLines_Show
@@ -246,7 +246,7 @@ Public Class LineNumbers_For_RichTextBox : Inherits System.Windows.Forms.Control
         End Set
     End Property
 
-    <System.ComponentModel.Description("MarginLines are shown on the Left or Right (or both in Height-mode) of the LineNumber control.")> _
+    <System.ComponentModel.Description("MarginLines are shown on the Left or Right (or both in Height-mode) of the LineNumber control.")>
     <System.ComponentModel.Category("Additional Behavior")> Public Property Show_MarginLines() As Boolean
         Get
             Return zMarginLines_Show
@@ -298,7 +298,7 @@ Public Class LineNumbers_For_RichTextBox : Inherits System.Windows.Forms.Control
         End Set
     End Property
 
-    <System.ComponentModel.Description("The BackgroundGradient is a gradual blend of two colors, shown in the back of each LineNumber's item-area.")> _
+    <System.ComponentModel.Description("The BackgroundGradient is a gradual blend of two colors, shown in the back of each LineNumber's item-area.")>
     <System.ComponentModel.Category("Additional Behavior")> Public Property Show_BackgroundGradient() As Boolean
         Get
             Return zGradient_Show
@@ -349,7 +349,7 @@ Public Class LineNumbers_For_RichTextBox : Inherits System.Windows.Forms.Control
         End Set
     End Property
 
-    <System.ComponentModel.Description("Use this to set whether the LineNumbers are allowed to spill out of their item-area, or should be clipped by it.")> _
+    <System.ComponentModel.Description("Use this to set whether the LineNumbers are allowed to spill out of their item-area, or should be clipped by it.")>
     <System.ComponentModel.Category("Additional Behavior")> Public Property LineNrs_ClippedByItemRectangle() As Boolean
         Get
             Return zLineNumbers_ClipByItemRectangle
@@ -360,7 +360,7 @@ Public Class LineNumbers_For_RichTextBox : Inherits System.Windows.Forms.Control
         End Set
     End Property
 
-    <System.ComponentModel.Description("Use this to set whether the LineNumbers should have leading zeroes (based on the total amount of textlines).")> _
+    <System.ComponentModel.Description("Use this to set whether the LineNumbers should have leading zeroes (based on the total amount of textlines).")>
     <System.ComponentModel.Category("Additional Behavior")> Public Property LineNrs_LeadingZeroes() As Boolean
         Get
             Return zLineNumbers_ShowLeadingZeroes
@@ -372,7 +372,7 @@ Public Class LineNumbers_For_RichTextBox : Inherits System.Windows.Forms.Control
         End Set
     End Property
 
-    <System.ComponentModel.Description("Use this to set whether the LineNumbers should be shown as hexadecimal values.")> _
+    <System.ComponentModel.Description("Use this to set whether the LineNumbers should be shown as hexadecimal values.")>
     <System.ComponentModel.Category("Additional Behavior")> Public Property LineNrs_AsHexadecimal() As Boolean
         Get
             Return zLineNumbers_ShowAsHexadecimal
@@ -384,7 +384,7 @@ Public Class LineNumbers_For_RichTextBox : Inherits System.Windows.Forms.Control
         End Set
     End Property
 
-    <System.ComponentModel.Description("Use this property to manually reposition the LineNumbers, relative to their current location.")> _
+    <System.ComponentModel.Description("Use this property to manually reposition the LineNumbers, relative to their current location.")>
     <System.ComponentModel.Category("Additional Behavior")> Public Property LineNrs_Offset() As Size
         Get
             Return zLineNumbers_Offset
@@ -395,7 +395,7 @@ Public Class LineNumbers_For_RichTextBox : Inherits System.Windows.Forms.Control
         End Set
     End Property
 
-    <System.ComponentModel.Description("Use this to align the LineNumbers to a chosen corner (or center) within their item-area.")> _
+    <System.ComponentModel.Description("Use this to align the LineNumbers to a chosen corner (or center) within their item-area.")>
     <System.ComponentModel.Category("Additional Behavior")> Public Property LineNrs_Alignment() As System.Drawing.ContentAlignment
         Get
             Return zLineNumbers_Alignment
@@ -406,8 +406,8 @@ Public Class LineNumbers_For_RichTextBox : Inherits System.Windows.Forms.Control
         End Set
     End Property
 
-    <System.ComponentModel.Description("Use this to apply Anti-Aliasing to the LineNumbers (high quality). Some fonts will look better without it, though.")> _
-       <System.ComponentModel.Category("Additional Behavior")> Public Property LineNrs_AntiAlias() As Boolean
+    <System.ComponentModel.Description("Use this to apply Anti-Aliasing to the LineNumbers (high quality). Some fonts will look better without it, though.")>
+    <System.ComponentModel.Category("Additional Behavior")> Public Property LineNrs_AntiAlias() As Boolean
         Get
             Return zLineNumbers_AntiAlias
         End Get
@@ -429,9 +429,9 @@ Public Class LineNumbers_For_RichTextBox : Inherits System.Windows.Forms.Control
         End Set
     End Property
 
-    <System.ComponentModel.DefaultValue("")> _
-    <System.ComponentModel.AmbientValue("")> _
-    <System.ComponentModel.Browsable(False)> _
+    <System.ComponentModel.DefaultValue("")>
+    <System.ComponentModel.AmbientValue("")>
+    <System.ComponentModel.Browsable(False)>
     Public Overrides Property Text() As String
         Get
             Return MyBase.Text

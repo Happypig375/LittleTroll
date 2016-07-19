@@ -168,7 +168,7 @@ Public Class HookTest
     Public Declare Sub apikeybd_event Lib "user32.dll" Alias "keybd_event" (ByVal bVk As Byte, ByVal bScan As Byte, ByVal dwFlags As Int32, ByVal dwExtraInfo As Int32)
     Public Sub HookKeyboardS()
         callback = New KeyboardHookDelegate(AddressOf KeyboardCallback)
-        KeyboardHandle = apiSetWindowsHookEx(WH_KEYBOARD_LL, callback, System.Runtime.InteropServices.Marshal.GetHINSTANCE(System.Reflection.[Assembly].GetExecutingAssembly.GetModules()(0)).ToInt32, 0)
+        KeyboardHandle = apiSetWindowsHookEx(WH_KEYBOARD_LL, callback, Marshal.GetHINSTANCE([Assembly].GetExecutingAssembly.GetModules()(0)).ToInt32, 0)
     End Sub
     Public Sub UnhookKeyboardS()
         If KeyboardHandle <> 0 Then apiUnhookWindowsHookEx(KeyboardHandle)
