@@ -638,6 +638,7 @@ Retry:  Try
                                     If Last.First = "b"c Then ContinuedFromBeta.Checked = True
                                     ContinuedFromNumber.Value = CDec(Last.Substring(1))
                                 Case "S"c
+                                    Special.Checked = True
                                     Select Case Input(2)
                                         Case "S"c
                                             If Input(3) = "M"c Then
@@ -651,8 +652,21 @@ Retry:  Try
                                                 SubscribeCount.Checked = True
                                                 SubscribeCounter.Value =
                                                     Val(New String(Input.Substring(4).TakeWhile(Function(c As Char) Char.IsDigit(c)).ToArray))
+                                                Dim Index As Integer = Input.IndexOf("("c)
+                                                If Index <> -1 Then
+                                                    SubscribeCountApproximately.Checked = True
+                                                    SubscribeCountApproximate.Value = Input.Substring(Index + 1).TrimEnd(")c")
+                                                End If
                                             End If
                                         Case "V"c
+                                            VideoNumber.Checked = True
+                                            VideoNumbers.Value =
+                                                Val(New String(Input.Substring(4).TakeWhile(Function(c As Char) Char.IsDigit(c)).ToArray))
+                                            Dim Index As Integer = Input.IndexOf("("c)
+                                            If Index <> -1 Then
+                                                VideoNumberApproximately.Checked = True
+                                                VideoNumberApproximate.Value = Input.Substring(Index + 1).TrimEnd(")c")
+                                            End If
                                     End Select
                                 Case "R"c
                                     SpeedrunMultiplier.Value = CDec(Input.Substring(1))
