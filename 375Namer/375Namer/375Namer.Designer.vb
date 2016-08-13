@@ -133,7 +133,7 @@ Partial Class Form
         'Number
         '
         Me.Number.Location = New System.Drawing.Point(645, 40)
-        Me.Number.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+        Me.Number.Maximum = New Decimal(New Integer() {99999, 0, 0, 0})
         Me.Number.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.Number.Name = "Number"
         Me.Number.Size = New System.Drawing.Size(48, 20)
@@ -553,7 +553,7 @@ Partial Class Form
         'ContinuedFromNumber
         '
         Me.ContinuedFromNumber.Location = New System.Drawing.Point(54, 70)
-        Me.ContinuedFromNumber.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+        Me.ContinuedFromNumber.Maximum = New Decimal(New Integer() {99999, 0, 0, 0})
         Me.ContinuedFromNumber.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.ContinuedFromNumber.Name = "ContinuedFromNumber"
         Me.ContinuedFromNumber.Size = New System.Drawing.Size(48, 20)

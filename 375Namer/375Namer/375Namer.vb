@@ -50,10 +50,12 @@
         ContinuedFromSeries.SelectedIndex = 0
         Title.Text = Chr(0)
 Retry:  Try
-            Dim Reader As New FileIO.TextFieldParser(AVI, System.Text.Encoding.Unicode) With {.Delimiters = {Delimiter.ToString}, .TrimWhiteSpace = True}
+            Dim Reader As New FileIO.TextFieldParser(AVI, System.Text.Encoding.Unicode) With
+                {.Delimiters = {Delimiter.ToString}, .TrimWhiteSpace = True}
             Do Until Reader.EndOfData
                 Dim Line As String() = Reader.ReadFields
-                If Line.Count <> 2 Then Throw New FileIO.MalformedLineException("There are more than one or no delimiters in the line.", Reader.LineNumber - 1)
+                If Line.Count <> 2 Then Throw New FileIO.MalformedLineException(
+                    "There are more than one or no delimiters in the line.", Reader.LineNumber - 1)
                 List.Items.Add(Line(0))
                 Names.Add(Line(1))
             Loop
@@ -102,7 +104,8 @@ Retry:  Try
         SeriesNumberApproximately.Enabled = SeriesNumber.Checked
     End Sub
 
-    Private Sub SeriesNumberApproximately_CheckedChanged(sender As Object, e As EventArgs) Handles SeriesNumberApproximately.CheckedChanged, Me.Load
+    Private Sub SeriesNumberApproximately_CheckedChanged(sender As Object, e As EventArgs) Handles SeriesNumberApproximately.CheckedChanged,
+        Me.Load
         SeriesNumberApproximate.Enabled = SeriesNumberApproximately.Checked
     End Sub
     Private Sub VideoNumber_CheckedChanged(sender As Object, e As EventArgs) Handles VideoNumber.CheckedChanged, Me.Load
@@ -110,7 +113,8 @@ Retry:  Try
         VideoNumbers.Enabled = VideoNumber.Checked
     End Sub
 
-    Private Sub VideoNumberApproximately_CheckedChanged(sender As Object, e As EventArgs) Handles VideoNumberApproximately.CheckedChanged, Me.Load
+    Private Sub VideoNumberApproximately_CheckedChanged(sender As Object, e As EventArgs) Handles VideoNumberApproximately.CheckedChanged,
+        Me.Load
         VideoNumberApproximate.Enabled = VideoNumberApproximately.Checked
     End Sub
     Private Sub SubscribeCount_CheckedChanged(sender As Object, e As EventArgs) Handles SubscribeCount.CheckedChanged, Me.Load
@@ -118,7 +122,8 @@ Retry:  Try
         SubscribeCounter.Enabled = SubscribeCount.Checked
     End Sub
 
-    Private Sub SubscribeCountApproximately_CheckedChanged(sender As Object, e As EventArgs) Handles SubscribeCountApproximately.CheckedChanged, Me.Load
+    Private Sub SubscribeCountApproximately_CheckedChanged(sender As Object, e As EventArgs) Handles SubscribeCountApproximately.
+        CheckedChanged, Me.Load
         SubscribeCountApproximate.Enabled = SubscribeCountApproximately.Checked
     End Sub
 
@@ -162,13 +167,19 @@ Retry:  Try
             If(SubscribeCount.Checked, ","c, String.Empty), String.Empty) &
             "]"c, String.Empty) &
  _
-            If(Continued.Checked, "[C-" & ConvertCode(ContinuedFromSeries.SelectedItem, False) & If(ContinuedFromBeta.Checked, "b"c, String.Empty) &
-               ContinuedFromNumber.Value & ContinuedFromSuffix.Text & "]"c, String.Empty) &
+            If(Continued.Checked, "[C-" & ConvertCode(ContinuedFromSeries.SelectedItem, True) &
+            If(ContinuedFromBeta.Checked, "b"c, String.Empty) & ContinuedFromNumber.Value & ContinuedFromSuffix.Text & "]"c, String.Empty) &
  _
-           If(NoNarration.Checked, "[NN]", String.Empty) & If(Speedrun.Checked, "[R" & SpeedrunMultiplier.Value & "]"c, String.Empty) &
-           If(Extra.Checked, "[E]", String.Empty) & If(NotSuggested.Checked, "[X]", String.Empty) & If(JustRecord.Checked, "[J]", String.Empty)
+            If(NoNarration.Checked, "[NN]", String.Empty) & If(Speedrun.Checked, "[R" & SpeedrunMultiplier.Value & "]"c, String.Empty) &
+            If(Extra.Checked, "[E]", String.Empty) & If(NotSuggested.Checked, "[X]", String.Empty) &
+            If(JustRecord.Checked, "[J]", String.Empty)
     End Sub
-    Friend Function ConvertCode(Input As String, ToCode As Boolean) As String
+
+    <Flags> Friend Enum Convert As SByte
+        ToCode = -1
+        FromCode
+    End Enum
+    Friend Function ConvertCode(Input As String, Convert As Convert) As String
         Dim Codes As New Dictionary(Of String, String) From {
             {"Minecraft遊記", "M"},
             {"Minecraft編輯遊記", "ME"},
@@ -186,16 +197,20 @@ Retry:  Try
             {"趣遊", "F"},
             {"小遊戲時間", "G"},
             {"VVVVVV", "VV"},
-            {"", ""}
+            {"", ""},
+            {"---", ""}
         }
         For Each Pair As KeyValuePair(Of String, String) In Codes
-            If ToCode Then
+            If Convert Then
                 If Pair.Key = Input Then Return Pair.Value
             Else
                 If Pair.Value = Input Then Return Pair.Key
             End If
         Next
-        Throw New KeyNotFoundException("Input is unconvertable.")
+        Dim Ex As New KeyNotFoundException("Input is unconvertable.")
+        Ex.Data.Add("Input", Input)
+        Ex.Data.Add("Convert Mode", Convert)
+        Throw Ex
     End Function
     Structure SurrogatePair
         Sub New(Chr As Char)
@@ -341,8 +356,10 @@ Retry:  Try
         End Operator
     End Structure
 
+    <Obsolete("Not implemented.", True)>
     Function ConvertToTraditional(SimplifiedChar As SurrogatePair) As SurrogatePair()
         ' Select Cases or another function?
+        Throw New NotImplementedException
     End Function
     ''' <summary>
     ''' Makes this application auto-start when the current user logs in.
@@ -384,9 +401,10 @@ Retry:  Try
         Const keyName As String = "HKEY_CURRENT_USER" & "\\" & "Software\Microsoft\Windows\CurrentVersion\SkyDrive"
         Const DefaultKey As String = "OMG Teh ReGiStRy DOesn''''t E.x;I's|T!!!"
         Dim OneDrivePath As String = DirectCast(Microsoft.Win32.Registry.GetValue(keyName, "UserFolder", DefaultKey), String)
-        Dim MSOneDriveProgram As String = IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft\OneDrive\OneDrive.exe")
-        Dim Destination As String = IO.Path.Combine(If(OneDrivePath = DefaultKey,
-                                                       OneDrivePath, ThrowKeyNotFoundException("Is MS OneDrive not installed?")), IO.Path.GetFileName(FilePath))
+        Dim MSOneDriveProgram As String = IO.Path.Combine(Environment.GetFolderPath(
+                                                          Environment.SpecialFolder.LocalApplicationData), "Microsoft\OneDrive\OneDrive.exe")
+        Dim Destination As String = IO.Path.Combine(If(OneDrivePath = DefaultKey, OneDrivePath, ThrowKeyNotFoundException(
+                                    "Is MS OneDrive not installed?")), IO.Path.GetFileName(FilePath))
         My.Computer.FileSystem.CopyFile(FilePath, Destination)
         Process.Start(MSOneDriveProgram)
         Return Destination
@@ -475,7 +493,8 @@ Retry:  Try
         小遊戲時間
     End Enum
 
-    Private Sub ContinuedFromExpectedCut_CheckedChanged(sender As Object, e As EventArgs) Handles ContinuedFromExpectedCut.CheckedChanged, Me.Load
+    Private Sub ContinuedFromExpectedCut_CheckedChanged(sender As Object, e As EventArgs) Handles ContinuedFromExpectedCut.CheckedChanged,
+        Me.Load
         If ContinuedFromExpectedCut.Checked Then
             ContinuedFromSuffix.Items.Clear()
             ContinuedFromSuffix.Items.Add("")
@@ -497,13 +516,18 @@ Retry:  Try
     End Sub
 
     Private Sub LoadFiles_Click(sender As Object, e As EventArgs) Handles LoadFiles.Click
-        Dim DirInfo As IO.DirectoryInfo = FileIO.FileSystem.GetDirectoryInfo(InputBox("Enter source directory:", "Source", "Y:\"))
+        Dim DirInfo As IO.DirectoryInfo
+        Try
+            DirInfo = FileIO.FileSystem.GetDirectoryInfo(InputBox("Enter source directory:", "Source", "Y:\"))
+        Catch
+            Exit Sub
+        End Try
         Dim Files As New List(Of String)
         For Each File As IO.FileInfo In DirInfo.GetFiles("*.avi", IO.SearchOption.TopDirectoryOnly)
-            Files.Add(File.FullName)
+            Files.Add(File.Name)
         Next
         For Each File As IO.FileInfo In DirInfo.GetFiles("*.mp4", IO.SearchOption.TopDirectoryOnly)
-            Files.Add(File.FullName)
+            Files.Add(File.Name)
         Next
         For Each File As String In Files
             If List.Items.Contains(File) Then Continue For
@@ -525,13 +549,11 @@ Retry:  Try
 
     Private Sub List_SelectedIndexChanged(sender As Object, e As EventArgs)
         Parse(Names(List.SelectedIndex))
+        'My.MyApplication.Main({})
     End Sub
 
     Friend Sub Parse(Input As String)
-        If Input = "" Then
-            Parse("├Minecraft遊記:┤1a： ")
-            Exit Sub
-        End If
+        If String.IsNullOrEmpty(Input) Then Input = "├Minecraft遊記:┤1a："
         If Input(0) <> Prefix.Text Then ThrowFormatException("First character is not prefix.")
         Dim Serie As String = Input.Substring(1).TakeWhile(Function(c As Char) c <> Midfix.Text).ToArray
         If Serie.Contains(SeriesColon.Text) Then
@@ -545,8 +567,9 @@ Retry:  Try
             Beta.Checked = True
             Input = Input.Substring(5)
         End If
-        Dim SerieNumber As String = Input.Substring(1).TakeWhile(Function(c As Char) c <> Colon.Text).ToArray
-        Dim Match As System.Text.RegularExpressions.Match = System.Text.RegularExpressions.Regex.Match(Serie, "(?<=\d+)([a-z]|[A-Z]|_\d\d?)(?=：)")
+        Number.Value = Val(New String(Input.TakeWhile(Function(c As Char) Char.IsDigit(c)).ToArray))
+        Dim Match As System.Text.RegularExpressions.Match =
+            System.Text.RegularExpressions.Regex.Match(Serie, "(?<=\d+)([a-z]|[A-Z]|_\d{1,2)(?=：)")
         If Match.Success Then
             If Match.Value.Length = 1 Then
                 ExpectedCut.Checked = True
@@ -579,12 +602,16 @@ Retry:  Try
                         JustRecord.Checked = True
                     Case Else
                         Match = System.Text.RegularExpressions.Regex.Match(Suffix,
-                                    "^(C-[A-Z]+b?\d\d?|(\[([A-Z]|[0-9]|-|\(|\))+\])+|S-((SM|V|S)\d+(\(\d+\))?\,?)+|R\d\d?)$")
+                                    "^(C-[A-Z]+b?\d{1,5}|(\[([A-Z]|[0-9]|-|\(|\))+\])+|S-((SM|V|S)\d+(\(\d+\))?\,?)+|R\d\d?)$")
                         If Match.Success Then
                             Select Case Match.Value(0)
                                 Case "C"c
+                                    Dim SeriesCode As String = Match.Value.Substring(2).TakeWhile(Function(c As Char) Char.IsUpper(c))
                                     Continued.Checked = True
-
+                                    ContinuedFromSeries.Text = ConvertCode(SeriesCode, False)
+                                    Dim Last As String = Match.Value.Substring(2).Replace(SeriesCode, String.Empty)
+                                    If Last.First = "b"c Then ContinuedFromBeta.Checked = True
+                                    ContinuedFromNumber.Value = CDec(Last.Substring(1))
                                 Case "S"c
 
                                 Case "R"c
@@ -667,7 +694,8 @@ Namespace AntiKeylogger
             Dim hOldDesktop As IntPtr = GetThreadDesktop(GetCurrentThreadId())
 
             ' new desktop's handle, assigned automatically by CreateDesktop
-            Dim hNewDesktop As IntPtr = CreateDesktop("RandomDesktopName", IntPtr.Zero, IntPtr.Zero, 0, CUInt(DESKTOP_ACCESS.GENERIC_ALL), IntPtr.Zero)
+            Dim hNewDesktop As IntPtr = CreateDesktop("RandomDesktopName", IntPtr.Zero, IntPtr.Zero, 
+                                                      0, CUInt(DESKTOP_ACCESS.GENERIC_ALL), IntPtr.Zero)
 
             ' switching to the new desktop
             SwitchDesktop(hNewDesktop)
@@ -692,7 +720,6 @@ Namespace AntiKeylogger
                                                              loginWnd.Controls.Add(passwordTextBox)
                                                              loginWnd.FormClosing += Function(sender, e)
                                                                                          passwd = passwordTextBox.Text
-
                                                                                      End Function
                                                              Application.Run(loginWnd)
 
