@@ -239,7 +239,8 @@ Retry:  Try
                 Return _HighSurrogate
             End Get
             Set(value As Char)
-                If AscW(value) < &HD800 OrElse AscW(value) > &HDBFF Then Throw New ArgumentOutOfRangeException("Value is not a high surrogate.")
+                If AscW(value) < &HD800 OrElse AscW(value) >
+                    &HDBFF Then Throw New ArgumentOutOfRangeException("Value is not a high surrogate.")
                 _HighSurrogate = value
             End Set
         End Property
@@ -262,6 +263,17 @@ Retry:  Try
         Public Property SingleChar As Char
         Public Overrides Function ToString() As String
             Return If(IsSurrogatePair, HighSurrogate & LowSurrogate, SingleChar)
+        End Function
+        Public Function ToChar() As Char
+            If IsSurrogatePair Then Throw New ArgumentOutOfRangeException("Pair", "Chars cannot handle surrogate pairs.")
+            Return SingleChar
+        End Function
+        Public Function ToCharArray() As Char()
+            If IsSurrogatePair Then Return {HighSurrogate, LowSurrogate}
+            Return {SingleChar}
+        End Function
+        Public Function ToList() As List(Of Char)
+            Return New List(Of Char)(ToCharArray)
         End Function
         Public Function Asc() As UInteger
             Return If(IsSurrogatePair, &H10000 + (AscW(HighSurrogate) - &HD800) * &H400 + (AscW(LowSurrogate) - &HDC00), AscW(SingleChar))
@@ -353,6 +365,18 @@ Retry:  Try
         End Operator
         Shared Widening Operator CType(Chr As Char) As SurrogatePair
             Return New SurrogatePair(Chr)
+        End Operator
+        Shared Widening Operator CType(Pair As SurrogatePair) As Char()
+            Return Pair.ToCharArray
+        End Operator
+        Shared Narrowing Operator CType(ChrArray As Char()) As SurrogatePair
+            Return New SurrogatePair(New String(ChrArray))
+        End Operator
+        Shared Widening Operator CType(Pair As SurrogatePair) As List(Of Char)
+            Return Pair.ToList
+        End Operator
+        Shared Narrowing Operator CType(ChrList As List(Of Char)) As SurrogatePair
+            Return New SurrogatePair(New String(ChrList.ToArray))
         End Operator
     End Structure
 
@@ -602,20 +626,36 @@ Retry:  Try
                         JustRecord.Checked = True
                     Case Else
                         Match = System.Text.RegularExpressions.Regex.Match(Suffix,
-                                    "^(C-[A-Z]+b?\d{1,5}|(\[([A-Z]|[0-9]|-|\(|\))+\])+|S-((SM|V|S)\d+(\(\d+\))?\,?)+|R\d\d?)$")
+                                    "^(C-[A-Z]+b?\d{1,5}|S-((SM|V|S)\d+(\(\d+\))?\,?)+|R\d\d?)$") '(\[([A-Z]|[0-9]|-|\(|\))+\])+|
                         If Match.Success Then
-                            Select Case Match.Value(0)
+                            Input = Match.Value
+                            Select Case Input(0)
                                 Case "C"c
-                                    Dim SeriesCode As String = Match.Value.Substring(2).TakeWhile(Function(c As Char) Char.IsUpper(c))
+                                    Dim SeriesCode As String = Input.Substring(2).TakeWhile(Function(c As Char) Char.IsUpper(c))
                                     Continued.Checked = True
                                     ContinuedFromSeries.Text = ConvertCode(SeriesCode, False)
-                                    Dim Last As String = Match.Value.Substring(2).Replace(SeriesCode, String.Empty)
+                                    Dim Last As String = Input.Substring(2).Replace(SeriesCode, String.Empty)
                                     If Last.First = "b"c Then ContinuedFromBeta.Checked = True
                                     ContinuedFromNumber.Value = CDec(Last.Substring(1))
                                 Case "S"c
-
+                                    Select Case Input(2)
+                                        Case "S"c
+                                            If Input(3) = "M"c Then
+                                                SeriesNumber.Checked = True
+                                                Dim Index As Integer = Input.IndexOf("("c)
+                                                If Index <> -1 Then
+                                                    SeriesNumberApproximately.Checked = True
+                                                    SeriesNumberApproximate.Value = Input.Substring(Index + 1).TrimEnd(")c")
+                                                End If
+                                            Else
+                                                SubscribeCount.Checked = True
+                                                SubscribeCounter.Value =
+                                                    Val(New String(Input.Substring(4).TakeWhile(Function(c As Char) Char.IsDigit(c)).ToArray))
+                                            End If
+                                        Case "V"c
+                                    End Select
                                 Case "R"c
-                                    SpeedrunMultiplier.Value = CDec(Match.Value.Substring(1))
+                                    SpeedrunMultiplier.Value = CDec(Input.Substring(1))
                             End Select
                         End If
                 End Select
