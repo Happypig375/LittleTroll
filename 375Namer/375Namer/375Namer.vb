@@ -163,8 +163,7 @@ Retry:  Try
             If(SubscribeCount.Checked, ","c, String.Empty), String.Empty) &
  _
             If(SubscribeCount.Checked, "S" & SubscribeCounter.Value &
-            If(SubscribeCountApproximately.Checked, "("c & SubscribeCountApproximate.Value & ")"c, String.Empty) &
-            If(SubscribeCount.Checked, ","c, String.Empty), String.Empty) &
+            If(SubscribeCountApproximately.Checked, "("c & SubscribeCountApproximate.Value & ")"c, String.Empty), String.Empty) &
             "]"c, String.Empty) &
  _
             If(Continued.Checked, "[C-" & ConvertCode(ContinuedFromSeries.SelectedItem, True) &
@@ -277,6 +276,9 @@ Retry:  Try
         End Function
         Public Function Asc() As UInteger
             Return If(IsSurrogatePair, &H10000 + (AscW(HighSurrogate) - &HD800) * &H400 + (AscW(LowSurrogate) - &HDC00), AscW(SingleChar))
+        End Function
+        Public Function GetUnicodeCategory() As Globalization.UnicodeCategory
+            Throw New NotImplementedException
         End Function
         Sub New(CodePoint As UInteger)
             If CodePoint <= &HFFFF Then
@@ -579,10 +581,10 @@ Retry:  Try
     Friend Sub Parse(Input As String)
         If String.IsNullOrEmpty(Input) Then Input = "├Minecraft遊記:┤1a："
         If Input(0) <> Prefix.Text Then ThrowFormatException("First character is not prefix.")
-        Dim Serie As String = Input.Substring(1).TakeWhile(Function(c As Char) c <> Midfix.Text).ToArray
+        Dim Serie As String = Input.Substring(1).TakeWhile(Function(Ch As Char) Ch <> Midfix.Text).ToArray
         If Serie.Contains(SeriesColon.Text) Then
-            Dim Subserie As String = Serie.SkipWhile(Function(c As Char) c <> SeriesColon.Text).ToArray
-            Serie = Serie.TakeWhile(Function(c As Char) c <> SeriesColon.Text).ToArray
+            Dim Subserie As String = Serie.SkipWhile(Function(Ch As Char) Ch <> SeriesColon.Text).ToArray
+            Serie = Serie.TakeWhile(Function(Ch As Char) Ch <> SeriesColon.Text).ToArray
             SubSeries.Text = Subserie.Substring(1)
         End If
         Series.Text = Serie
@@ -591,7 +593,7 @@ Retry:  Try
             Beta.Checked = True
             Input = Input.Substring(5)
         End If
-        Number.Value = Val(New String(Input.TakeWhile(Function(c As Char) Char.IsDigit(c)).ToArray))
+        Number.Value = Val(New String(Input.TakeWhile(Function(Ch As Char) Char.IsDigit(Ch)).ToArray))
         Dim Match As System.Text.RegularExpressions.Match =
             System.Text.RegularExpressions.Regex.Match(Serie, "(?<=\d+)([a-z]|[A-Z]|_\d{1,2)(?=：)")
         If Match.Success Then
@@ -606,52 +608,81 @@ Retry:  Try
         Else
             NumberSuffix.Text = String.Empty
         End If
-        Match = System.Text.RegularExpressions.Regex.Match(Input, "(?<=\s)(\[([a-z]|[A-Z]|[0-9]|-|\(|\))+\])+$")
+        Match = System.Text.RegularExpressions.Regex.Match(Input, "(?<=\s)(\[([a-z]|[A-Z]|[0-9]|-|_|,|\(|\))+\])+$")
+        Dim Solol As Boolean = True
+        Dim NN, E, X, J, C, SSM, SS, SV, R As Boolean
         If Match.Success Then
             For Each Suffix As String In Match.Value.Split({"["c, "]"c}, StringSplitOptions.RemoveEmptyEntries)
                 Select Case Suffix
                     Case "D"
+                        Solol = False
                         Duo.Checked = True
                     Case "T"
+                        Solol = False
                         Triple.Checked = True
                     Case "M"
+                        Solol = False
                         Multiple.Checked = True
                     Case "NN"
+                        NN = True
                         NoNarration.Checked = True
                     Case "E"
+                        E = True
                         Extra.Checked = True
                     Case "X"
+                        X = True
                         NotSuggested.Checked = True
                     Case "J"
+                        J = True
                         JustRecord.Checked = True
                     Case Else
                         Match = System.Text.RegularExpressions.Regex.Match(Suffix,
-                                    "^(C-[A-Z]+b?\d{1,5}|S-((SM|V|S)\d+(\(\d+\))?\,?)+|R\d\d?)$") '(\[([A-Z]|[0-9]|-|\(|\))+\])+|
+                                    "^(C-[A-Z]+b?\d{1,5}(_\d{1,2}|[a-z])|S-((SM|V|S)\d+(\(\d+\))?\,?)+|R\d\d?)$")
+                        '(\[([A-Z]|[0-9]|-|\(|\))+\])+|
                         If Match.Success Then
                             Input = Match.Value
                             Select Case Input(0)
                                 Case "C"c
-                                    Dim SeriesCode As String = Input.Substring(2).TakeWhile(Function(c As Char) Char.IsUpper(c))
+                                    C = True
+                                    Dim SeriesCode As New String(Input.Substring(2).TakeWhile(Function(Ch As Char) Char.IsUpper(Ch)).ToArray)
                                     Continued.Checked = True
                                     ContinuedFromSeries.Text = ConvertCode(SeriesCode, False)
                                     Dim Last As String = Input.Substring(2).Replace(SeriesCode, String.Empty)
                                     If Last.First = "b"c Then ContinuedFromBeta.Checked = True
-                                    ContinuedFromNumber.Value = CDec(Last.Substring(1))
+                                    ContinuedFromNumber.Value = Val(New String(If(Last.First = "b"c, Last.Substring(1), Last).
+                                                                               TakeWhile(Function(Ch As Char) Char.IsDigit(Ch)).ToArray))
+                                    If Char.IsLetter(Last.Last) Then
+                                        ContinuedFromExpectedCut.Checked = True
+                                        ContinuedFromSuffix.Text = Last.Last
+                                    ElseIf Last.Contains("_"c) AndAlso Char.IsDigit(Last.Last) Then
+                                        ContinuedFromExpectedCut.Checked = False
+                                        ContinuedFromSuffix.ResetText()
+                                        For i As Integer = Last.Length - 1 To 0 Step -1
+                                            If Char.IsDigit(Last(i)) OrElse Last(i) = "_" Then ContinuedFromSuffix.Text &= Last(i)
+                                            If Last(i) = "_" Then Exit For
+                                        Next i
+                                        ContinuedFromSuffix.Text = ContinuedFromSuffix.Text.Reverse.ToArray
+                                    End If
                                 Case "S"c
                                     Special.Checked = True
                                     Select Case Input(2)
                                         Case "S"c
                                             If Input(3) = "M"c Then
+                                                SSM = True
                                                 SeriesNumber.Checked = True
                                                 Dim Index As Integer = Input.IndexOf("("c)
                                                 If Index <> -1 Then
                                                     SeriesNumberApproximately.Checked = True
-                                                    SeriesNumberApproximate.Value = Input.Substring(Index + 1).TrimEnd(")c")
+                                                    Dim SubStr As String = Input.Substring(Index + 1)
+                                                    SubStr.Remove(Input.IndexOf(")"c))
+                                                    SeriesNumberApproximate.Value = SubStr
                                                 End If
                                             Else
+                                                SS = True
                                                 SubscribeCount.Checked = True
                                                 SubscribeCounter.Value =
-                                                    Val(New String(Input.Substring(4).TakeWhile(Function(c As Char) Char.IsDigit(c)).ToArray))
+                                                    Val(New String(Input.Substring(4).TakeWhile(
+                                                    Function(Ch As Char) Char.IsDigit(Ch)).ToArray))
                                                 Dim Index As Integer = Input.IndexOf("("c)
                                                 If Index <> -1 Then
                                                     SubscribeCountApproximately.Checked = True
@@ -659,9 +690,10 @@ Retry:  Try
                                                 End If
                                             End If
                                         Case "V"c
+                                            SV = True
                                             VideoNumber.Checked = True
                                             VideoNumbers.Value =
-                                                Val(New String(Input.Substring(4).TakeWhile(Function(c As Char) Char.IsDigit(c)).ToArray))
+                                                Val(New String(Input.Substring(4).TakeWhile(Function(Ch As Char) Char.IsDigit(Ch)).ToArray))
                                             Dim Index As Integer = Input.IndexOf("("c)
                                             If Index <> -1 Then
                                                 VideoNumberApproximately.Checked = True
@@ -669,12 +701,29 @@ Retry:  Try
                                             End If
                                     End Select
                                 Case "R"c
+                                    R = True
                                     SpeedrunMultiplier.Value = CDec(Input.Substring(1))
                             End Select
                         End If
                 End Select
             Next
         End If
+        Solo.Checked = Solol
+        'NN, E, X, J, C, SSM, SS, SV
+        If Not NN Then NoNarration.Checked = False
+        If Not E Then Extra.Checked = False
+        If Not X Then NotSuggested.Checked = False
+        If Not J Then JustRecord.Checked = False
+        If Not C Then Continued.Checked = False
+        If Not SSM Then SeriesNumber.Checked = False
+        If Not SS Then SubscribeCount.Checked = False
+        If Not SV Then VideoNumber.Checked = False
+        If Not R Then Speedrun.Checked = False
+        Refresh()
+    End Sub
+
+    Public Overloads Overrides Sub Refresh()
+        Refresh(Me, EventArgs.Empty)
     End Sub
 
     Friend Function ThrowFormatException(Message As String) As Type
