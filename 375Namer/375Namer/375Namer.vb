@@ -1,11 +1,15 @@
 ﻿Public Class Form
-    Friend ReadOnly AVI As String = My.Computer.FileSystem.CurrentDirectory & "\AVI.settings"
+    Friend ReadOnly Settings As String = My.Computer.FileSystem.CurrentDirectory & "\375Namer.settings"
     Friend Const Delimiter As Char = ChrW(7)
     Friend Names As New List(Of String)
     Private Sub Form_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
-        Dim Writer As New IO.StreamWriter(AVI, False) With {.NewLine = vbCrLf}
-        Writer.WriteLine(List.SelectedItem & Delimiter & Output.Text)
-
+        Using Writer As New IO.StreamWriter(Settings, False, System.Text.Encoding.Unicode) With {.NewLine = vbCrLf}
+            For i = 0 To Names.Count - 1
+                Writer.WriteLine(List.Items(i) & Delimiter & Names(i))
+            Next
+            Writer.Flush()
+            Writer.Close()
+        End Using
 #If False Then
         MsgBox(List.SelectedItem & Delimiter & Series.Text & Delimiter & SubSeries.Text & Delimiter &
                      Beta.Checked & Delimiter & Number.Value & Delimiter & NumberSuffix.Text & Delimiter &
@@ -17,6 +21,18 @@
                      SubscribeCounter.Value & Delimiter & SubscribeCountApproximately.Checked & Delimiter &
                      SubscribeCountApproximate.Value & Delimiter & ...)
 #End If
+    End Sub
+
+    Private Sub Form_Load(sender As Object, e As FormClosedEventArgs)
+        Using Reader As New FileIO.TextFieldParser(Settings) With {.Delimiters = {Delimiter}}
+            Dim Files, Content As New List(Of String)
+            While Not Reader.EndOfData
+                Dim Fields As String() = Reader.ReadFields
+                Files.Add(Fields(0))
+                Content.Add(Fields(1))
+            End While
+            Reader.Close()
+        End Using
     End Sub
     'FileIO.FileSystem.FindInFiles(Drive.Name, PartOfFile, IgnoreCase, FileIO.SearchOption.SearchAllSubDirectories)
     ''' <summary>
@@ -50,7 +66,7 @@
         ContinuedFromSeries.SelectedIndex = 0
         Title.Text = Chr(0)
 Retry:  Try
-            Dim Reader As New FileIO.TextFieldParser(AVI, System.Text.Encoding.Unicode) With
+            Dim Reader As New FileIO.TextFieldParser(Settings, System.Text.Encoding.Unicode) With
                 {.Delimiters = {Delimiter.ToString}, .TrimWhiteSpace = True}
             Do Until Reader.EndOfData
                 Dim Line As String() = Reader.ReadFields
@@ -61,7 +77,7 @@ Retry:  Try
             Loop
         Catch ex As IO.FileNotFoundException
             Try
-                My.Computer.FileSystem.WriteAllText(AVI, "", False)
+                My.Computer.FileSystem.WriteAllText(Settings, "", False)
                 GoTo Retry
             Catch exc As UnauthorizedAccessException
                 MsgBox("Do not have enough permission. Cannot load/save settings.", MsgBoxStyle.Exclamation)
@@ -277,7 +293,7 @@ Retry:  Try
         Public Function Asc() As UInteger
             Return If(IsSurrogatePair, &H10000 + (AscW(HighSurrogate) - &HD800) * &H400 + (AscW(LowSurrogate) - &HDC00), AscW(SingleChar))
         End Function
-        Public Function GetUnicodeCategory() As Globalization.UnicodeCategory
+        Public Function GetNumericValue() As Double
             Throw New NotImplementedException
         End Function
         Sub New(CodePoint As UInteger)
@@ -555,10 +571,15 @@ Retry:  Try
         For Each File As IO.FileInfo In DirInfo.GetFiles("*.mp4", IO.SearchOption.TopDirectoryOnly)
             Files.Add(File.Name)
         Next
-        For Each File As String In Files
+        AddFiles(Files)
+    End Sub
+
+    Friend Sub AddFiles(Files As IEnumerable(Of String), Optional Content As IList(Of String) = Nothing)
+        For i As Integer = 0 To Files.Count - 1
+            Dim File As String = Files(i)
             If List.Items.Contains(File) Then Continue For
             List.Items.Add(File)
-            Names.Add("")
+            Names.Add(Content?.Item(i))
         Next
         Dim Temp1 As String() = List.Items.Cast(Of String).ToArray
         Dim Temp2 As String() = Names.ToArray
@@ -568,7 +589,6 @@ Retry:  Try
         Names.Clear()
         Names.AddRange(Temp2)
     End Sub
-
     Private Sub Output_TextChanged(sender As Object, e As EventArgs)
         Names(List.SelectedIndex) = Output.Text
     End Sub
@@ -579,7 +599,7 @@ Retry:  Try
     End Sub
 
     Friend Sub Parse(Input As String)
-        If String.IsNullOrEmpty(Input) Then Input = "├Minecraft遊記:┤1a："
+        If String.IsNullOrEmpty(Input) Then Input = "├Minecraft遊記:┤1："
         If Input(0) <> Prefix.Text Then ThrowFormatException("First character is not prefix.")
         Dim Serie As String = Input.Substring(1).TakeWhile(Function(Ch As Char) Ch <> Midfix.Text).ToArray
         If Serie.Contains(SeriesColon.Text) Then
@@ -592,26 +612,28 @@ Retry:  Try
         If Input.StartsWith("Beta ") Then
             Beta.Checked = True
             Input = Input.Substring(5)
+        Else Beta.Checked = False
         End If
         Number.Value = Val(New String(Input.TakeWhile(Function(Ch As Char) Char.IsDigit(Ch)).ToArray))
         Dim Match As System.Text.RegularExpressions.Match =
-            System.Text.RegularExpressions.Regex.Match(Serie, "(?<=\d+)([a-z]|[A-Z]|_\d{1,2)(?=：)")
+            System.Text.RegularExpressions.Regex.Match(Input, "(?<=\d+)([a-z]|[A-Z]|_\d{1,2)(?=：)")
         If Match.Success Then
             If Match.Value.Length = 1 Then
                 ExpectedCut.Checked = True
             ElseIf Match.Value.Length = 2 Or Match.Value.Length = 3 Then
                 ExpectedCut.Checked = False
-            Else
-                ThrowFormatException("There are more than three characters as the number suffix.")
+            Else ThrowFormatException("There are more than three characters as the number suffix.")
             End If
             NumberSuffix.Text = Match.Value
-        Else
-            NumberSuffix.Text = String.Empty
+        Else NumberSuffix.Text = String.Empty
         End If
+        Title.Text = Input.Substring(Input.IndexOf(Colon.Text) + 1)
         Match = System.Text.RegularExpressions.Regex.Match(Input, "(?<=\s)(\[([a-z]|[A-Z]|[0-9]|-|_|,|\(|\))+\])+$")
         Dim Solol As Boolean = True
         Dim NN, E, X, J, C, SSM, SS, SV, R As Boolean
         If Match.Success Then
+            Title.Text = Title.Text.Replace(Match.Value, String.Empty)
+            Title.Text = Title.Text.TrimEnd
             For Each Suffix As String In Match.Value.Split({"["c, "]"c}, StringSplitOptions.RemoveEmptyEntries)
                 Select Case Suffix
                     Case "D"
@@ -658,50 +680,55 @@ Retry:  Try
                                         ContinuedFromExpectedCut.Checked = False
                                         ContinuedFromSuffix.ResetText()
                                         For i As Integer = Last.Length - 1 To 0 Step -1
-                                            If Char.IsDigit(Last(i)) OrElse Last(i) = "_" Then ContinuedFromSuffix.Text &= Last(i)
-                                            If Last(i) = "_" Then Exit For
+                                            If Char.IsDigit(Last(i)) OrElse Last(i) = "_"c Then ContinuedFromSuffix.Text &= Last(i)
+                                            If Last(i) = "_"c Then Exit For
                                         Next i
                                         ContinuedFromSuffix.Text = ContinuedFromSuffix.Text.Reverse.ToArray
                                     End If
                                 Case "S"c
                                     Special.Checked = True
-                                    Select Case Input(2)
-                                        Case "S"c
-                                            If Input(3) = "M"c Then
-                                                SSM = True
-                                                SeriesNumber.Checked = True
-                                                Dim Index As Integer = Input.IndexOf("("c)
-                                                If Index <> -1 Then
-                                                    SeriesNumberApproximately.Checked = True
-                                                    Dim SubStr As String = Input.Substring(Index + 1)
-                                                    SubStr.Remove(Input.IndexOf(")"c))
-                                                    SeriesNumberApproximate.Value = SubStr
+                                    For Each Part As String In Input.Split(","c)
+                                        If Part.StartsWith("S-") Then Part = Part.Substring(2)
+                                        Select Case Part(0)
+                                            Case "S"c
+                                                If Part(1) = "M"c Then
+                                                    SSM = True
+                                                    SeriesNumber.Checked = True
+                                                    Dim Index As Integer = Part.IndexOf("("c)
+                                                    If Index <> -1 Then
+                                                        SeriesNumberApproximately.Checked = True
+                                                        SeriesNumberApproximate.Value =
+                                                        Val(Part.Substring(Index + 1).TakeWhile(Function(Ch As Char) Ch <> ")"c).ToArray)
+                                                    End If
+                                                Else
+                                                    SS = True
+                                                    SubscribeCount.Checked = True
+                                                    SubscribeCounter.Value =
+                                                        Val(New String(Part.Substring(1).TakeWhile(
+                                                        Function(Ch As Char) Char.IsDigit(Ch)).ToArray))
+                                                    Dim Index As Integer = Part.IndexOf("("c)
+                                                    If Index <> -1 Then
+                                                        SubscribeCountApproximately.Checked = True
+                                                        SubscribeCountApproximate.Value = Val(New String(Part.Substring(Index + 1).
+                                                            TakeWhile(Function(Ch As Char) Ch <> ")"c).ToArray).TrimEnd(")c"))
+                                                    End If
                                                 End If
-                                            Else
-                                                SS = True
-                                                SubscribeCount.Checked = True
-                                                SubscribeCounter.Value =
-                                                    Val(New String(Input.Substring(4).TakeWhile(
+                                            Case "V"c
+                                                SV = True
+                                                VideoNumber.Checked = True
+                                                VideoNumbers.Value =
+                                                    Val(New String(Part.Substring(1).TakeWhile(
                                                     Function(Ch As Char) Char.IsDigit(Ch)).ToArray))
-                                                Dim Index As Integer = Input.IndexOf("("c)
+                                                Dim Index As Integer = Part.IndexOf("("c)
                                                 If Index <> -1 Then
-                                                    SubscribeCountApproximately.Checked = True
-                                                    SubscribeCountApproximate.Value = Input.Substring(Index + 1).TrimEnd(")c")
+                                                    VideoNumberApproximately.Checked = True
+                                                    VideoNumberApproximate.Value = Part.Substring(Index + 1).TrimEnd(")c")
                                                 End If
-                                            End If
-                                        Case "V"c
-                                            SV = True
-                                            VideoNumber.Checked = True
-                                            VideoNumbers.Value =
-                                                Val(New String(Input.Substring(4).TakeWhile(Function(Ch As Char) Char.IsDigit(Ch)).ToArray))
-                                            Dim Index As Integer = Input.IndexOf("("c)
-                                            If Index <> -1 Then
-                                                VideoNumberApproximately.Checked = True
-                                                VideoNumberApproximate.Value = Input.Substring(Index + 1).TrimEnd(")c")
-                                            End If
-                                    End Select
+                                        End Select
+                                    Next
                                 Case "R"c
                                     R = True
+                                    Speedrun.Checked = True
                                     SpeedrunMultiplier.Value = CDec(Input.Substring(1))
                             End Select
                         End If
@@ -715,6 +742,7 @@ Retry:  Try
         If Not X Then NotSuggested.Checked = False
         If Not J Then JustRecord.Checked = False
         If Not C Then Continued.Checked = False
+        If Not (SSM Or SS Or SV) Then Special.Checked = False
         If Not SSM Then SeriesNumber.Checked = False
         If Not SS Then SubscribeCount.Checked = False
         If Not SV Then VideoNumber.Checked = False
