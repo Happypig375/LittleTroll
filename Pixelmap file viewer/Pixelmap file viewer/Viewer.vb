@@ -7,8 +7,9 @@
                 For i As Integer = 0 To BitMap.Width
                     For j As Integer = 0 To BitMap.Height
                         Dim Pixel As String = Convert.ToString(Reader.Read(), 16)
-                        Pixel.PadLeft(8, "0"c)
-
+                        Pixel = Pixel.PadLeft(6, "0"c)
+                        Pixel = Pixel.PadLeft(8, "F"c)
+                        Dim PixelColor As Color = Color.FromArgb(Val("&H" & Pixel))
                     Next
                 Next
             End While
