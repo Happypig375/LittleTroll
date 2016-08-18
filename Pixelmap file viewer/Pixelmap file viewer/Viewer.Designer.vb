@@ -22,7 +22,8 @@ Partial Class Viewer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Viewer))
+        Me.View = New System.Windows.Forms.PictureBox()
         Me.Menu = New System.Windows.Forms.MenuStrip()
         Me.MenuFile = New System.Windows.Forms.ToolStripMenuItem()
         Me.FileNew = New System.Windows.Forms.ToolStripMenuItem()
@@ -32,18 +33,19 @@ Partial Class Viewer
         Me.FileReload = New System.Windows.Forms.ToolStripMenuItem()
         Me.Open = New System.Windows.Forms.OpenFileDialog()
         Me.Save = New System.Windows.Forms.SaveFileDialog()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.FilePrint = New System.Windows.Forms.ToolStripMenuItem()
+        CType(Me.View, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Menu.SuspendLayout()
         Me.SuspendLayout()
         '
-        'PictureBox1
+        'View
         '
-        Me.PictureBox1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PictureBox1.Location = New System.Drawing.Point(0, 24)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(284, 237)
-        Me.PictureBox1.TabIndex = 0
-        Me.PictureBox1.TabStop = False
+        Me.View.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.View.Location = New System.Drawing.Point(0, 24)
+        Me.View.Name = "View"
+        Me.View.Size = New System.Drawing.Size(284, 237)
+        Me.View.TabIndex = 0
+        Me.View.TabStop = False
         '
         'Menu
         '
@@ -56,7 +58,7 @@ Partial Class Viewer
         '
         'MenuFile
         '
-        Me.MenuFile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileNew, Me.FileOpen, Me.FileSave, Me.FileSaveAs, Me.FileReload})
+        Me.MenuFile.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileNew, Me.FileOpen, Me.FileSave, Me.FileSaveAs, Me.FileReload, Me.FilePrint})
         Me.MenuFile.Name = "MenuFile"
         Me.MenuFile.Size = New System.Drawing.Size(37, 20)
         Me.MenuFile.Text = "&File"
@@ -99,19 +101,30 @@ Partial Class Viewer
         '
         'Open
         '
-        Me.Open.FileName = "OpenFileDialog1"
+        Me.Open.Filter = resources.GetString("Open.Filter")
+        '
+        'Save
+        '
+        Me.Save.Filter = resources.GetString("Save.Filter")
+        '
+        'FilePrint
+        '
+        Me.FilePrint.Name = "FilePrint"
+        Me.FilePrint.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
+        Me.FilePrint.Size = New System.Drawing.Size(186, 22)
+        Me.FilePrint.Text = "&Print"
         '
         'Viewer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(284, 261)
-        Me.Controls.Add(Me.PictureBox1)
+        Me.Controls.Add(Me.View)
         Me.Controls.Add(Me.Menu)
         Me.MainMenuStrip = Me.Menu
         Me.Name = "Viewer"
         Me.Text = "Pixelmap file viewer"
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.View, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Menu.ResumeLayout(False)
         Me.Menu.PerformLayout()
         Me.ResumeLayout(False)
@@ -119,7 +132,7 @@ Partial Class Viewer
 
     End Sub
 
-    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents View As PictureBox
     Friend WithEvents Menu As MenuStrip
     Friend WithEvents MenuFile As ToolStripMenuItem
     Friend WithEvents FileNew As ToolStripMenuItem
@@ -129,4 +142,5 @@ Partial Class Viewer
     Friend WithEvents FileReload As ToolStripMenuItem
     Friend WithEvents Open As OpenFileDialog
     Friend WithEvents Save As SaveFileDialog
+    Friend WithEvents FilePrint As ToolStripMenuItem
 End Class
