@@ -24,16 +24,22 @@
     End Sub
 
     Private Sub Form_Load(sender As Object, e As FormClosedEventArgs)
+        Dim Items As Dictionary(Of String, String) = LoadItems()
+        AddFiles(Items.Keys, New List(Of String)(Items.Values))
+    End Sub
+
+    Private Function LoadItems() As Dictionary(Of String, String)
+        LoadItems = New Dictionary(Of String, String)
+        '<Runtime.InteropServices.Out> Content As IList(Of String)
         Using Reader As New FileIO.TextFieldParser(Settings) With {.Delimiters = {Delimiter}}
             Dim Files, Content As New List(Of String)
             While Not Reader.EndOfData
                 Dim Fields As String() = Reader.ReadFields
-                Files.Add(Fields(0))
-                Content.Add(Fields(1))
+                LoadItems.Add(Fields(0), Fields(1))
             End While
             Reader.Close()
         End Using
-    End Sub
+    End Function
     'FileIO.FileSystem.FindInFiles(Drive.Name, PartOfFile, IgnoreCase, FileIO.SearchOption.SearchAllSubDirectories)
     ''' <summary>
     ''' Gets all dirctories containing the file which its part is specified.
@@ -42,7 +48,7 @@
     ''' <returns>All dirctories containing the file which its part is specified.</returns>
     ''' <remarks>Comment if anything is wrong.</remarks>
     Function GetTXTDirectory(PartOfTXT As String) As String()
-        Dim List As New System.Collections.Generic.List(Of String)
+        Dim List As New List(Of String)
         For Each Drive As System.IO.DriveInfo In System.IO.DriveInfo.GetDrives
             List.AddRange(System.IO.Directory.GetFiles(Drive.Name, "*"c & PartOfTXT & "*.txt", IO.SearchOption.AllDirectories))
         Next
@@ -60,21 +66,40 @@
         Next
         Throw New ArgumentOutOfRangeException("Thread not found.")
     End Function
+    Public Class DuplicateKeyComparer(Of TKey As IconConverter)
+        'Implements IComparer(Of TKey)
+    End Class
+    <Serializable>
+    Public Structure Nullable(Of T As Structure)
+    End Structure
+    Public Interface ICompatiable
+        Inherits IConvertible
+        Function ToTimeSpan(ByVal provider As IFormatProvider) As TimeSpan
+        Sub ToVoid(ByVal provider As IFormatProvider)
+    End Interface
     Private Sub Me_Load(sender As Object, e As EventArgs) Handles Me.Load
-
+        Dim Dictionary As New Dictionary(Of String, String)
         Series.SelectedIndex = 0
         ContinuedFromSeries.SelectedIndex = 0
         Title.Text = Chr(0)
-Retry:  Try
-            Dim Reader As New FileIO.TextFieldParser(Settings, System.Text.Encoding.Unicode) With
+Retry : Try
+            Using Reader As New FileIO.TextFieldParser(Settings, System.Text.Encoding.Unicode) With
                 {.Delimiters = {Delimiter.ToString}, .TrimWhiteSpace = True}
-            Do Until Reader.EndOfData
-                Dim Line As String() = Reader.ReadFields
-                If Line.Count <> 2 Then Throw New FileIO.MalformedLineException(
-                    "There are more than one or no delimiters in the line.", Reader.LineNumber - 1)
-                List.Items.Add(Line(0))
-                Names.Add(Line(1))
-            Loop
+                Do Until Reader.EndOfData
+                    Dim Line As String() = Nothing
+                    Try
+                        Line = Reader.ReadFields
+                        If Line.Count <> 2 Then Throw New FileIO.MalformedLineException(
+                            "There are more than one or no delimiters in the line.", Reader.LineNumber - 1)
+                        Dictionary.Add(Line(0), Line(1))
+                    Catch ex As FileIO.MalformedLineException
+                        MsgBox(ex.Message & vbCrLf & "Line number: " & ex.LineNumber)
+                    Catch ex As ArgumentException
+                        MsgBox($"""{Line(0)}"" is duplicated: {ex.Message}")
+                    End Try
+                Loop
+            End Using
+            AddFiles(Dictionary.Keys, New List(Of String)(Dictionary.Values))
         Catch ex As IO.FileNotFoundException
             Try
                 My.Computer.FileSystem.WriteAllText(Settings, "", False)
@@ -82,8 +107,6 @@ Retry:  Try
             Catch exc As UnauthorizedAccessException
                 MsgBox("Do not have enough permission. Cannot load/save settings.", MsgBoxStyle.Exclamation)
             End Try
-        Catch ex As FileIO.MalformedLineException
-            MsgBox(ex.Message & vbCrLf & "Line number: " & ex.LineNumber)
         End Try
         If List.Items.Count = 0 Then
             List.Items.Add("<empty>")
@@ -290,6 +313,39 @@ Retry:  Try
         Public Function ToList() As List(Of Char)
             Return New List(Of Char)(ToCharArray)
         End Function
+        Public Iterator Function ToIEnumerable() As IEnumerable(Of Char)
+            If IsSurrogatePair Then
+                Yield HighSurrogate
+                Yield LowSurrogate
+            Else Yield SingleChar
+            End If
+        End Function
+        Public Iterator Function ToIEnumerator() As IEnumerator(Of Char)
+            If IsSurrogatePair Then
+                Yield HighSurrogate
+                Yield LowSurrogate
+            Else Yield SingleChar
+            End If
+        End Function
+        Public Iterator Function ToNonGenericIEnumerable() As IEnumerable
+            If IsSurrogatePair Then
+                Yield HighSurrogate
+                Yield LowSurrogate
+            Else Yield SingleChar
+            End If
+        End Function
+        Public Iterator Function ToNonGenericIEnumerator() As IEnumerator
+            If IsSurrogatePair Then
+                Yield HighSurrogate
+                Yield LowSurrogate
+
+            Else Yield SingleChar
+            End If
+            Export(Of Dictionary(Of String, String))()
+        End Function
+        Public Function Export(Of T As IEnumerable)() As T
+            Return ToIEnumerable()
+        End Function
         Public Function Asc() As UInteger
             Return If(IsSurrogatePair, &H10000 + (AscW(HighSurrogate) - &HD800) * &H400 + (AscW(LowSurrogate) - &HDC00), AscW(SingleChar))
         End Function
@@ -305,12 +361,21 @@ Retry:  Try
                 CodePoint -= &H10000
                 LowSurrogate = ChrW(CodePoint Mod &H400 + &HDC00)
                 HighSurrogate = ChrW(CodePoint \ &H400 + &HD800)
-            Else
-                Throw New ArgumentOutOfRangeException("CodePoint", "The code point is too big.")
+            Else Throw New ArgumentOutOfRangeException("CodePoint", "The code point is too big.")
             End If
         End Sub
-        Public Function Chr(CodePoint As UInteger)
+        Public Shared Function Asc(Pair As SurrogatePair) As UInteger
+            Return If(Pair.IsSurrogatePair,
+                &H10000 + (AscW(Pair.HighSurrogate) - &HD800) * &H400 + (AscW(Pair.LowSurrogate) - &HDC00), AscW(Pair.SingleChar))
+        End Function
+        Public Shared Function Chr(CodePoint As UInteger) As SurrogatePair
             Return New SurrogatePair(CodePoint)
+        End Function
+        Public Overloads Shared Function Equals(Pair1 As SurrogatePair, Pair2 As SurrogatePair) As Boolean
+            Return Pair1 = Pair2
+        End Function
+        Public Overloads Function Equals(Pair As SurrogatePair) As Boolean
+            Return Me = Pair
         End Function
         Shared Operator =(Pair1 As SurrogatePair, Pair2 As SurrogatePair) As Boolean
             If Pair1.IsSurrogatePair <> Pair2.IsSurrogatePair Then Return False
@@ -322,6 +387,12 @@ Retry:  Try
             End If
             Return True
         End Operator
+        Public Overloads Shared Function NotEquals(Pair1 As SurrogatePair, Pair2 As SurrogatePair) As Boolean
+            Return Pair1 <> Pair2
+        End Function
+        Public Overloads Function NotEquals(Pair As SurrogatePair) As Boolean
+            Return Me <> Pair
+        End Function
         Shared Operator <>(Pair1 As SurrogatePair, Pair2 As SurrogatePair) As Boolean
             If Pair1.IsSurrogatePair = Pair2.IsSurrogatePair Then Return False
             If Pair1.IsSurrogatePair Then
@@ -335,6 +406,15 @@ Retry:  Try
         Shared Operator *(Pair As SurrogatePair, Multiplier As Integer) As String
             Return StrDup(Multiplier, Pair.ToString)
         End Operator
+        Shared Operator +(Pair As SurrogatePair) As SurrogatePair
+            Pair = New SurrogatePair(Pair.Asc + 1UI)
+        End Operator
+        Shared Operator -(Pair As SurrogatePair) As SurrogatePair
+            Pair = New SurrogatePair(Pair.Asc - 1UI)
+        End Operator
+        Delegate Sub NoParamDelegate()
+        Delegate Function AscDelegate(Pair As SurrogatePair) As UInteger
+        Delegate Function ChrDelegate(CodePoint As UInteger) As SurrogatePair
         Shared Operator &(Chr As Char, Pair As SurrogatePair) As String
             Return Chr & Pair.ToString
         End Operator
