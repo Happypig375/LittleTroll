@@ -338,10 +338,8 @@ Retry : Try
             If IsSurrogatePair Then
                 Yield HighSurrogate
                 Yield LowSurrogate
-
             Else Yield SingleChar
             End If
-            Export(Of Dictionary(Of String, String))()
         End Function
         Public Function Export(Of T As IEnumerable)() As T
             Return ToIEnumerable()
@@ -846,6 +844,17 @@ Retry : Try
     Private Sub LoadYoutube_Click(sender As Object, e As EventArgs) Handles LoadYoutube.Click
         YoutubeInput.Show()
     End Sub
+
+    Private Sub QSearch_Click(sender As Object, e As EventArgs) Handles QSearch.Click
+        Process.Start("https://www.youtube.com/my_videos?o=U&sq=" & Encode(List.SelectedItem))
+    End Sub
+
+    Friend Function Encode(Query As String) As String
+        Encode = String.Empty
+        For Each Chr As Char In Query
+            Encode &= Uri.HexEscape(Chr)
+        Next
+    End Function
 End Class
 #If False Then
 Namespace Global

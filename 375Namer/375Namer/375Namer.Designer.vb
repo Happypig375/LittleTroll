@@ -73,6 +73,7 @@ Partial Class Form
         Me.Beta = New System.Windows.Forms.CheckBox()
         Me.LoadFiles = New System.Windows.Forms.Button()
         Me.LoadYoutube = New System.Windows.Forms.Button()
+        Me.QSearch = New System.Windows.Forms.Button()
         CType(Me.Number, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Specials.SuspendLayout()
         CType(Me.SubscribeCounter, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -688,11 +689,21 @@ Partial Class Form
         Me.LoadYoutube.Text = "Load Youtube Page"
         Me.LoadYoutube.UseVisualStyleBackColor = True
         '
+        'QSearch
+        '
+        Me.QSearch.Location = New System.Drawing.Point(216, 3)
+        Me.QSearch.Name = "QSearch"
+        Me.QSearch.Size = New System.Drawing.Size(83, 23)
+        Me.QSearch.TabIndex = 32
+        Me.QSearch.Text = "Quick Search"
+        Me.QSearch.UseVisualStyleBackColor = True
+        '
         'Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(825, 326)
+        Me.Controls.Add(Me.QSearch)
         Me.Controls.Add(Me.LoadYoutube)
         Me.Controls.Add(Me.LoadFiles)
         Me.Controls.Add(Me.Beta)
@@ -794,4 +805,5 @@ Partial Class Form
     Friend WithEvents ContinuedFromExpectedCut As System.Windows.Forms.CheckBox
     Friend WithEvents LoadFiles As System.Windows.Forms.Button
     Friend WithEvents LoadYoutube As Button
+    Friend WithEvents QSearch As Button
 End Class
