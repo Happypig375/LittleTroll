@@ -8,11 +8,15 @@ Partial Public Class Editor
     Public Function GetPredefinedVariable(Name As String) As String
         Select Case Name
             Case "now"
+                Return Now.ToString(DateTimeFormat.TrimEnd("F").TrimEnd("."))'14/07/2016 15:10:45
+            Case "nowprecise"
                 Return Now.ToString(DateTimeFormat)'14/07/2016 15:10:45
             Case "date"
                 Return Now.ToString(New String(DateTimeFormat.TakeWhile(Function(c As Char) Not Char.IsWhiteSpace(c)).ToArray))
-            Case "time"
+            Case "timeprecise"
                 Return Now.ToString(New String(DateTimeFormat.SkipWhile(Function(c As Char) Not Char.IsWhiteSpace(c)).ToArray).Substring(1))
+            Case "time"
+                Return Now.ToString(New String(DateTimeFormat.SkipWhile(Function(c As Char) Not Char.IsWhiteSpace(c)).ToArray).Substring(1).TrimEnd("F").TrimEnd("."))
             Case "filename"
                 Return Open.SafeFileName
             Case "filelocation"

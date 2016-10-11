@@ -65,6 +65,8 @@ Partial Class Editor
         Me.DebugOpenRTFDebug = New System.Windows.Forms.ToolStripMenuItem()
         Me.DebugOpenForm1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.DebugTestSelectedText = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DebugOpenHookTest = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DebugTestDate = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuWindow = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuView = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewStatusBar = New System.Windows.Forms.ToolStripMenuItem()
@@ -89,7 +91,6 @@ Partial Class Editor
         Me.SetFont = New System.Windows.Forms.FontDialog()
         Me.Background = New System.Windows.Forms.ColorDialog()
         Me.LineNumbers = New _375Script.LineNumbers_For_RichTextBox()
-        Me.OpenHookTest = New System.Windows.Forms.ToolStripMenuItem()
         Me.Menu.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -99,7 +100,7 @@ Partial Class Editor
         Me.Menu.Location = New System.Drawing.Point(0, 0)
         Me.Menu.MdiWindowListItem = Me.MenuWindow
         Me.Menu.Name = "Menu"
-        Me.Menu.Size = New System.Drawing.Size(356, 24)
+        Me.Menu.Size = New System.Drawing.Size(455, 24)
         Me.Menu.TabIndex = 0
         Me.Menu.Text = "Menu"
         '
@@ -359,7 +360,7 @@ Partial Class Editor
         '
         'MenuDebug
         '
-        Me.MenuDebug.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DebugOpenCRTFSyntax, Me.DebugOpenRTFDebug, Me.DebugOpenForm1, Me.DebugTestSelectedText, Me.OpenHookTest})
+        Me.MenuDebug.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DebugOpenCRTFSyntax, Me.DebugOpenRTFDebug, Me.DebugOpenForm1, Me.DebugTestSelectedText, Me.DebugOpenHookTest, Me.DebugTestDate})
         Me.MenuDebug.Name = "MenuDebug"
         Me.MenuDebug.Size = New System.Drawing.Size(54, 20)
         Me.MenuDebug.Text = "&Debug"
@@ -386,7 +387,19 @@ Partial Class Editor
         '
         Me.DebugTestSelectedText.Name = "DebugTestSelectedText"
         Me.DebugTestSelectedText.Size = New System.Drawing.Size(165, 22)
-        Me.DebugTestSelectedText.Text = "Test &SelectedText"
+        Me.DebugTestSelectedText.Text = "&Generate Text"
+        '
+        'DebugOpenHookTest
+        '
+        Me.DebugOpenHookTest.Name = "DebugOpenHookTest"
+        Me.DebugOpenHookTest.Size = New System.Drawing.Size(165, 22)
+        Me.DebugOpenHookTest.Text = "Open &HookTest"
+        '
+        'DebugTestDate
+        '
+        Me.DebugTestDate.Name = "DebugTestDate"
+        Me.DebugTestDate.Size = New System.Drawing.Size(165, 22)
+        Me.DebugTestDate.Text = "&Test Date String"
         '
         'MenuWindow
         '
@@ -508,7 +521,7 @@ Partial Class Editor
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Edit.Location = New System.Drawing.Point(25, 24)
         Me.Edit.Name = "Edit"
-        Me.Edit.Size = New System.Drawing.Size(331, 215)
+        Me.Edit.Size = New System.Drawing.Size(430, 215)
         Me.Edit.TabIndex = 3
         Me.Edit.Text = ""
         '
@@ -516,7 +529,7 @@ Partial Class Editor
         '
         Me.Status.Location = New System.Drawing.Point(0, 239)
         Me.Status.Name = "Status"
-        Me.Status.Size = New System.Drawing.Size(356, 22)
+        Me.Status.Size = New System.Drawing.Size(455, 22)
         Me.Status.TabIndex = 8
         '
         'SetFont
@@ -547,7 +560,7 @@ Partial Class Editor
         Me.LineNumbers.LineNrs_ClippedByItemRectangle = True
         Me.LineNumbers.LineNrs_LeadingZeroes = True
         Me.LineNumbers.LineNrs_Offset = New System.Drawing.Size(0, 0)
-        Me.LineNumbers.Location = New System.Drawing.Point(5, 24)
+        Me.LineNumbers.Location = New System.Drawing.Point(4, 24)
         Me.LineNumbers.Margin = New System.Windows.Forms.Padding(0)
         Me.LineNumbers.MarginLines_Color = System.Drawing.Color.SlateGray
         Me.LineNumbers.MarginLines_Side = _375Script.LineNumbers_For_RichTextBox.LineNumberDockSide.Right
@@ -561,20 +574,14 @@ Partial Class Editor
         Me.LineNumbers.Show_GridLines = True
         Me.LineNumbers.Show_LineNrs = True
         Me.LineNumbers.Show_MarginLines = True
-        Me.LineNumbers.Size = New System.Drawing.Size(19, 215)
+        Me.LineNumbers.Size = New System.Drawing.Size(20, 215)
         Me.LineNumbers.TabIndex = 9
-        '
-        'OpenHookTest
-        '
-        Me.OpenHookTest.Name = "OpenHookTest"
-        Me.OpenHookTest.Size = New System.Drawing.Size(165, 22)
-        Me.OpenHookTest.Text = "Open &HookTest"
         '
         'Editor
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(356, 261)
+        Me.ClientSize = New System.Drawing.Size(455, 261)
         Me.Controls.Add(Me.LineNumbers)
         Me.Controls.Add(Me.Status)
         Me.Controls.Add(Me.Edit)
@@ -656,5 +663,6 @@ Partial Class Editor
     Friend WithEvents InsertTimeDate As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents InsertChar As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MenuWindow As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents OpenHookTest As ToolStripMenuItem
+    Friend WithEvents DebugOpenHookTest As ToolStripMenuItem
+    Friend WithEvents DebugTestDate As ToolStripMenuItem
 End Class

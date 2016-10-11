@@ -112,6 +112,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="DateTest.Designer.vb">
+      <DependentUpon>DateTest.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DateTest.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Debug.Designer.vb">
       <DependentUpon>Debug.vb</DependentUpon>
     </Compile>
@@ -151,47 +157,6 @@
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\Hook.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\HotKeys\HotKeyArgs.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\HotKeys\HotKeySet.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\HotKeys\HotKeySetCollection.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\HotKeys\HotKeySetsListener.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\IKeyboardEvents.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\IKeyboardMouseEvents.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\IMouseEvents.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\Implementation\AppEventFacade.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\Implementation\AppKeyListener.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\Implementation\AppMouseListener.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\Implementation\BaseListener.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\Implementation\ButtonSet.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\Implementation\Callback.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\Implementation\EventFacade.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\Implementation\GlobalEventFacade.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\Implementation\GlobalKeyListener.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\Implementation\GlobalMouseListener.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\Implementation\KeyboardState.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\Implementation\KeyListener.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\Implementation\MouseListener.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\Implementation\Subscribe.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\KeyEventArgsExt.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\KeyPressEventArgsExt.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\MouseEventExtArgs.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\WinApi\AppMouseStruct.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\WinApi\CallbackData.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\WinApi\HookHelper.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\WinApi\HookIds.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\WinApi\HookNativeMethods.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\WinApi\HookProcedure.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\WinApi\HookProcedureHandle.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\WinApi\HookResult.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\WinApi\HotkeysNativeMethods.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\WinApi\KeyboardHookStruct.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\WinApi\KeyboardNativeMethods.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\WinApi\Messages.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\WinApi\MouseNativeMethods.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\WinApi\MouseStruct.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\WinApi\Point.vb" />
-    <Compile Include="globalmousekeyhook-vNext\MouseKeyHook\WinApi\ThreadNativeMethods.vb" />
     <Compile Include="InsertChar.Designer.vb">
       <DependentUpon>InsertChar.vb</DependentUpon>
     </Compile>
@@ -238,6 +203,9 @@
   <ItemGroup>
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DateTest.resx">
+      <DependentUpon>DateTest.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Debug.resx">
       <DependentUpon>Debug.vb</DependentUpon>

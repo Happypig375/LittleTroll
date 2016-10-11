@@ -41,128 +41,155 @@
       Return i.ToString() & i.ToString()
    End Function
 #End If
+    Class ForceStoppedException
+        Inherits ApplicationException
+        Public Property LineNumber As ULong
+        Sub New(Message As String, Line As ULong, Optional InnerException As Exception = Nothing)
+            MyBase.New(Message, InnerException)
+            LineNumber = Line
+        End Sub
+    End Class
+    Class ForceStopper
+        Inherits ApplicationException
+        Sub New(Message As String)
+            MyBase.New(Message)
+        End Sub
+        Function Stopped(Line As ULong) As ForceStoppedException
+            Return New ForceStoppedException(Message, Line, Me)
+        End Function
+    End Class
     Friend Sub Execute(Input As String, ScriptName As String, Optional Debug As Boolean = False)
-        If Debug Then _375Script.Debug.Show()
-Reloop : Dim Variables As New Dictionary(Of String, String)
-        Dim LineNum As ULong = 0
-        Process = New Process
-        For Each Line As String In Input.Split({Chr(10), Chr(13), New SurrogatePair(8232).ToString,
+        Try
+            If Debug Then _375Script.Debug.Show()
+Reloop:     Dim Variables As New Dictionary(Of String, String)
+            Dim LineNum As ULong = 0
+            Process = New Process
+            For Each Line As String In Input.Split({Chr(10), Chr(13), New SurrogatePair(8232).ToString,
                                                New SurrogatePair(8233).ToString}, StringSplitOptions.RemoveEmptyEntries)
-            LineNum += 1
-            If StopLoop Then Exit For
-            Line = Trim(Line)
-            If Line = "" Then Continue For
-            Dim Content As String = Line.Substring(Line.IndexOf(" "c) + 1)
-            Try
-                Content = System.Text.RegularExpressions.Regex.Replace(Content, "(?<=[\s\n\r])*\$[^\s\r\n]+(?=[\s\n\r]|$)", New System.Text.
+                LineNum += 1
+                If StopLoop Then Exit For
+                Line = Trim(Line)
+                If Line = "" Then Continue For
+                Dim Content As String = Line.Substring(Line.IndexOf(" "c) + 1)
+                Try
+                    Content = System.Text.RegularExpressions.Regex.Replace(Content, "(?<=[\s\n\r])*\$[^\s\r\n]+(?=[\s\n\r]|$)", New System.Text.
                 RegularExpressions.MatchEvaluator(Function(M As System.Text.RegularExpressions.Match) (
                 If(M.Value(1) = "$"c, GetPredefinedVariable(M.Value.Substring(2)), Variables(M.Value.Substring(1))))))
-                'New Regex("cc").Replace("aabbccddeeffcccgghhcccciijjcccckkcc", New MatchEvaluator(AddressOf ReplaceCC))
-                Select Case Line.Split({" "c}, 2)(0).ToLower
-                    Case "append"
-                        Edit.AppendText(vbCrLf & "stop" & vbCrLf & "===Output (as of " & Now.ToString & ")===" & vbCrLf)
-                        Edit.AppendText(Content)
-                    Case "beep"
-                        Beep()
-                    Case "close"
-                        Me.Close()
-                    Case "define"
-                        Dim Var As New String(Content.TakeWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
-                        Content = New String(Content.SkipWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
-                        Variables.Add(Var, Content)
-                    Case "display"
-                        InputBox("Displaying text...", "Display", Content)
-                    Case "execute"
-                        Execute(My.Computer.FileSystem.ReadAllText(Content), IO.Path.GetFileNameWithoutExtension(Content))
-                    Case "hide"
-                        Me.Hide()
-                    Case "loop"
-                        GoTo Reloop
-                    Case "play"
-                        My.Computer.Audio.Play(Content, AudioPlayMode.Background)
-                    Case "play:loop", "play:l"
-                        My.Computer.Audio.Play(Content, AudioPlayMode.BackgroundLoop)
-                    Case "play:stop", "play:x"
-                        My.Computer.Audio.Stop()
-                    Case "play:systemsound", "play:system", "play:s"
-                        Select Case Content
-                            Case "asterisk", "a", "*"
-                                My.Computer.Audio.PlaySystemSound(System.Media.SystemSounds.Asterisk)
-                            Case "beep", "b"
-                                My.Computer.Audio.PlaySystemSound(System.Media.SystemSounds.Beep)
-                            Case "exclamation", "e", "!"
-                                My.Computer.Audio.PlaySystemSound(System.Media.SystemSounds.Exclamation)
-                            Case "hand", "h"
-                                My.Computer.Audio.PlaySystemSound(System.Media.SystemSounds.Hand)
-                            Case "question", "q", "?"
-                                My.Computer.Audio.PlaySystemSound(System.Media.SystemSounds.Question)
-                        End Select
-                    Case "play:waittocomplete", "play:wait", "play:w"
-                        My.Computer.Audio.Play(Content, AudioPlayMode.WaitToComplete)
-                    Case "message"
-                        MsgBox(Content, , ScriptName)
-                    Case "message:critical", "message:c", "message:x"
-                        MsgBox(Content, MsgBoxStyle.Critical, ScriptName)
-                    Case "message:question", "message:q", "message:?"
-                        MsgBox(Content, MsgBoxStyle.Question, ScriptName)
-                    Case "message:exclamation", "message:e", "message:!"
-                        MsgBox(Content, MsgBoxStyle.Exclamation, ScriptName)
-                    Case "message:information", "message:info", "message:i"
-                        MsgBox(Content, MsgBoxStyle.Information, ScriptName)
-                    Case "opacity"
-                        Me.Opacity = Val(Content) / 100
-                    Case "process"
-                        Process.Start(Content)
-                    Case "redefine"
-                        Dim Var As New String(Content.TakeWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
-                        Content = New String(Content.SkipWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
-                        Variables(Var) = ExecuteLine(Content, ScriptName, Variables)
-                    Case "redefine:exact", "redefine:e"
-                        Dim Var As New String(Content.TakeWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
-                        Content = New String(Content.SkipWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
-                        Variables(Var) = Content
-                    Case "repeat"
-                        Static Counter As Integer
-                        If Counter = Nothing Then
-                            Counter = 1
+                    'New Regex("cc").Replace("aabbccddeeffcccgghhcccciijjcccckkcc", New MatchEvaluator(AddressOf ReplaceCC))
+                    Select Case Line.Split({" "c}, 2)(0).ToLower
+                        Case "append"
+                            Edit.AppendText(vbCrLf & "stop" & vbCrLf & "===Output (as of " & Now.ToString & ")===" & vbCrLf)
+                            Edit.AppendText(Content)
+                        Case "beep"
+                            Beep()
+                        Case "close"
+                            Me.Close()
+                        Case "define"
+                            Dim Var As New String(Content.TakeWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
+                            Content = New String(Content.SkipWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
+                            Variables.Add(Var, Content)
+                        Case "display"
+                            InputBox("Displaying text...", "Display", Content)
+                        Case "execute"
+                            Execute(My.Computer.FileSystem.ReadAllText(Content), IO.Path.GetFileNameWithoutExtension(Content))
+                        Case "hide"
+                            Me.Hide()
+                        Case "loop"
                             GoTo Reloop
-                        ElseIf Counter < Val(Content) - 1 Then
-                            Counter += 1
-                            GoTo Reloop
-                        Else
-                            Counter = Nothing
-                        End If
-                    Case "show"
-                        Me.Show()
-                    Case "stop"
-                        Exit For
-                    Case "stop:all", "stop:a"
-                        StopLoop = True
-                        Exit For
-                    Case "stop:others", "stop:o"
-                        StopLoop = True
-                    Case "undefine"
-                        Variables.Remove(Content)
-                    Case "wait"
-                        System.Threading.Thread.Sleep(TimeSpan.Parse(Content))
-                        My.Application.DoEvents()
-                    Case "waituntil"
-                        System.Threading.Thread.Sleep(Convert.ToDateTime(Content) - Now)
-                        My.Application.DoEvents()
-                    Case "win32error"
-                        MsgBox(GetMessage(Content))
-                End Select
-            Catch ex As Exception
-                If Debug Then
-                    _375Script.Debug.Console.AppendText(String.Format("An error ({0}) occured at line {1} of {2}. ",
+                        Case "play"
+                            My.Computer.Audio.Play(Content, AudioPlayMode.Background)
+                        Case "play:loop", "play:l"
+                            My.Computer.Audio.Play(Content, AudioPlayMode.BackgroundLoop)
+                        Case "play:stop", "play:x"
+                            My.Computer.Audio.Stop()
+                        Case "play:systemsound", "play:system", "play:s"
+                            Select Case Content
+                                Case "asterisk", "a", "*"
+                                    My.Computer.Audio.PlaySystemSound(System.Media.SystemSounds.Asterisk)
+                                Case "beep", "b"
+                                    My.Computer.Audio.PlaySystemSound(System.Media.SystemSounds.Beep)
+                                Case "exclamation", "e", "!"
+                                    My.Computer.Audio.PlaySystemSound(System.Media.SystemSounds.Exclamation)
+                                Case "hand", "h"
+                                    My.Computer.Audio.PlaySystemSound(System.Media.SystemSounds.Hand)
+                                Case "question", "q", "?"
+                                    My.Computer.Audio.PlaySystemSound(System.Media.SystemSounds.Question)
+                            End Select
+                        Case "play:waittocomplete", "play:wait", "play:w"
+                            My.Computer.Audio.Play(Content, AudioPlayMode.WaitToComplete)
+                        Case "message"
+                            MsgBox(Content, , ScriptName)
+                        Case "message:critical", "message:c", "message:x"
+                            MsgBox(Content, MsgBoxStyle.Critical, ScriptName)
+                        Case "message:question", "message:q", "message:?"
+                            MsgBox(Content, MsgBoxStyle.Question, ScriptName)
+                        Case "message:exclamation", "message:e", "message:!"
+                            MsgBox(Content, MsgBoxStyle.Exclamation, ScriptName)
+                        Case "message:information", "message:info", "message:i"
+                            MsgBox(Content, MsgBoxStyle.Information, ScriptName)
+                        Case "opacity"
+                            Me.Opacity = Val(Content) / 100
+                        Case "process"
+                            Process.Start(Content)
+                        Case "redefine"
+                            Dim Var As New String(Content.TakeWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
+                            Content = New String(Content.SkipWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
+                            Try
+                                Variables(Var) = ExecuteLine(Content, ScriptName, Variables)
+                            Catch Stopper As ForceStopper
+                                Throw Stopper.Stopped(LineNum)
+                            End Try
+                        Case "redefine:exact", "redefine:e"
+                            Dim Var As New String(Content.TakeWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
+                            Content = New String(Content.SkipWhile(Function(c As Char) (Not Char.IsWhiteSpace(c))).ToArray)
+                            Variables(Var) = Content
+                        Case "repeat"
+                            Static Counter As Integer
+                            If Counter = Nothing Then
+                                Counter = 1
+                                GoTo Reloop
+                            ElseIf Counter < Val(Content) - 1 Then
+                                Counter += 1
+                                GoTo Reloop
+                            Else
+                                Counter = Nothing
+                            End If
+                        Case "show"
+                            Me.Show()
+                        Case "stop"
+                            Exit For
+                        Case "stop:all", "stop:a"
+                            StopLoop = True
+                            Exit For
+                        Case "stop:others", "stop:o"
+                            StopLoop = True
+                        Case "undefine"
+                            Variables.Remove(Content)
+                        Case "wait"
+                            System.Threading.Thread.Sleep(TimeSpan.Parse(Content))
+                            My.Application.DoEvents()
+                        Case "waituntil"
+                            System.Threading.Thread.Sleep(Convert.ToDateTime(Content) - Now)
+                            My.Application.DoEvents()
+                        Case "win32error"
+                            MsgBox(GetMessage(Content))
+                    End Select
+                Catch ex As Exception When TypeOf ex IsNot ForceStoppedException
+                    If Debug Then
+                        _375Script.Debug.Console.AppendText(String.Format("An error ({0}) occured at line {1} of {2}. ",
                                                                       ex.Message, LineNum, ScriptName))
-                    _375Script.Debug.Console.AppendText(String.Format("The line: " & Line))
-                End If
-            End Try
-        Next
+                        _375Script.Debug.Console.AppendText("The line: " & Line)
+                    End If
+                End Try
+            Next
+        Catch [Stop] As ForceStoppedException
+            If Debug Then
+                _375Script.Debug.Console.AppendText("Stopped at line number " & [Stop].LineNumber & " because " & [Stop].Message)
+            End If
+        End Try
         If Debug Then
-            _375Script.Debug.Console.AppendText(String.Format("The script has ended."))
-            _375Script.Debug.Console.AppendText(String.Format("==============================="))
+            _375Script.Debug.Console.AppendText("The script has ended.")
+            _375Script.Debug.Console.AppendText("===============================")
             _375Script.Debug.ReadKey()
             _375Script.Debug.Close()
         End If
@@ -171,7 +198,7 @@ Reloop : Dim Variables As New Dictionary(Of String, String)
     Friend Function ExecuteLine(Line As String, ScriptName As String, ByRef Variables As Dictionary(Of String, String)) As String
         Dim ReadOnlyVariables As New ReadOnlyDictionary(Of String, String)(Variables)
         Line = Trim(Line)
-        If Line = "" Then Exit Function
+        If Line = "" Then Return Nothing
         Dim Content As String = Line.Substring(Line.IndexOf(" "c) + 1)
         Content = System.Text.RegularExpressions.Regex.Replace(Content, "\s*\$\S+\b", New System.Text.RegularExpressions.MatchEvaluator(
                                    Function(M As System.Text.RegularExpressions.Match) (
@@ -312,7 +339,7 @@ Reloop : Dim Variables As New Dictionary(Of String, String)
                 End Try
             Case "stop"
                 Try
-                    Exit Function
+                    Throw New ForceStopper("Stop instruction executed.")
                     Return "Success"
                 Catch ex As Exception
                     Return "Failed"
@@ -320,7 +347,7 @@ Reloop : Dim Variables As New Dictionary(Of String, String)
             Case "stop:all", "stop:a"
                 Try
                     StopLoop = True
-                    Exit Function
+                    End
                     Return "Success"
                 Catch ex As Exception
                     Return "Failed"
@@ -358,6 +385,7 @@ Reloop : Dim Variables As New Dictionary(Of String, String)
             Case "win32error"
                 Return GetMessage(Val("&H" & Content))
         End Select
+        Return Nothing
     End Function
 
     Friend Enum FORMAT_MESSAGE As UShort

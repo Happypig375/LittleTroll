@@ -57,7 +57,7 @@ Namespace Gma.System.MouseKeyHook
         End Property
         Private m_Timestamp As Integer
 
-        Friend Shared Function FromRawDataApp(data As CallbackData) As IEnumerable(Of KeyPressEventArgsExt)
+        Friend Shared Iterator Function FromRawDataApp(data As CallbackData) As IEnumerable(Of KeyPressEventArgsExt)
             Dim wParam = data.WParam
             Dim lParam = data.LParam
 
@@ -84,18 +84,18 @@ Namespace Gma.System.MouseKeyHook
             Dim scanCode = CInt(flags And maskScanCode)
             Const fuState As Integer = 0
 
-            Dim chars As Char()
+            Dim chars As Char() = Nothing
 
             KeyboardNativeMethods.TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, chars)
             If chars Is Nothing Then
                 Exit Function
             End If
             For Each ch As Char In chars
-                Return New KeyPressEventArgsExt(ch)
+                Yield New KeyPressEventArgsExt(ch)
             Next
         End Function
 
-        Friend Shared Function FromRawDataGlobal(data As CallbackData) As IEnumerable(Of KeyPressEventArgsExt)
+        Friend Shared Iterator Function FromRawDataGlobal(data As CallbackData) As IEnumerable(Of KeyPressEventArgsExt)
             Dim wParam = data.WParam
             Dim lParam = data.LParam
 
@@ -111,15 +111,15 @@ Namespace Gma.System.MouseKeyHook
 
             If virtualKeyCode = KeyboardNativeMethods.VK_PACKET Then
                 Dim ch = Chr(scanCode)
-                Return New KeyPressEventArgsExt(ch, keyboardHookStruct.Time)
+                Yield New KeyPressEventArgsExt(ch, keyboardHookStruct.Time)
             Else
-                Dim chars As Char()
+                Dim chars As Char() = Nothing
                 KeyboardNativeMethods.TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, chars)
                 If chars Is Nothing Then
                     Exit Function
                 End If
                 For Each current As Char In chars
-                    Return New KeyPressEventArgsExt(current, keyboardHookStruct.Time)
+                    Yield New KeyPressEventArgsExt(current, keyboardHookStruct.Time)
                 Next
             End If
         End Function

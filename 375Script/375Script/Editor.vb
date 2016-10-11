@@ -381,7 +381,11 @@ The characters CHARACTER TABULATION (U+0009), LINE FEED (U+000A), LINE TABULATIO
         Edit.SelectedText = Now.ToString
     End Sub
 
-    Private Sub OpenHookTest_Click(sender As Object, e As EventArgs) Handles OpenHookTest.Click
+    Private Sub OpenHookTest_Click(sender As Object, e As EventArgs) Handles DebugOpenHookTest.Click
         HookTest.Show()
+    End Sub
+
+    Private Sub DebugTestDate_Click(sender As Object, e As EventArgs) Handles DebugTestDate.Click
+        DateTest.Show()
     End Sub
 End Class

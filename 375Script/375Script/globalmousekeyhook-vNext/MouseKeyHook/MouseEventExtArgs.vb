@@ -6,7 +6,6 @@
 Imports System.Runtime.InteropServices
 Imports System.Windows.Forms
 Imports _375Script.Gma.System.MouseKeyHook.WinApi
-Imports _375Script.Gma.System.MouseKeyHook.WinApi
 
 Namespace Gma.System.MouseKeyHook
     ''' <summary>

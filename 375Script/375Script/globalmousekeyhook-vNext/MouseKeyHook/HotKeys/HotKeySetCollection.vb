@@ -22,20 +22,22 @@ Namespace Gma.System.MouseKeyHook.HotKeys
             MyBase.Add(hks)
 		End Sub
 
-		''' <summary>
-		'''     Removes the HotKeySet from the collection.
-		''' </summary>
-		''' <param name="hks"></param>
-		Public Shadows Sub Remove(hks As HotKeySet)
-			m_keyChain = DirectCast([Delegate].Remove(m_keyChain, hks.OnKey), HotKeySetCollection.KeyChainHandler)
-			MyBase.Remove(hks)
-		End Sub
+        ''' <summary>
+        '''     Removes the HotKeySet from the collection.
+        ''' </summary>
+        ''' <param name="hks"></param>
+        Public Shadows Sub Remove(hks As HotKeySet)
+            Dim Key As Keys
+            hks.HotKeys.ForEach(Sub(AKey As HotKeySet) Key = Key Or AKey.HotKeys)
+            m_keyChain = DirectCast([Delegate].Remove(m_keyChain, hks.OnKey(New KeyEventArgsExt(akey))), HotKeySetCollection.KeyChainHandler)
+            MyBase.Remove(hks)
+        End Sub
 
-		''' <summary>
-		'''     Uses a multi-case delegate to invoke individual HotKeySets if the Key is in use by any HotKeySets.
-		''' </summary>
-		''' <param name="e"></param>
-		Friend Sub OnKey(e As KeyEventArgsExt)
+        ''' <summary>
+        '''     Uses a multi-case delegate to invoke individual HotKeySets if the Key is in use by any HotKeySets.
+        ''' </summary>
+        ''' <param name="e"></param>
+        Friend Sub OnKey(e As KeyEventArgsExt)
             m_keyChain(e)
         End Sub
 

@@ -4,7 +4,7 @@
   <description asmv2:iconFile="favicon(1).ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="375Script" version="0.1.1.0" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="375Script" version="0.1.2.0" language="neutral" processorArchitecture="msil" />
     <commandLine file="375Script.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -53,14 +53,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="375Script.exe" size="187256">
-      <assemblyIdentity name="375Script" version="0.1.1.0" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="375Script.exe" size="190328">
+      <assemblyIdentity name="375Script" version="0.1.2.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>KE1q+nJx2N0+FalulCZ9LyIQqZs=</dsig:DigestValue>
+        <dsig:DigestValue>oCaJH0Wy+uIYzlbkjGDz6uUnNcI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -72,7 +72,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>3N+00hKqYG2v8hCh0qUsevfZHtU=</dsig:DigestValue>
+        <dsig:DigestValue>Psa/XI3x7Y1g3CQ6n0VIUVIMGkY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -100,7 +100,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>3N+00hKqYG2v8hCh0qUsevfZHtU=</dsig:DigestValue>
+      <dsig:DigestValue>Psa/XI3x7Y1g3CQ6n0VIUVIMGkY=</dsig:DigestValue>
     </hash>
   </file>
   <file name="favicon(1).ico" size="1150">
