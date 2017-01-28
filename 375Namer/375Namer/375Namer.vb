@@ -78,11 +78,12 @@
         Sub ToVoid(ByVal provider As IFormatProvider)
     End Interface
     Private Sub Me_Load(sender As Object, e As EventArgs) Handles Me.Load
+        CodesInit()
         Dim Dictionary As New Dictionary(Of String, String)
         Series.SelectedIndex = 0
         ContinuedFromSeries.SelectedIndex = 0
         Title.Text = Chr(0)
-Retry : Try
+Retry:  Try
             Using Reader As New FileIO.TextFieldParser(Settings, System.Text.Encoding.Unicode) With
                 {.Delimiters = {Delimiter.ToString}, .TrimWhiteSpace = True}
                 Do Until Reader.EndOfData
@@ -217,10 +218,31 @@ Retry : Try
         ToCode = -1
         FromCode
     End Enum
-    Friend Function ConvertCode(Input As String, Convert As Convert) As String
-        Dim Codes As New Dictionary(Of String, String) From {
+    Friend Enum Serie As Byte
+        Minecraft遊記
+        Minecraft編輯遊記
+        Minecraft_Factions_遊記
+        Minecraft_Factions_2
+        Minecraft_HidenSeek遊記
+        Minecraft_Universe遊記
+        Minecraft版本遊記
+        Minecraft玩人記
+        Minecraft_Skyblock遊記
+        Minecraft生存
+        Minecraft村莊生存
+        LAN連線記
+        ___ = 255
+        頻道更新 = 128
+        Agar_io
+        Vlog
+        趣遊
+        小遊戲時間
+    End Enum
+    Dim Codes As New Dictionary(Of String, String) From {
             {"Minecraft遊記", "M"},
             {"Minecraft編輯遊記", "ME"},
+            {"Minecraft Factions遊記", "MF"},
+            {"Minecraft Factions 2", "MF2"},
             {"Minecraft Hide&Seek遊記", "MH"},
             {"Minecraft Universe遊記", "MU"},
             {"Minecraft版本遊記", "MV"},
@@ -228,6 +250,7 @@ Retry : Try
             {"Minecraft Skyblock遊記", "MB"},
             {"Minecraft生存", "MS"},
             {"Minecraft村莊生存", "MVS"},
+            {"---", ""},
             {"LAN連線記", "L"},
             {"頻道更新", "U"},
             {"Agar.io", "A"},
@@ -235,9 +258,15 @@ Retry : Try
             {"趣遊", "F"},
             {"小遊戲時間", "G"},
             {"VVVVVV", "VV"},
-            {"", ""},
-            {"---", ""}
+            {"", ""}
         }
+    Sub CodesInit()
+        Series.Items.Clear()
+        Series.Items.AddRange(Codes.Keys.Where(Function(s As String)
+                                                   Return Not String.IsNullOrEmpty(s)
+                                               End Function).ToArray)
+    End Sub
+    Friend Function ConvertCode(Input As String, Convert As Convert) As String
         For Each Pair As KeyValuePair(Of String, String) In Codes
             If Convert Then
                 If Pair.Key = Input Then Return Pair.Value
@@ -594,24 +623,6 @@ Retry : Try
             Return New OtherValueInfo(Nothing, Nothing, Nothing)
         End If
     End Function
-    Friend Enum Serie As Byte
-        Minecraft遊記
-        Minecraft編輯遊記
-        Minecraft_HidenSeek遊記
-        Minecraft_Universe遊記
-        Minecraft版本遊記
-        Minecraft玩人記
-        Minecraft_Skyblock遊記
-        Minecraft生存
-        Minecraft村莊生存
-        LAN連線記
-        ___ = 255
-        頻道更新 = 128
-        Agar_io
-        Vlog
-        趣遊
-        小遊戲時間
-    End Enum
 
     Private Sub ContinuedFromExpectedCut_CheckedChanged(sender As Object, e As EventArgs) Handles ContinuedFromExpectedCut.CheckedChanged,
         Me.Load

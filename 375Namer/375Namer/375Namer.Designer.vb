@@ -99,7 +99,7 @@ Partial Class Form
         Me.Sample.AutoSize = True
         Me.Sample.Location = New System.Drawing.Point(348, 15)
         Me.Sample.Name = "Sample"
-        Me.Sample.Size = New System.Drawing.Size(286, 13)
+        Me.Sample.Size = New System.Drawing.Size(287, 13)
         Me.Sample.TabIndex = 1
         Me.Sample.Text = "Example: ├Minecraft遊記┤40：唔🆗的小波鐘塔之役Ⅶ [T]"
         '
@@ -116,7 +116,6 @@ Partial Class Form
         '
         Me.Series.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Series.FormattingEnabled = True
-        Me.Series.Items.AddRange(New Object() {"Minecraft遊記", "Minecraft編輯遊記", "Minecraft Hide&Seek遊記", "Minecraft Universe遊記", "Minecraft版本遊記", "Minecraft玩人記", "Minecraft Skyblock遊記", "Minecraft生存", "Minecraft村莊生存", "LAN連線記", "---", "頻道更新", "Agar.io", " Vlog", "趣遊", "小遊戲時間", "VVVVVV"})
         Me.Series.Location = New System.Drawing.Point(305, 39)
         Me.Series.Name = "Series"
         Me.Series.Size = New System.Drawing.Size(121, 21)
