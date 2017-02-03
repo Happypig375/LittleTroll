@@ -189,7 +189,7 @@ Retry:  Try
         SubscribeCounter.ValueChanged, SubSeries.TextChanged, Title.TextChanged, Triple.Click, VideoNumber.Click,
         VideoNumberApproximate.ValueChanged, VideoNumberApproximately.Click, VideoNumbers.ValueChanged
         MyBase.Refresh()
-        Output.Text = Prefix.Text & Series.Text & SeriesColon.Text &
+        Output.Text = Prefix.Text & Series.Text & If(String.IsNullOrEmpty(SubSeries.Text), String.Empty, SeriesColon.Text) &
             SubSeries.Text & Midfix.Text & If(Beta.Checked, "Beta ", String.Empty) & Number.Value & NumberSuffix.Text &
             Colon.Text & Title.Text & " "c & If(Solo.Checked, String.Empty, If(Duo.Checked, "[D]", If(Triple.Checked, "[T]", "[M]"))) &
  _
@@ -688,7 +688,7 @@ Retry:  Try
     End Sub
 
     Friend Sub Parse(Input As String)
-        If String.IsNullOrEmpty(Input) Then Input = "├Minecraft遊記:┤1："
+        If String.IsNullOrEmpty(Input) Then Input = "├Minecraft遊記┤1："
         If Input(0) <> Prefix.Text Then ThrowFormatException("First character is not prefix.")
         Dim Serie As String = Input.Substring(1).TakeWhile(Function(Ch As Char) Ch <> Midfix.Text).ToArray
         If Serie.Contains(SeriesColon.Text) Then
@@ -870,9 +870,10 @@ End Class
 #If False Then
 Namespace Global
     Namespace System
-        Partial Structure [String]
-            Shared Operator ^(Str1 As System.String, Str2 As System.String) As String
-                Return Str1 & System.String.Delimiter.ToString & Str2
+        Partial Public Structure [String]
+            Public Shared Delimiter As String
+            Shared Operator ^(Str1 As String, Str2 As [String]) As String
+                Return Str1 & System.String.Delimiter.ToString & Str2.ToString
             End Operator
         End Structure
     End Namespace
