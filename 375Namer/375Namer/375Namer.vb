@@ -864,10 +864,7 @@ Retry:  Try
     End Sub
 
     Friend Function Encode(Query As String) As String
-        Encode = String.Empty
-        For Each Chr As Char In Query
-            Encode &= Uri.HexEscape(Chr)
-        Next
+        Return Uri.EscapeUriString(Query)
     End Function
 
     Private Sub Search_Click(sender As Object, e As EventArgs) Handles Search.Click
