@@ -1,0 +1,56 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+375Namer
+</name>
+</assembly>
+<members>
+<member name="T:_375Namer.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:_375Namer.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:_375Namer.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="M:_375Namer.Form.GetTXTDirectory(System.String)">
+ <summary>
+ Gets all dirctories containing the file which its part is specified.
+ </summary>
+ <param name="PartOfTXT">The file specified. Do not contain the TXT extension.</param>
+ <returns>All dirctories containing the file which its part is specified.</returns>
+ <remarks>Comment if anything is wrong.</remarks>
+</member>
+<member name="M:_375Namer.Form.MakeMeStartOnLogin">
+ <summary>
+ Makes this application auto-start when the current user logs in.
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:_375Namer.Form.MakeMeStartOnBoot(System.Boolean)">
+ <summary>
+ Makes this application auto-start when this computer boots up.
+ </summary>
+ <param name="Create">True if create registry; False if delete registry.</param>
+ <remarks>Requires Administrative permission.</remarks>
+</member>
+<member name="M:_375Namer.Form.UploadToMSOneDrive(System.String)">
+ <summary>
+ Uploads a file to  Microsoft OneDrive.
+ </summary>
+ <param name="FilePath">Path of a file to upload from.</param>
+ <exception cref="T:System.Collections.Generic.KeyNotFoundException">The registry key of MS OneDrive is not found.</exception>
+ <returns>The path of file inside MS OneDrive folder.</returns>
+ <remarks></remarks>
+</member>
+</members>
+</doc>

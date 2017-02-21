@@ -74,6 +74,9 @@ Partial Class Form
         Me.LoadFiles = New System.Windows.Forms.Button()
         Me.LoadYoutube = New System.Windows.Forms.Button()
         Me.QSearch = New System.Windows.Forms.Button()
+        Me.Search = New System.Windows.Forms.Button()
+        Me.AddItem = New System.Windows.Forms.Button()
+        Me.DeleteItem = New System.Windows.Forms.Button()
         CType(Me.Number, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Specials.SuspendLayout()
         CType(Me.SubscribeCounter, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -97,7 +100,7 @@ Partial Class Form
         'Sample
         '
         Me.Sample.AutoSize = True
-        Me.Sample.Location = New System.Drawing.Point(348, 15)
+        Me.Sample.Location = New System.Drawing.Point(438, 10)
         Me.Sample.Name = "Sample"
         Me.Sample.Size = New System.Drawing.Size(287, 13)
         Me.Sample.TabIndex = 1
@@ -180,7 +183,7 @@ Partial Class Form
         Me.ExpectedCut.AutoSize = True
         Me.ExpectedCut.Checked = True
         Me.ExpectedCut.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.ExpectedCut.Location = New System.Drawing.Point(641, 10)
+        Me.ExpectedCut.Location = New System.Drawing.Point(731, 10)
         Me.ExpectedCut.Name = "ExpectedCut"
         Me.ExpectedCut.Size = New System.Drawing.Size(81, 23)
         Me.ExpectedCut.TabIndex = 7
@@ -644,7 +647,7 @@ Partial Class Form
         Me.Output.Location = New System.Drawing.Point(13, 294)
         Me.Output.Name = "Output"
         Me.Output.ReadOnly = True
-        Me.Output.Size = New System.Drawing.Size(747, 20)
+        Me.Output.Size = New System.Drawing.Size(689, 20)
         Me.Output.TabIndex = 27
         '
         'Copy
@@ -697,11 +700,41 @@ Partial Class Form
         Me.QSearch.Text = "Quick Search"
         Me.QSearch.UseVisualStyleBackColor = True
         '
+        'Search
+        '
+        Me.Search.Location = New System.Drawing.Point(709, 294)
+        Me.Search.Name = "Search"
+        Me.Search.Size = New System.Drawing.Size(57, 23)
+        Me.Search.TabIndex = 33
+        Me.Search.Text = "Search"
+        Me.Search.UseVisualStyleBackColor = True
+        '
+        'AddItem
+        '
+        Me.AddItem.Location = New System.Drawing.Point(305, 3)
+        Me.AddItem.Name = "AddItem"
+        Me.AddItem.Size = New System.Drawing.Size(75, 23)
+        Me.AddItem.TabIndex = 34
+        Me.AddItem.Text = "Add Item"
+        Me.AddItem.UseVisualStyleBackColor = True
+        '
+        'DeleteItem
+        '
+        Me.DeleteItem.Location = New System.Drawing.Point(725, 265)
+        Me.DeleteItem.Name = "DeleteItem"
+        Me.DeleteItem.Size = New System.Drawing.Size(75, 23)
+        Me.DeleteItem.TabIndex = 35
+        Me.DeleteItem.Text = "Delete Item"
+        Me.DeleteItem.UseVisualStyleBackColor = True
+        '
         'Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(825, 326)
+        Me.Controls.Add(Me.DeleteItem)
+        Me.Controls.Add(Me.AddItem)
+        Me.Controls.Add(Me.Search)
         Me.Controls.Add(Me.QSearch)
         Me.Controls.Add(Me.LoadYoutube)
         Me.Controls.Add(Me.LoadFiles)
@@ -805,4 +838,7 @@ Partial Class Form
     Friend WithEvents LoadFiles As System.Windows.Forms.Button
     Friend WithEvents LoadYoutube As Button
     Friend WithEvents QSearch As Button
+    Friend WithEvents Search As Button
+    Friend WithEvents AddItem As Button
+    Friend WithEvents DeleteItem As Button
 End Class

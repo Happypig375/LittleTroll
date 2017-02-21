@@ -5,7 +5,7 @@
     Private Sub Form_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
         Using Writer As New IO.StreamWriter(Settings, False, System.Text.Encoding.Unicode) With {.NewLine = vbCrLf}
             For i = 0 To Names.Count - 1
-                Writer.WriteLine(List.Items(i) & Delimiter & Names(i))
+                Writer.WriteLine(List.Items(i).ToString & Delimiter & Names(i))
             Next
             Writer.Flush()
             Writer.Close()
@@ -56,7 +56,7 @@
     End Function
     Friend Function SelectedRadioButton(Container As Control) As RadioButton
         For Each c As Control In Container.Controls
-            If TypeOf c Is RadioButton AndAlso CType(c, RadioButton).Checked = True Then Return c
+            If TypeOf c Is RadioButton AndAlso CType(c, RadioButton).Checked = True Then Return DirectCast(c, RadioButton)
         Next
         Return Nothing
     End Function
@@ -116,6 +116,7 @@ Retry:  Try
         List.SelectedIndex = 0
         AddHandler Output.TextChanged, AddressOf Output_TextChanged
         AddHandler List.SelectedIndexChanged, AddressOf List_SelectedIndexChanged
+        List_SelectedIndexChanged(List, EventArgs.Empty)
     End Sub
     Private Sub ExpectedCut_CheckedChanged(sender As Object, e As EventArgs) Handles ExpectedCut.CheckedChanged, Me.Load
         If ExpectedCut.Checked Then
@@ -206,7 +207,7 @@ Retry:  Try
             If(SubscribeCountApproximately.Checked, "("c & SubscribeCountApproximate.Value & ")"c, String.Empty), String.Empty) &
             "]"c, String.Empty) &
  _
-            If(Continued.Checked, "[C-" & ConvertCode(ContinuedFromSeries.SelectedItem, True) &
+            If(Continued.Checked, "[C-" & ConvertCode(ContinuedFromSeries.SelectedItem.ToString, Convert.ToCode) &
             If(ContinuedFromBeta.Checked, "b"c, String.Empty) & ContinuedFromNumber.Value & ContinuedFromSuffix.Text & "]"c, String.Empty) &
  _
             If(NoNarration.Checked, "[NN]", String.Empty) & If(Speedrun.Checked, "[R" & SpeedrunMultiplier.Value & "]"c, String.Empty) &
@@ -268,7 +269,7 @@ Retry:  Try
     End Sub
     Friend Function ConvertCode(Input As String, Convert As Convert) As String
         For Each Pair As KeyValuePair(Of String, String) In Codes
-            If Convert Then
+            If Convert = Convert.ToCode Then
                 If Pair.Key = Input Then Return Pair.Value
             Else
                 If Pair.Value = Input Then Return Pair.Key
@@ -291,7 +292,7 @@ Retry:  Try
                     SingleChar = Nothing
                 Case 1
                     IsSurrogatePair = False
-                    SingleChar = Str
+                    SingleChar = CChar(Str)
                 Case 2
                     IsSurrogatePair = True
                     HighSurrogate = Str(0)
@@ -371,10 +372,10 @@ Retry:  Try
             End If
         End Function
         Public Function Export(Of T As IEnumerable)() As T
-            Return ToIEnumerable()
+            Return CType(ToIEnumerable(), T)
         End Function
         Public Function Asc() As UInteger
-            Return If(IsSurrogatePair, &H10000 + (AscW(HighSurrogate) - &HD800) * &H400 + (AscW(LowSurrogate) - &HDC00), AscW(SingleChar))
+            Return CUInt(If(IsSurrogatePair, &H10000 + (AscW(HighSurrogate) - &HD800) * &H400 + (AscW(LowSurrogate) - &HDC00), AscW(SingleChar)))
         End Function
         Public Function GetNumericValue() As Double
             Throw New NotImplementedException
@@ -382,18 +383,18 @@ Retry:  Try
         Sub New(CodePoint As UInteger)
             If CodePoint <= &HFFFF Then
                 IsSurrogatePair = False
-                SingleChar = ChrW(CodePoint)
+                SingleChar = ChrW(CInt(CodePoint))
             ElseIf CodePoint <= &H10FFFF Then
                 IsSurrogatePair = True
-                CodePoint -= &H10000
-                LowSurrogate = ChrW(CodePoint Mod &H400 + &HDC00)
-                HighSurrogate = ChrW(CodePoint \ &H400 + &HD800)
+                CodePoint -= &H10000UI
+                LowSurrogate = ChrW(CInt(CodePoint Mod &H400 + &HDC00))
+                HighSurrogate = ChrW(CInt(CodePoint \ &H400 + &HD800))
             Else Throw New ArgumentOutOfRangeException("CodePoint", "The code point is too big.")
             End If
         End Sub
         Public Shared Function Asc(Pair As SurrogatePair) As UInteger
-            Return If(Pair.IsSurrogatePair,
-                &H10000 + (AscW(Pair.HighSurrogate) - &HD800) * &H400 + (AscW(Pair.LowSurrogate) - &HDC00), AscW(Pair.SingleChar))
+            Return CUInt(If(Pair.IsSurrogatePair,
+                &H10000 + (AscW(Pair.HighSurrogate) - &HD800) * &H400 + (AscW(Pair.LowSurrogate) - &HDC00), AscW(Pair.SingleChar)))
         End Function
         Public Shared Function Chr(CodePoint As UInteger) As SurrogatePair
             Return New SurrogatePair(CodePoint)
@@ -670,6 +671,7 @@ Retry:  Try
             List.Items.Add(File)
             Names.Add(Content?.Item(i))
         Next
+        Dim Selected As Object = List.SelectedItem
         Dim Temp1 As String() = List.Items.Cast(Of String).ToArray
         Dim Temp2 As String() = Names.ToArray
         Array.Sort(Temp1, Temp2)
@@ -677,6 +679,7 @@ Retry:  Try
         List.Items.AddRange(Temp1)
         Names.Clear()
         Names.AddRange(Temp2)
+        List.SelectedItem = Selected
     End Sub
     Private Sub Output_TextChanged(sender As Object, e As EventArgs)
         Names(List.SelectedIndex) = Output.Text
@@ -703,7 +706,7 @@ Retry:  Try
             Input = Input.Substring(5)
         Else Beta.Checked = False
         End If
-        Number.Value = Val(New String(Input.TakeWhile(Function(Ch As Char) Char.IsDigit(Ch)).ToArray))
+        Number.Value = CDec(Val(New String(Input.TakeWhile(Function(Ch As Char) Char.IsDigit(Ch)).ToArray)))
         Dim Match As System.Text.RegularExpressions.Match =
             System.Text.RegularExpressions.Regex.Match(Input, "(?<=\d+)([a-z]|[A-Z]|_\d{1,2)(?=：)")
         If Match.Success Then
@@ -757,11 +760,11 @@ Retry:  Try
                                     C = True
                                     Dim SeriesCode As New String(Input.Substring(2).TakeWhile(Function(Ch As Char) Char.IsUpper(Ch)).ToArray)
                                     Continued.Checked = True
-                                    ContinuedFromSeries.Text = ConvertCode(SeriesCode, False)
+                                    ContinuedFromSeries.Text = ConvertCode(SeriesCode, Convert.FromCode)
                                     Dim Last As String = Input.Substring(2).Replace(SeriesCode, String.Empty)
                                     If Last.First = "b"c Then ContinuedFromBeta.Checked = True
-                                    ContinuedFromNumber.Value = Val(New String(If(Last.First = "b"c, Last.Substring(1), Last).
-                                                                               TakeWhile(Function(Ch As Char) Char.IsDigit(Ch)).ToArray))
+                                    ContinuedFromNumber.Value = CDec(Val(New String(If(Last.First = "b"c, Last.Substring(1), Last).
+                                                                               TakeWhile(Function(Ch As Char) Char.IsDigit(Ch)).ToArray)))
                                     If Char.IsLetter(Last.Last) Then
                                         ContinuedFromExpectedCut.Checked = True
                                         ContinuedFromSuffix.Text = Last.Last
@@ -787,31 +790,31 @@ Retry:  Try
                                                     If Index <> -1 Then
                                                         SeriesNumberApproximately.Checked = True
                                                         SeriesNumberApproximate.Value =
-                                                        Val(Part.Substring(Index + 1).TakeWhile(Function(Ch As Char) Ch <> ")"c).ToArray)
+                                                        CDec(Val(Part.Substring(Index + 1).TakeWhile(Function(Ch As Char) Ch <> ")"c).ToArray))
                                                     End If
                                                 Else
                                                     SS = True
                                                     SubscribeCount.Checked = True
                                                     SubscribeCounter.Value =
-                                                        Val(New String(Part.Substring(1).TakeWhile(
-                                                        Function(Ch As Char) Char.IsDigit(Ch)).ToArray))
+                                                        CDec(Val(New String(Part.Substring(1).TakeWhile(
+                                                        Function(Ch As Char) Char.IsDigit(Ch)).ToArray)))
                                                     Dim Index As Integer = Part.IndexOf("("c)
                                                     If Index <> -1 Then
                                                         SubscribeCountApproximately.Checked = True
-                                                        SubscribeCountApproximate.Value = Val(New String(Part.Substring(Index + 1).
-                                                            TakeWhile(Function(Ch As Char) Ch <> ")"c).ToArray).TrimEnd(")c"))
+                                                        SubscribeCountApproximate.Value = CDec(Val(New String(Part.Substring(Index + 1).
+                                                            TakeWhile(Function(Ch As Char) Ch <> ")"c).ToArray).TrimEnd(")"c)))
                                                     End If
                                                 End If
                                             Case "V"c
                                                 SV = True
                                                 VideoNumber.Checked = True
                                                 VideoNumbers.Value =
-                                                    Val(New String(Part.Substring(1).TakeWhile(
-                                                    Function(Ch As Char) Char.IsDigit(Ch)).ToArray))
+                                                    CDec(Val(New String(Part.Substring(1).TakeWhile(
+                                                    Function(Ch As Char) Char.IsDigit(Ch)).ToArray)))
                                                 Dim Index As Integer = Part.IndexOf("("c)
                                                 If Index <> -1 Then
                                                     VideoNumberApproximately.Checked = True
-                                                    VideoNumberApproximate.Value = Part.Substring(Index + 1).TrimEnd(")c")
+                                                    VideoNumberApproximate.Value = Decimal.Parse(Part.Substring(Index + 1).TrimEnd(")"c))
                                                 End If
                                         End Select
                                     Next
@@ -843,13 +846,13 @@ Retry:  Try
         Refresh(Me, EventArgs.Empty)
     End Sub
 
-    Friend Function ThrowFormatException(Message As String) As Type
+    Friend Function ThrowFormatException(Message As String) As String
         Throw New FormatException(Message)
-        Return GetType(Void)
+        Return GetType(Void).ToString
     End Function
-    Friend Function ThrowKeyNotFoundException(Message As String) As Type
+    Friend Function ThrowKeyNotFoundException(Message As String) As String
         Throw New KeyNotFoundException(Message)
-        Return GetType(Void)
+        Return GetType(Void).ToString
     End Function
 
     Private Sub LoadYoutube_Click(sender As Object, e As EventArgs) Handles LoadYoutube.Click
@@ -857,7 +860,7 @@ Retry:  Try
     End Sub
 
     Private Sub QSearch_Click(sender As Object, e As EventArgs) Handles QSearch.Click
-        Process.Start("https://www.youtube.com/my_videos?o=U&sq=" & Encode(List.SelectedItem))
+        Process.Start("https://www.youtube.com/my_videos?o=U&sq=" & Encode(List.SelectedItem.ToString))
     End Sub
 
     Friend Function Encode(Query As String) As String
@@ -866,6 +869,29 @@ Retry:  Try
             Encode &= Uri.HexEscape(Chr)
         Next
     End Function
+
+    Private Sub Search_Click(sender As Object, e As EventArgs) Handles Search.Click
+        Process.Start("https://www.youtube.com/my_videos?o=U&sq=" & Encode(Output.Text))
+    End Sub
+
+    Private Sub AddItem_Click(sender As Object, e As EventArgs) Handles AddItem.Click
+        Dim Name As String = InputBox("What is the video file name?", "Add Item")
+        If Name = "" Then Return
+        Dim Value As String = InputBox("What is the video name?", "Add Item")
+        Try
+            AddFiles({Name}, {Value})
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub DeleteItem_Click(sender As Object, e As EventArgs) Handles DeleteItem.Click
+        If MsgBox("Are you sure?", MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2) = MsgBoxResult.No Then Return
+        Dim Selected As Object = List.SelectedItem
+        Names.RemoveAt(List.SelectedIndex)
+        List.SelectedIndex += 1
+        List.Items.Remove(Selected)
+    End Sub
 End Class
 #If False Then
 Namespace Global
