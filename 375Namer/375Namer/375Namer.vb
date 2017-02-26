@@ -1,11 +1,11 @@
 ﻿Public Class Form
     Friend ReadOnly Settings As String = My.Computer.FileSystem.CurrentDirectory & "\375Namer.settings"
     Friend Const Delimiter As Char = ChrW(7)
-    Friend Names As New List(Of String)
+    Friend Names As New SortedDictionary(Of String, String)
     Private Sub Form_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
         Using Writer As New IO.StreamWriter(Settings, False, System.Text.Encoding.Unicode) With {.NewLine = vbCrLf}
-            For i = 0 To Names.Count - 1
-                Writer.WriteLine(List.Items(i).ToString & Delimiter & Names(i))
+            For Each Pair In Names
+                Writer.WriteLine(Pair.Key & Delimiter & Pair.Value)
             Next
             Writer.Flush()
             Writer.Close()
@@ -78,8 +78,8 @@
         Sub ToVoid(ByVal provider As IFormatProvider)
     End Interface
     Private Sub Me_Load(sender As Object, e As EventArgs) Handles Me.Load
+        Version.Text = "Version: " & My.Application.Info.Version.ToString(3)
         CodesInit()
-        Dim Dictionary As New Dictionary(Of String, String)
         Series.SelectedIndex = 0
         ContinuedFromSeries.SelectedIndex = 0
         Title.Text = Chr(0)
@@ -92,7 +92,7 @@ Retry:  Try
                         Line = Reader.ReadFields
                         If Line.Count <> 2 Then Throw New FileIO.MalformedLineException(
                             "There are more than one or no delimiters in the line.", Reader.LineNumber - 1)
-                        Dictionary.Add(Line(0), Line(1))
+                        Names.Add(Line(0), Line(1))
                     Catch ex As FileIO.MalformedLineException
                         MsgBox(ex.Message & vbCrLf & "Line number: " & ex.LineNumber)
                     Catch ex As ArgumentException
@@ -100,7 +100,6 @@ Retry:  Try
                     End Try
                 Loop
             End Using
-            AddFiles(Dictionary.Keys, New List(Of String)(Dictionary.Values))
         Catch ex As IO.FileNotFoundException
             Try
                 My.Computer.FileSystem.WriteAllText(Settings, "", False)
@@ -109,10 +108,8 @@ Retry:  Try
                 MsgBox("Do not have enough permission. Cannot load/save settings.", MsgBoxStyle.Exclamation)
             End Try
         End Try
-        If List.Items.Count = 0 Then
-            List.Items.Add("<empty>")
-            Names.Add("")
-        End If
+        If Names.Count = 0 Then Names.Add("<empty>", "")
+        Queried(Me, EventArgs.Empty)
         List.SelectedIndex = 0
         AddHandler Output.TextChanged, AddressOf Output_TextChanged
         AddHandler List.SelectedIndexChanged, AddressOf List_SelectedIndexChanged
@@ -190,9 +187,12 @@ Retry:  Try
         SubscribeCounter.ValueChanged, SubSeries.TextChanged, Title.TextChanged, Triple.Click, VideoNumber.Click,
         VideoNumberApproximate.ValueChanged, VideoNumberApproximately.Click, VideoNumbers.ValueChanged
         MyBase.Refresh()
-        Output.Text = Prefix.Text & Series.Text & If(String.IsNullOrEmpty(SubSeries.Text), String.Empty, SeriesColon.Text) &
-            SubSeries.Text & Midfix.Text & If(Beta.Checked, "Beta ", String.Empty) & Number.Value & NumberSuffix.Text &
-            Colon.Text & Title.Text & " "c & If(Solo.Checked, String.Empty, If(Duo.Checked, "[D]", If(Triple.Checked, "[T]", "[M]"))) &
+        Output.Text = Prefix.Text & Series.Text & If(String.IsNullOrEmpty(SubSeries.Text), String.Empty, SeriesColon.Text) & SubSeries.Text &
+            Midfix.Text & If(Beta.Checked, "Beta ", String.Empty) & Number.Value & NumberSuffix.Text & Colon.Text & Title.Text &
+ _
+            If(Not Solo.Checked OrElse Special.Checked OrElse Continued.Checked OrElse NoNarration.Checked OrElse Speedrun.Checked OrElse
+            Extra.Checked OrElse NotSuggested.Checked OrElse JustRecord.Checked, " "c, String.Empty) &
+            If(Solo.Checked, String.Empty, If(Duo.Checked, "[D]", If(Triple.Checked, "[T]", "[M]"))) &
  _
             If(Special.Checked AndAlso (SeriesNumber.Checked OrElse VideoNumber.Checked OrElse SubscribeCount.Checked),
             "[S-" & If(SeriesNumber.Checked, "SM" & Number.Value &
@@ -664,29 +664,22 @@ Retry:  Try
         AddFiles(Files)
     End Sub
 
-    Friend Sub AddFiles(Files As IEnumerable(Of String), Optional Content As IList(Of String) = Nothing)
-        For i As Integer = 0 To Files.Count - 1
-            Dim File As String = Files(i)
-            If List.Items.Contains(File) Then Continue For
-            List.Items.Add(File)
-            Names.Add(Content?.Item(i))
-        Next
+    Friend Sub AddFiles(Files As IEnumerable(Of String), Optional Content As IEnumerable(Of String) = Nothing)
         Dim Selected As Object = List.SelectedItem
-        Dim Temp1 As String() = List.Items.Cast(Of String).ToArray
-        Dim Temp2 As String() = Names.ToArray
-        Array.Sort(Temp1, Temp2)
-        List.Items.Clear()
-        List.Items.AddRange(Temp1)
-        Names.Clear()
-        Names.AddRange(Temp2)
+        For i As Integer = 0 To Files.Count - 1
+            Dim File = Files(i)
+            If List.Items.Contains(File) Then Continue For
+            Names.Add(File, Content(i))
+            Queried(Me, EventArgs.Empty)
+        Next
         List.SelectedItem = Selected
     End Sub
     Private Sub Output_TextChanged(sender As Object, e As EventArgs)
-        Names(List.SelectedIndex) = Output.Text
+        Names(CStr(List.SelectedItem)) = Output.Text
     End Sub
 
     Private Sub List_SelectedIndexChanged(sender As Object, e As EventArgs)
-        Parse(Names(List.SelectedIndex))
+        Parse(Names(CStr(List.SelectedItem)))
         'My.MyApplication.Main({})
     End Sub
 
@@ -885,12 +878,40 @@ Retry:  Try
     Private Sub DeleteItem_Click(sender As Object, e As EventArgs) Handles DeleteItem.Click
         If MsgBox("Are you sure?", MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2) = MsgBoxResult.No Then Return
         Dim Selected As Object = List.SelectedItem
-        Names.RemoveAt(List.SelectedIndex)
-        List.SelectedIndex += 1
+        Names.Remove(CStr(List.SelectedItem))
+        If List.Items.Count = 1 Then
+            Names.Add("<empty>", "")
+        End If
+        If List.Items.Count = List.SelectedIndex + 1 Then List.SelectedIndex -= 1 Else List.SelectedIndex += 1
         List.Items.Remove(Selected)
+    End Sub
+
+    Private Sub Queried(sender As Object, e As EventArgs) Handles Query.TextChanged
+        Dim Selected As Object = List.SelectedItem
+        List.Items.Clear()
+        If String.IsNullOrEmpty(Query.Text) Then
+            For Each Item In Names
+                List.Items.Add(Item.Key)
+            Next
+        Else
+            For Each Item In Names
+                If Item.Key Like Query.Text Then List.Items.Add(Item.Key)
+            Next
+        End If
+        If List.Items.Count = 0 Then List.Items.Add("<empty>")
+        List.SelectedItem = Selected
     End Sub
 End Class
 #If False Then
+Public Module Extensions
+    <Runtime.CompilerServices.Extension>
+    Public Sub AddRange(Of T)(Collection As ICollection(Of T), Enumerable As IEnumerable(Of T))
+        For Each Item As T In Enumerable
+            Collection.Add(Item)
+        Next
+    End Sub
+End Module
+
 Namespace Global
     Namespace System
         Partial Public Structure [String]

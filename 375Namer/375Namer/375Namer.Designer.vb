@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class Form
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class Form
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.List = New System.Windows.Forms.ListBox()
         Me.Sample = New System.Windows.Forms.Label()
@@ -77,6 +77,8 @@ Partial Class Form
         Me.Search = New System.Windows.Forms.Button()
         Me.AddItem = New System.Windows.Forms.Button()
         Me.DeleteItem = New System.Windows.Forms.Button()
+        Me.Query = New System.Windows.Forms.TextBox()
+        Me.Version = New System.Windows.Forms.Label()
         CType(Me.Number, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Specials.SuspendLayout()
         CType(Me.SubscribeCounter, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -92,9 +94,9 @@ Partial Class Form
         'List
         '
         Me.List.FormattingEnabled = True
-        Me.List.Location = New System.Drawing.Point(13, 26)
+        Me.List.Location = New System.Drawing.Point(13, 52)
         Me.List.Name = "List"
-        Me.List.Size = New System.Drawing.Size(267, 264)
+        Me.List.Size = New System.Drawing.Size(267, 238)
         Me.List.TabIndex = 0
         '
         'Sample
@@ -727,11 +729,29 @@ Partial Class Form
         Me.DeleteItem.Text = "Delete Item"
         Me.DeleteItem.UseVisualStyleBackColor = True
         '
+        'Query
+        '
+        Me.Query.Location = New System.Drawing.Point(13, 26)
+        Me.Query.Name = "Query"
+        Me.Query.Size = New System.Drawing.Size(267, 20)
+        Me.Query.TabIndex = 36
+        '
+        'Version
+        '
+        Me.Version.AutoSize = True
+        Me.Version.Location = New System.Drawing.Point(717, 231)
+        Me.Version.Name = "Version"
+        Me.Version.Size = New System.Drawing.Size(45, 13)
+        Me.Version.TabIndex = 37
+        Me.Version.Text = "Version:"
+        '
         'Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(825, 326)
+        Me.Controls.Add(Me.Version)
+        Me.Controls.Add(Me.Query)
         Me.Controls.Add(Me.DeleteItem)
         Me.Controls.Add(Me.AddItem)
         Me.Controls.Add(Me.Search)
@@ -841,4 +861,6 @@ Partial Class Form
     Friend WithEvents Search As Button
     Friend WithEvents AddItem As Button
     Friend WithEvents DeleteItem As Button
+    Friend WithEvents Query As TextBox
+    Friend WithEvents Version As Label
 End Class
