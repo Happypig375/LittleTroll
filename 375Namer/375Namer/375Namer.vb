@@ -113,7 +113,7 @@ Retry:  Try
             End Try
         End Try
         If Names.Count = 0 Then Names.Add(Empty, DefaultName)
-        Queried(Me, EventArgs.Empty)
+        Queried()
         List.SelectedIndex = 0
         AddHandler Output.TextChanged, AddressOf Output_TextChanged
         AddHandler List.SelectedIndexChanged, AddressOf List_SelectedIndexChanged
@@ -671,7 +671,7 @@ Retry:  Try
             If List.Items.Contains(File) Then Continue For
             Names.Add(File, If(Content?(i), DefaultName))
         Next
-        Queried(Me, EventArgs.Empty)
+        Queried()
         List.SelectedItem = Selected
     End Sub
     Private Sub Output_TextChanged(sender As Object, e As EventArgs)
@@ -886,7 +886,7 @@ Retry:  Try
         List.Items.Remove(Selected)
     End Sub
 
-    Private Sub Queried(sender As Object, e As EventArgs) Handles Query.TextChanged
+    Private Sub Queried() Handles Query.TextChanged
         Dim Selected As Object = List.SelectedItem
         List.Items.Clear()
         If String.IsNullOrEmpty(Query.Text) Then
