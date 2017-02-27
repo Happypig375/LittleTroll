@@ -1,10 +1,14 @@
 ﻿Public Class Form
     Friend ReadOnly Settings As String = My.Computer.FileSystem.CurrentDirectory & "\375Namer.settings"
     Friend Const Delimiter As Char = ChrW(7)
-    Friend Names As New SortedDictionary(Of String, String)
+    Friend Const DefaultName As String = "├Minecraft遊記┤1："
+    Friend Const Empty As String = "<empty>"
+    Friend Names As New SortedDictionary(Of String, String) From {{Empty, DefaultName}}
     Private Sub Form_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
         Using Writer As New IO.StreamWriter(Settings, False, System.Text.Encoding.Unicode) With {.NewLine = vbCrLf}
+            Names.Remove(Empty)
             For Each Pair In Names
+
                 Writer.WriteLine(Pair.Key & Delimiter & Pair.Value)
             Next
             Writer.Flush()
@@ -66,7 +70,7 @@
         Next
         Throw New ArgumentOutOfRangeException("Thread not found.")
     End Function
-    Public Class DuplicateKeyComparer(Of TKey As IconConverter)
+    Public Class DuplicateKeyComparer(Of TKey)
         'Implements IComparer(Of TKey)
     End Class
     <Serializable>
@@ -108,7 +112,7 @@ Retry:  Try
                 MsgBox("Do not have enough permission. Cannot load/save settings.", MsgBoxStyle.Exclamation)
             End Try
         End Try
-        If Names.Count = 0 Then Names.Add("<empty>", "")
+        If Names.Count = 0 Then Names.Add(Empty, DefaultName)
         Queried(Me, EventArgs.Empty)
         List.SelectedIndex = 0
         AddHandler Output.TextChanged, AddressOf Output_TextChanged
@@ -598,18 +602,12 @@ Retry:  Try
         End Sub
     End Class
     Structure OtherValueInfo
-        Implements SqlTypes.INullable
-        Private ReadOnly _IsNull As Boolean
-        ReadOnly Property IsNull As Boolean Implements SqlTypes.INullable.IsNull
-            Get
-                Return _IsNull
-            End Get
-        End Property
+        Public ReadOnly Property IsNull As Boolean
         Public ReadOnly Key As String
         Public ReadOnly Value As String
         Public ReadOnly IndexPos As Integer
         Sub New(Key_ As String, Value_ As String, IndexPos_ As Integer)
-            If Key_ = Nothing Or Value_ Is Nothing OrElse IndexPos_.Equals(Nothing) Then _IsNull = True
+            If Key_ = Nothing Or Value_ Is Nothing OrElse IndexPos_.Equals(Nothing) Then IsNull = True
             Key = Key_
             Value = Value_
             IndexPos = IndexPos_
@@ -651,8 +649,10 @@ Retry:  Try
         Dim DirInfo As IO.DirectoryInfo
         Try
             DirInfo = FileIO.FileSystem.GetDirectoryInfo(InputBox("Enter source directory:", "Source", "Y:\"))
-        Catch
-            Exit Sub
+            DirInfo.GetFiles()
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical)
+            Return
         End Try
         Dim Files As New List(Of String)
         For Each File As IO.FileInfo In DirInfo.GetFiles("*.avi", IO.SearchOption.TopDirectoryOnly)
@@ -669,9 +669,9 @@ Retry:  Try
         For i As Integer = 0 To Files.Count - 1
             Dim File = Files(i)
             If List.Items.Contains(File) Then Continue For
-            Names.Add(File, Content(i))
-            Queried(Me, EventArgs.Empty)
+            Names.Add(File, If(Content?(i), DefaultName))
         Next
+        Queried(Me, EventArgs.Empty)
         List.SelectedItem = Selected
     End Sub
     Private Sub Output_TextChanged(sender As Object, e As EventArgs)
@@ -684,7 +684,7 @@ Retry:  Try
     End Sub
 
     Friend Sub Parse(Input As String)
-        If String.IsNullOrEmpty(Input) Then Input = "├Minecraft遊記┤1："
+        If String.IsNullOrEmpty(Input) Then Input = DefaultName
         If Input(0) <> Prefix.Text Then ThrowFormatException("First character is not prefix.")
         Dim Serie As String = Input.Substring(1).TakeWhile(Function(Ch As Char) Ch <> Midfix.Text).ToArray
         If Serie.Contains(SeriesColon.Text) Then
@@ -880,7 +880,7 @@ Retry:  Try
         Dim Selected As Object = List.SelectedItem
         Names.Remove(CStr(List.SelectedItem))
         If List.Items.Count = 1 Then
-            Names.Add("<empty>", "")
+            Names.Add(Empty, DefaultName)
         End If
         If List.Items.Count = List.SelectedIndex + 1 Then List.SelectedIndex -= 1 Else List.SelectedIndex += 1
         List.Items.Remove(Selected)
@@ -898,8 +898,10 @@ Retry:  Try
                 If Item.Key Like Query.Text Then List.Items.Add(Item.Key)
             Next
         End If
-        If List.Items.Count = 0 Then List.Items.Add("<empty>")
+        List.Items.Remove(Empty)
+        If List.Items.Count = 0 Then List.Items.Add(Empty)
         List.SelectedItem = Selected
+        If List.SelectedIndex = -1 Then List.SelectedIndex += 1
     End Sub
 End Class
 #If False Then
