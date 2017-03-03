@@ -14,7 +14,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyCompany("Happypig375")>
 <Assembly: AssemblyProduct("375Namer")>
 <Assembly: AssemblyCopyright("Copyright © Happypig375 2016-2017")>
-<Assembly: AssemblyTrademark("")>
+<Assembly: AssemblyTrademark("375Namer™")>
 
 <Assembly: ComVisible(False)>
 
@@ -32,6 +32,6 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.4.1.0")>
-<Assembly: AssemblyFileVersion("1.4.1.0")>
+<Assembly: AssemblyVersion("1.5.0.0")>
+<Assembly: AssemblyFileVersion("1.5.0.0")>
 <Assembly: NeutralResourcesLanguage("en-HK")>

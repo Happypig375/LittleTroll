@@ -903,6 +903,31 @@ Retry:  Try
         List.SelectedItem = Selected
         If List.SelectedIndex = -1 Then List.SelectedIndex += 1
     End Sub
+
+    Private Sub SelectFiles_Click(sender As Object, e As EventArgs) Handles SelectFiles.Click
+        Using Selector As New OpenFileDialog With {.Multiselect = True, .InitialDirectory = "Y:\"}
+            If Selector.ShowDialog() = DialogResult.Cancel Then Return
+            AddFiles(Selector.SafeFileNames, Nothing)
+        End Using
+    End Sub
+
+    Private Sub ParseName_Click(sender As Object, e As EventArgs) Handles ParseName.Click
+        Dim NewName As String = InputBox("Enter a new name to parse:", "Parse Video Name")
+        If String.IsNullOrEmpty(NewName) Then Return
+        Try
+            Parse(NewName)
+            Names(CStr(List.SelectedItem)) = NewName
+        Catch
+            If MsgBox("Name is not in valid format. Use default?", MsgBoxStyle.YesNo,
+                      "Parse Video Name") = MsgBoxResult.Yes Then
+                Parse(DefaultName)
+                Names(CStr(List.SelectedItem)) = DefaultName
+            End If
+        End Try
+    End Sub
+
+    Private Sub LocalSearch_Click(sender As Object, e As EventArgs) Handles LocalSearch.Click
+    End Sub
 End Class
 #If False Then
 Public Module Extensions

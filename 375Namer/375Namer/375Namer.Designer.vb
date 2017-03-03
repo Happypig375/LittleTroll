@@ -79,6 +79,9 @@ Partial Class Form
         Me.DeleteItem = New System.Windows.Forms.Button()
         Me.Query = New System.Windows.Forms.TextBox()
         Me.Version = New System.Windows.Forms.Label()
+        Me.SelectFiles = New System.Windows.Forms.Button()
+        Me.ParseName = New System.Windows.Forms.Button()
+        Me.LocalSearch = New System.Windows.Forms.Button()
         CType(Me.Number, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Specials.SuspendLayout()
         CType(Me.SubscribeCounter, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -93,6 +96,8 @@ Partial Class Form
         '
         'List
         '
+        Me.List.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.List.FormattingEnabled = True
         Me.List.Location = New System.Drawing.Point(13, 52)
         Me.List.Name = "List"
@@ -102,7 +107,7 @@ Partial Class Form
         'Sample
         '
         Me.Sample.AutoSize = True
-        Me.Sample.Location = New System.Drawing.Point(438, 10)
+        Me.Sample.Location = New System.Drawing.Point(576, 13)
         Me.Sample.Name = "Sample"
         Me.Sample.Size = New System.Drawing.Size(287, 13)
         Me.Sample.TabIndex = 1
@@ -123,13 +128,14 @@ Partial Class Form
         Me.Series.FormattingEnabled = True
         Me.Series.Location = New System.Drawing.Point(305, 39)
         Me.Series.Name = "Series"
-        Me.Series.Size = New System.Drawing.Size(121, 21)
+        Me.Series.Size = New System.Drawing.Size(190, 21)
         Me.Series.TabIndex = 3
         '
         'Midfix
         '
+        Me.Midfix.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Midfix.AutoSize = True
-        Me.Midfix.Location = New System.Drawing.Point(576, 41)
+        Me.Midfix.Location = New System.Drawing.Point(676, 42)
         Me.Midfix.Name = "Midfix"
         Me.Midfix.Size = New System.Drawing.Size(13, 13)
         Me.Midfix.TabIndex = 4
@@ -137,7 +143,8 @@ Partial Class Form
         '
         'Number
         '
-        Me.Number.Location = New System.Drawing.Point(645, 40)
+        Me.Number.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Number.Location = New System.Drawing.Point(740, 40)
         Me.Number.Maximum = New Decimal(New Integer() {99999, 0, 0, 0})
         Me.Number.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.Number.Name = "Number"
@@ -147,6 +154,7 @@ Partial Class Form
         '
         'NumberSuffix
         '
+        Me.NumberSuffix.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.NumberSuffix.Items.Add("a")
         Me.NumberSuffix.Items.Add("b")
         Me.NumberSuffix.Items.Add("c")
@@ -173,7 +181,7 @@ Partial Class Form
         Me.NumberSuffix.Items.Add("x")
         Me.NumberSuffix.Items.Add("y")
         Me.NumberSuffix.Items.Add("z")
-        Me.NumberSuffix.Location = New System.Drawing.Point(699, 39)
+        Me.NumberSuffix.Location = New System.Drawing.Point(794, 40)
         Me.NumberSuffix.Name = "NumberSuffix"
         Me.NumberSuffix.Size = New System.Drawing.Size(45, 20)
         Me.NumberSuffix.TabIndex = 6
@@ -185,7 +193,7 @@ Partial Class Form
         Me.ExpectedCut.AutoSize = True
         Me.ExpectedCut.Checked = True
         Me.ExpectedCut.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.ExpectedCut.Location = New System.Drawing.Point(731, 10)
+        Me.ExpectedCut.Location = New System.Drawing.Point(725, 93)
         Me.ExpectedCut.Name = "ExpectedCut"
         Me.ExpectedCut.Size = New System.Drawing.Size(81, 23)
         Me.ExpectedCut.TabIndex = 7
@@ -195,7 +203,7 @@ Partial Class Form
         'SeriesColon
         '
         Me.SeriesColon.AutoSize = True
-        Me.SeriesColon.Location = New System.Drawing.Point(432, 40)
+        Me.SeriesColon.Location = New System.Drawing.Point(501, 42)
         Me.SeriesColon.Name = "SeriesColon"
         Me.SeriesColon.Size = New System.Drawing.Size(10, 13)
         Me.SeriesColon.TabIndex = 9
@@ -203,16 +211,19 @@ Partial Class Form
         '
         'SubSeries
         '
+        Me.SubSeries.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SubSeries.FormattingEnabled = True
-        Me.SubSeries.Location = New System.Drawing.Point(448, 39)
+        Me.SubSeries.Location = New System.Drawing.Point(517, 39)
         Me.SubSeries.Name = "SubSeries"
-        Me.SubSeries.Size = New System.Drawing.Size(121, 21)
+        Me.SubSeries.Size = New System.Drawing.Size(153, 21)
         Me.SubSeries.TabIndex = 10
         '
         'Colon
         '
+        Me.Colon.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Colon.AutoSize = True
-        Me.Colon.Location = New System.Drawing.Point(753, 42)
+        Me.Colon.Location = New System.Drawing.Point(843, 42)
         Me.Colon.Name = "Colon"
         Me.Colon.Size = New System.Drawing.Size(13, 13)
         Me.Colon.TabIndex = 11
@@ -220,9 +231,11 @@ Partial Class Form
         '
         'Title
         '
+        Me.Title.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Title.Location = New System.Drawing.Point(289, 66)
         Me.Title.Name = "Title"
-        Me.Title.Size = New System.Drawing.Size(417, 20)
+        Me.Title.Size = New System.Drawing.Size(567, 20)
         Me.Title.TabIndex = 12
         Me.Title.Text = "[S-SM50,V155(150)]"
         '
@@ -276,6 +289,8 @@ Partial Class Form
         '
         'Specials
         '
+        Me.Specials.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Specials.Controls.Add(Me.SubscribeCounter)
         Me.Specials.Controls.Add(Me.VideoNumbers)
         Me.Specials.Controls.Add(Me.SubscribeCountApproximately)
@@ -436,6 +451,8 @@ Partial Class Form
         '
         'ContinuedFrom
         '
+        Me.ContinuedFrom.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ContinuedFrom.Controls.Add(Me.ContinuedFromExpectedCut)
         Me.ContinuedFrom.Controls.Add(Me.ContinuedFromBeta)
         Me.ContinuedFrom.Controls.Add(Me.ContinuedFromSubseries)
@@ -592,7 +609,7 @@ Partial Class Form
         '
         Me.Speedrun.Appearance = System.Windows.Forms.Appearance.Button
         Me.Speedrun.AutoSize = True
-        Me.Speedrun.Location = New System.Drawing.Point(712, 66)
+        Me.Speedrun.Location = New System.Drawing.Point(725, 122)
         Me.Speedrun.Name = "Speedrun"
         Me.Speedrun.Size = New System.Drawing.Size(63, 23)
         Me.Speedrun.TabIndex = 22
@@ -601,7 +618,7 @@ Partial Class Form
         '
         'SpeedrunMultiplier
         '
-        Me.SpeedrunMultiplier.Location = New System.Drawing.Point(782, 66)
+        Me.SpeedrunMultiplier.Location = New System.Drawing.Point(794, 125)
         Me.SpeedrunMultiplier.Maximum = New Decimal(New Integer() {64, 0, 0, 0})
         Me.SpeedrunMultiplier.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.SpeedrunMultiplier.Name = "SpeedrunMultiplier"
@@ -613,7 +630,7 @@ Partial Class Form
         '
         Me.Extra.Appearance = System.Windows.Forms.Appearance.Button
         Me.Extra.AutoSize = True
-        Me.Extra.Location = New System.Drawing.Point(725, 93)
+        Me.Extra.Location = New System.Drawing.Point(725, 151)
         Me.Extra.Name = "Extra"
         Me.Extra.Size = New System.Drawing.Size(41, 23)
         Me.Extra.TabIndex = 24
@@ -624,7 +641,7 @@ Partial Class Form
         '
         Me.NotSuggested.Appearance = System.Windows.Forms.Appearance.Button
         Me.NotSuggested.AutoSize = True
-        Me.NotSuggested.Location = New System.Drawing.Point(725, 122)
+        Me.NotSuggested.Location = New System.Drawing.Point(768, 151)
         Me.NotSuggested.Name = "NotSuggested"
         Me.NotSuggested.Size = New System.Drawing.Size(88, 23)
         Me.NotSuggested.TabIndex = 25
@@ -635,7 +652,7 @@ Partial Class Form
         '
         Me.JustRecord.Appearance = System.Windows.Forms.Appearance.Button
         Me.JustRecord.AutoSize = True
-        Me.JustRecord.Location = New System.Drawing.Point(725, 151)
+        Me.JustRecord.Location = New System.Drawing.Point(725, 180)
         Me.JustRecord.Name = "JustRecord"
         Me.JustRecord.Size = New System.Drawing.Size(74, 23)
         Me.JustRecord.TabIndex = 26
@@ -646,17 +663,17 @@ Partial Class Form
         '
         Me.Output.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Output.Location = New System.Drawing.Point(13, 294)
+        Me.Output.Location = New System.Drawing.Point(12, 296)
         Me.Output.Name = "Output"
         Me.Output.ReadOnly = True
-        Me.Output.Size = New System.Drawing.Size(689, 20)
+        Me.Output.Size = New System.Drawing.Size(732, 20)
         Me.Output.TabIndex = 27
         '
         'Copy
         '
         Me.Copy.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Copy.AutoSize = True
-        Me.Copy.Location = New System.Drawing.Point(766, 294)
+        Me.Copy.Location = New System.Drawing.Point(809, 294)
         Me.Copy.Name = "Copy"
         Me.Copy.Size = New System.Drawing.Size(47, 23)
         Me.Copy.TabIndex = 28
@@ -665,9 +682,10 @@ Partial Class Form
         '
         'Beta
         '
+        Me.Beta.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Beta.Appearance = System.Windows.Forms.Appearance.Button
         Me.Beta.AutoSize = True
-        Me.Beta.Location = New System.Drawing.Point(595, 37)
+        Me.Beta.Location = New System.Drawing.Point(695, 37)
         Me.Beta.Name = "Beta"
         Me.Beta.Size = New System.Drawing.Size(39, 23)
         Me.Beta.TabIndex = 29
@@ -677,7 +695,7 @@ Partial Class Form
         'LoadFiles
         '
         Me.LoadFiles.AutoSize = True
-        Me.LoadFiles.Location = New System.Drawing.Point(13, 3)
+        Me.LoadFiles.Location = New System.Drawing.Point(93, 3)
         Me.LoadFiles.Name = "LoadFiles"
         Me.LoadFiles.Size = New System.Drawing.Size(75, 23)
         Me.LoadFiles.TabIndex = 30
@@ -686,7 +704,7 @@ Partial Class Form
         '
         'LoadYoutube
         '
-        Me.LoadYoutube.Location = New System.Drawing.Point(95, 3)
+        Me.LoadYoutube.Location = New System.Drawing.Point(255, 3)
         Me.LoadYoutube.Name = "LoadYoutube"
         Me.LoadYoutube.Size = New System.Drawing.Size(114, 23)
         Me.LoadYoutube.TabIndex = 31
@@ -695,7 +713,7 @@ Partial Class Form
         '
         'QSearch
         '
-        Me.QSearch.Location = New System.Drawing.Point(216, 3)
+        Me.QSearch.Location = New System.Drawing.Point(375, 3)
         Me.QSearch.Name = "QSearch"
         Me.QSearch.Size = New System.Drawing.Size(83, 23)
         Me.QSearch.TabIndex = 32
@@ -704,7 +722,8 @@ Partial Class Form
         '
         'Search
         '
-        Me.Search.Location = New System.Drawing.Point(709, 294)
+        Me.Search.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Search.Location = New System.Drawing.Point(752, 294)
         Me.Search.Name = "Search"
         Me.Search.Size = New System.Drawing.Size(57, 23)
         Me.Search.TabIndex = 33
@@ -713,7 +732,7 @@ Partial Class Form
         '
         'AddItem
         '
-        Me.AddItem.Location = New System.Drawing.Point(305, 3)
+        Me.AddItem.Location = New System.Drawing.Point(12, 3)
         Me.AddItem.Name = "AddItem"
         Me.AddItem.Size = New System.Drawing.Size(75, 23)
         Me.AddItem.TabIndex = 34
@@ -722,34 +741,70 @@ Partial Class Form
         '
         'DeleteItem
         '
+        Me.DeleteItem.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DeleteItem.Location = New System.Drawing.Point(725, 265)
         Me.DeleteItem.Name = "DeleteItem"
-        Me.DeleteItem.Size = New System.Drawing.Size(75, 23)
+        Me.DeleteItem.Size = New System.Drawing.Size(131, 23)
         Me.DeleteItem.TabIndex = 35
         Me.DeleteItem.Text = "Delete Item"
         Me.DeleteItem.UseVisualStyleBackColor = True
         '
         'Query
         '
-        Me.Query.Location = New System.Drawing.Point(13, 26)
+        Me.Query.Location = New System.Drawing.Point(13, 32)
         Me.Query.Name = "Query"
         Me.Query.Size = New System.Drawing.Size(267, 20)
         Me.Query.TabIndex = 36
         '
         'Version
         '
+        Me.Version.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Version.AutoSize = True
-        Me.Version.Location = New System.Drawing.Point(717, 231)
+        Me.Version.Location = New System.Drawing.Point(722, 241)
         Me.Version.Name = "Version"
         Me.Version.Size = New System.Drawing.Size(45, 13)
         Me.Version.TabIndex = 37
         Me.Version.Text = "Version:"
         '
+        'SelectFiles
+        '
+        Me.SelectFiles.Location = New System.Drawing.Point(174, 3)
+        Me.SelectFiles.Name = "SelectFiles"
+        Me.SelectFiles.Size = New System.Drawing.Size(75, 23)
+        Me.SelectFiles.TabIndex = 38
+        Me.SelectFiles.Text = "Select Files"
+        Me.SelectFiles.UseVisualStyleBackColor = True
+        '
+        'ParseName
+        '
+        Me.ParseName.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ParseName.Location = New System.Drawing.Point(725, 215)
+        Me.ParseName.Name = "ParseName"
+        Me.ParseName.Size = New System.Drawing.Size(131, 23)
+        Me.ParseName.TabIndex = 39
+        Me.ParseName.Text = "Parse Video Name"
+        Me.ParseName.UseVisualStyleBackColor = True
+        '
+        'LocalSearch
+        '
+        Me.LocalSearch.Location = New System.Drawing.Point(464, 3)
+        Me.LocalSearch.Name = "LocalSearch"
+        Me.LocalSearch.Size = New System.Drawing.Size(83, 23)
+        Me.LocalSearch.TabIndex = 40
+        Me.LocalSearch.Text = "Local Search"
+        Me.LocalSearch.UseVisualStyleBackColor = True
+        '
         'Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(825, 326)
+        Me.ClientSize = New System.Drawing.Size(868, 326)
+        Me.Controls.Add(Me.LocalSearch)
+        Me.Controls.Add(Me.ParseName)
+        Me.Controls.Add(Me.SelectFiles)
         Me.Controls.Add(Me.Version)
         Me.Controls.Add(Me.Query)
         Me.Controls.Add(Me.DeleteItem)
@@ -863,4 +918,7 @@ Partial Class Form
     Friend WithEvents DeleteItem As Button
     Friend WithEvents Query As TextBox
     Friend WithEvents Version As Label
+    Friend WithEvents SelectFiles As Button
+    Friend WithEvents ParseName As Button
+    Friend WithEvents LocalSearch As Button
 End Class
