@@ -82,6 +82,7 @@ Partial Class Form
         Me.SelectFiles = New System.Windows.Forms.Button()
         Me.ParseName = New System.Windows.Forms.Button()
         Me.LocalSearch = New System.Windows.Forms.Button()
+        Me.QuerySwitch = New System.Windows.Forms.Button()
         CType(Me.Number, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Specials.SuspendLayout()
         CType(Me.SubscribeCounter, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -98,6 +99,7 @@ Partial Class Form
         '
         Me.List.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.List.ForeColor = System.Drawing.SystemColors.WindowText
         Me.List.FormattingEnabled = True
         Me.List.Location = New System.Drawing.Point(13, 52)
         Me.List.Name = "List"
@@ -752,9 +754,9 @@ Partial Class Form
         '
         'Query
         '
-        Me.Query.Location = New System.Drawing.Point(13, 32)
+        Me.Query.Location = New System.Drawing.Point(61, 31)
         Me.Query.Name = "Query"
-        Me.Query.Size = New System.Drawing.Size(267, 20)
+        Me.Query.Size = New System.Drawing.Size(219, 20)
         Me.Query.TabIndex = 36
         '
         'Version
@@ -797,11 +799,21 @@ Partial Class Form
         Me.LocalSearch.Text = "Local Search"
         Me.LocalSearch.UseVisualStyleBackColor = True
         '
+        'QuerySwitch
+        '
+        Me.QuerySwitch.Location = New System.Drawing.Point(13, 30)
+        Me.QuerySwitch.Name = "QuerySwitch"
+        Me.QuerySwitch.Size = New System.Drawing.Size(48, 23)
+        Me.QuerySwitch.TabIndex = 41
+        Me.QuerySwitch.Text = "File"
+        Me.QuerySwitch.UseVisualStyleBackColor = True
+        '
         'Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(868, 326)
+        Me.Controls.Add(Me.QuerySwitch)
         Me.Controls.Add(Me.LocalSearch)
         Me.Controls.Add(Me.ParseName)
         Me.Controls.Add(Me.SelectFiles)
@@ -921,4 +933,5 @@ Partial Class Form
     Friend WithEvents SelectFiles As Button
     Friend WithEvents ParseName As Button
     Friend WithEvents LocalSearch As Button
+    Friend WithEvents QuerySwitch As Button
 End Class

@@ -650,6 +650,8 @@ Retry:  Try
         Try
             DirInfo = FileIO.FileSystem.GetDirectoryInfo(InputBox("Enter source directory:", "Source", "Y:\"))
             DirInfo.GetFiles()
+        Catch ex As ArgumentException
+            Return
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical)
             Return
@@ -684,155 +686,158 @@ Retry:  Try
     End Sub
 
     Friend Sub Parse(Input As String)
-        If String.IsNullOrEmpty(Input) Then Input = DefaultName
-        If Input(0) <> Prefix.Text Then ThrowFormatException("First character is not prefix.")
-        Dim Serie As String = Input.Substring(1).TakeWhile(Function(Ch As Char) Ch <> Midfix.Text).ToArray
-        If Serie.Contains(SeriesColon.Text) Then
-            Dim Subserie As String = Serie.SkipWhile(Function(Ch As Char) Ch <> SeriesColon.Text).ToArray
-            Serie = Serie.TakeWhile(Function(Ch As Char) Ch <> SeriesColon.Text).ToArray
-            SubSeries.Text = Subserie.Substring(1)
-        End If
-        Series.Text = Serie
-        Input = Input.Substring(Input.IndexOf(Midfix.Text) + 1)
-        If Input.StartsWith("Beta ") Then
-            Beta.Checked = True
-            Input = Input.Substring(5)
-        Else Beta.Checked = False
-        End If
-        Number.Value = CDec(Val(New String(Input.TakeWhile(Function(Ch As Char) Char.IsDigit(Ch)).ToArray)))
-        Dim Match As System.Text.RegularExpressions.Match =
-            System.Text.RegularExpressions.Regex.Match(Input, "(?<=\d+)([a-z]|[A-Z]|_\d{1,2)(?=：)")
-        If Match.Success Then
-            If Match.Value.Length = 1 Then
-                ExpectedCut.Checked = True
-            ElseIf Match.Value.Length = 2 Or Match.Value.Length = 3 Then
-                ExpectedCut.Checked = False
-            Else ThrowFormatException("There are more than three characters as the number suffix.")
+        Try
+            If String.IsNullOrEmpty(Input) Then Input = DefaultName
+            If Input(0) <> Prefix.Text Then ThrowFormatException("First character is not prefix.")
+            Dim Serie As String = Input.Substring(1).TakeWhile(Function(Ch As Char) Ch <> Midfix.Text).ToArray
+            If Serie.Contains(SeriesColon.Text) Then
+                Dim Subserie As String = Serie.SkipWhile(Function(Ch As Char) Ch <> SeriesColon.Text).ToArray
+                Serie = Serie.TakeWhile(Function(Ch As Char) Ch <> SeriesColon.Text).ToArray
+                SubSeries.Text = Subserie.Substring(1)
             End If
-            NumberSuffix.Text = Match.Value
-        Else NumberSuffix.Text = String.Empty
-        End If
-        Title.Text = Input.Substring(Input.IndexOf(Colon.Text) + 1)
-        Match = System.Text.RegularExpressions.Regex.Match(Input, "(?<=\s)(\[([a-z]|[A-Z]|[0-9]|-|_|,|\(|\))+\])+$")
-        Dim Solol As Boolean = True
-        Dim NN, E, X, J, C, SSM, SS, SV, R As Boolean
-        If Match.Success Then
-            Title.Text = Title.Text.Replace(Match.Value, String.Empty)
-            Title.Text = Title.Text.TrimEnd
-            For Each Suffix As String In Match.Value.Split({"["c, "]"c}, StringSplitOptions.RemoveEmptyEntries)
-                Select Case Suffix
-                    Case "D"
-                        Solol = False
-                        Duo.Checked = True
-                    Case "T"
-                        Solol = False
-                        Triple.Checked = True
-                    Case "M"
-                        Solol = False
-                        Multiple.Checked = True
-                    Case "NN"
-                        NN = True
-                        NoNarration.Checked = True
-                    Case "E"
-                        E = True
-                        Extra.Checked = True
-                    Case "X"
-                        X = True
-                        NotSuggested.Checked = True
-                    Case "J"
-                        J = True
-                        JustRecord.Checked = True
-                    Case Else
-                        Match = System.Text.RegularExpressions.Regex.Match(Suffix,
-                                    "^(C-[A-Z]+b?\d{1,5}(_\d{1,2}|[a-z])|S-((SM|V|S)\d+(\(\d+\))?\,?)+|R\d\d?)$")
-                        '(\[([A-Z]|[0-9]|-|\(|\))+\])+|
-                        If Match.Success Then
-                            Input = Match.Value
-                            Select Case Input(0)
-                                Case "C"c
-                                    C = True
-                                    Dim SeriesCode As New String(Input.Substring(2).TakeWhile(Function(Ch As Char) Char.IsUpper(Ch)).ToArray)
-                                    Continued.Checked = True
-                                    ContinuedFromSeries.Text = ConvertCode(SeriesCode, Convert.FromCode)
-                                    Dim Last As String = Input.Substring(2).Replace(SeriesCode, String.Empty)
-                                    If Last.First = "b"c Then ContinuedFromBeta.Checked = True
-                                    ContinuedFromNumber.Value = CDec(Val(New String(If(Last.First = "b"c, Last.Substring(1), Last).
-                                                                               TakeWhile(Function(Ch As Char) Char.IsDigit(Ch)).ToArray)))
-                                    If Char.IsLetter(Last.Last) Then
-                                        ContinuedFromExpectedCut.Checked = True
-                                        ContinuedFromSuffix.Text = Last.Last
-                                    ElseIf Last.Contains("_"c) AndAlso Char.IsDigit(Last.Last) Then
-                                        ContinuedFromExpectedCut.Checked = False
-                                        ContinuedFromSuffix.ResetText()
-                                        For i As Integer = Last.Length - 1 To 0 Step -1
-                                            If Char.IsDigit(Last(i)) OrElse Last(i) = "_"c Then ContinuedFromSuffix.Text &= Last(i)
-                                            If Last(i) = "_"c Then Exit For
-                                        Next i
-                                        ContinuedFromSuffix.Text = ContinuedFromSuffix.Text.Reverse.ToArray
-                                    End If
-                                Case "S"c
-                                    Special.Checked = True
-                                    For Each Part As String In Input.Split(","c)
-                                        If Part.StartsWith("S-") Then Part = Part.Substring(2)
-                                        Select Case Part(0)
-                                            Case "S"c
-                                                If Part(1) = "M"c Then
-                                                    SSM = True
-                                                    SeriesNumber.Checked = True
-                                                    Dim Index As Integer = Part.IndexOf("("c)
-                                                    If Index <> -1 Then
-                                                        SeriesNumberApproximately.Checked = True
-                                                        SeriesNumberApproximate.Value =
-                                                        CDec(Val(Part.Substring(Index + 1).TakeWhile(Function(Ch As Char) Ch <> ")"c).ToArray))
+            Series.Text = Serie
+            Input = Input.Substring(Input.IndexOf(Midfix.Text) + 1)
+            If Input.StartsWith("Beta ") Then
+                Beta.Checked = True
+                Input = Input.Substring(5)
+            Else Beta.Checked = False
+            End If
+            Number.Value = CDec(Val(New String(Input.TakeWhile(Function(Ch As Char) Char.IsDigit(Ch)).ToArray)))
+            Dim Match As System.Text.RegularExpressions.Match =
+                System.Text.RegularExpressions.Regex.Match(Input, "(?<=\d+)([a-z]|[A-Z]|_\d{1,2)(?=：)")
+            If Match.Success Then
+                If Match.Value.Length = 1 Then
+                    ExpectedCut.Checked = True
+                ElseIf Match.Value.Length = 2 Or Match.Value.Length = 3 Then
+                    ExpectedCut.Checked = False
+                Else ThrowFormatException("There are more than three characters as the number suffix.")
+                End If
+                NumberSuffix.Text = Match.Value
+            Else NumberSuffix.Text = String.Empty
+            End If
+            Title.Text = Input.Substring(Input.IndexOf(Colon.Text) + 1)
+            Match = System.Text.RegularExpressions.Regex.Match(Input, "(?<=\s)(\[([a-z]|[A-Z]|[0-9]|-|_|,|\(|\))+\])+$")
+            Dim Solol As Boolean = True
+            Dim NN, E, X, J, C, SSM, SS, SV, R As Boolean
+            If Match.Success Then
+                Title.Text = Title.Text.Replace(Match.Value, String.Empty)
+                Title.Text = Title.Text.TrimEnd
+                For Each Suffix As String In Match.Value.Split({"["c, "]"c}, StringSplitOptions.RemoveEmptyEntries)
+                    Select Case Suffix
+                        Case "D"
+                            Solol = False
+                            Duo.Checked = True
+                        Case "T"
+                            Solol = False
+                            Triple.Checked = True
+                        Case "M"
+                            Solol = False
+                            Multiple.Checked = True
+                        Case "NN"
+                            NN = True
+                            NoNarration.Checked = True
+                        Case "E"
+                            E = True
+                            Extra.Checked = True
+                        Case "X"
+                            X = True
+                            NotSuggested.Checked = True
+                        Case "J"
+                            J = True
+                            JustRecord.Checked = True
+                        Case Else
+                            Match = System.Text.RegularExpressions.Regex.Match(Suffix,
+                                        "^(C-[A-Z]+b?\d{1,5}(_\d{1,2}|[a-z])|S-((SM|V|S)\d+(\(\d+\))?\,?)+|R\d\d?)$")
+                            '(\[([A-Z]|[0-9]|-|\(|\))+\])+|
+                            If Match.Success Then
+                                Input = Match.Value
+                                Select Case Input(0)
+                                    Case "C"c
+                                        C = True
+                                        Dim SeriesCode As New String(Input.Substring(2).TakeWhile(Function(Ch As Char) Char.IsUpper(Ch)).ToArray)
+                                        Continued.Checked = True
+                                        ContinuedFromSeries.Text = ConvertCode(SeriesCode, Convert.FromCode)
+                                        Dim Last As String = Input.Substring(2).Replace(SeriesCode, String.Empty)
+                                        If Last.First = "b"c Then ContinuedFromBeta.Checked = True
+                                        ContinuedFromNumber.Value = CDec(Val(New String(If(Last.First = "b"c, Last.Substring(1), Last).
+                                                                                   TakeWhile(Function(Ch As Char) Char.IsDigit(Ch)).ToArray)))
+                                        If Char.IsLetter(Last.Last) Then
+                                            ContinuedFromExpectedCut.Checked = True
+                                            ContinuedFromSuffix.Text = Last.Last
+                                        ElseIf Last.Contains("_"c) AndAlso Char.IsDigit(Last.Last) Then
+                                            ContinuedFromExpectedCut.Checked = False
+                                            ContinuedFromSuffix.ResetText()
+                                            For i As Integer = Last.Length - 1 To 0 Step -1
+                                                If Char.IsDigit(Last(i)) OrElse Last(i) = "_"c Then ContinuedFromSuffix.Text &= Last(i)
+                                                If Last(i) = "_"c Then Exit For
+                                            Next i
+                                            ContinuedFromSuffix.Text = ContinuedFromSuffix.Text.Reverse.ToArray
+                                        End If
+                                    Case "S"c
+                                        Special.Checked = True
+                                        For Each Part As String In Input.Split(","c)
+                                            If Part.StartsWith("S-") Then Part = Part.Substring(2)
+                                            Select Case Part(0)
+                                                Case "S"c
+                                                    If Part(1) = "M"c Then
+                                                        SSM = True
+                                                        SeriesNumber.Checked = True
+                                                        Dim Index As Integer = Part.IndexOf("("c)
+                                                        If Index <> -1 Then
+                                                            SeriesNumberApproximately.Checked = True
+                                                            SeriesNumberApproximate.Value =
+                                                            CDec(Val(Part.Substring(Index + 1).TakeWhile(Function(Ch As Char) Ch <> ")"c).ToArray))
+                                                        End If
+                                                    Else
+                                                        SS = True
+                                                        SubscribeCount.Checked = True
+                                                        SubscribeCounter.Value =
+                                                            CDec(Val(New String(Part.Substring(1).TakeWhile(
+                                                            Function(Ch As Char) Char.IsDigit(Ch)).ToArray)))
+                                                        Dim Index As Integer = Part.IndexOf("("c)
+                                                        If Index <> -1 Then
+                                                            SubscribeCountApproximately.Checked = True
+                                                            SubscribeCountApproximate.Value = CDec(Val(New String(Part.Substring(Index + 1).
+                                                                TakeWhile(Function(Ch As Char) Ch <> ")"c).ToArray).TrimEnd(")"c)))
+                                                        End If
                                                     End If
-                                                Else
-                                                    SS = True
-                                                    SubscribeCount.Checked = True
-                                                    SubscribeCounter.Value =
+                                                Case "V"c
+                                                    SV = True
+                                                    VideoNumber.Checked = True
+                                                    VideoNumbers.Value =
                                                         CDec(Val(New String(Part.Substring(1).TakeWhile(
                                                         Function(Ch As Char) Char.IsDigit(Ch)).ToArray)))
                                                     Dim Index As Integer = Part.IndexOf("("c)
                                                     If Index <> -1 Then
-                                                        SubscribeCountApproximately.Checked = True
-                                                        SubscribeCountApproximate.Value = CDec(Val(New String(Part.Substring(Index + 1).
-                                                            TakeWhile(Function(Ch As Char) Ch <> ")"c).ToArray).TrimEnd(")"c)))
+                                                        VideoNumberApproximately.Checked = True
+                                                        VideoNumberApproximate.Value = Decimal.Parse(Part.Substring(Index + 1).TrimEnd(")"c))
                                                     End If
-                                                End If
-                                            Case "V"c
-                                                SV = True
-                                                VideoNumber.Checked = True
-                                                VideoNumbers.Value =
-                                                    CDec(Val(New String(Part.Substring(1).TakeWhile(
-                                                    Function(Ch As Char) Char.IsDigit(Ch)).ToArray)))
-                                                Dim Index As Integer = Part.IndexOf("("c)
-                                                If Index <> -1 Then
-                                                    VideoNumberApproximately.Checked = True
-                                                    VideoNumberApproximate.Value = Decimal.Parse(Part.Substring(Index + 1).TrimEnd(")"c))
-                                                End If
-                                        End Select
-                                    Next
-                                Case "R"c
-                                    R = True
-                                    Speedrun.Checked = True
-                                    SpeedrunMultiplier.Value = CDec(Input.Substring(1))
-                            End Select
-                        End If
-                End Select
-            Next
-        End If
-        Solo.Checked = Solol
-        'NN, E, X, J, C, SSM, SS, SV
-        If Not NN Then NoNarration.Checked = False
-        If Not E Then Extra.Checked = False
-        If Not X Then NotSuggested.Checked = False
-        If Not J Then JustRecord.Checked = False
-        If Not C Then Continued.Checked = False
-        If Not (SSM Or SS Or SV) Then Special.Checked = False
-        If Not SSM Then SeriesNumber.Checked = False
-        If Not SS Then SubscribeCount.Checked = False
-        If Not SV Then VideoNumber.Checked = False
-        If Not R Then Speedrun.Checked = False
-        Refresh()
+                                            End Select
+                                        Next
+                                    Case "R"c
+                                        R = True
+                                        Speedrun.Checked = True
+                                        SpeedrunMultiplier.Value = CDec(Input.Substring(1))
+                                End Select
+                            End If
+                    End Select
+                Next
+            End If
+            Solo.Checked = Solol
+            'NN, E, X, J, C, SSM, SS, SV
+            If Not NN Then NoNarration.Checked = False
+            If Not E Then Extra.Checked = False
+            If Not X Then NotSuggested.Checked = False
+            If Not J Then JustRecord.Checked = False
+            If Not C Then Continued.Checked = False
+            If Not (SSM Or SS Or SV) Then Special.Checked = False
+            If Not SSM Then SeriesNumber.Checked = False
+            If Not SS Then SubscribeCount.Checked = False
+            If Not SV Then VideoNumber.Checked = False
+            If Not R Then Speedrun.Checked = False
+            Refresh()
+        Catch
+        End Try
     End Sub
 
     Public Overloads Overrides Sub Refresh()
@@ -840,6 +845,7 @@ Retry:  Try
     End Sub
 
     Friend Function ThrowFormatException(Message As String) As String
+        MsgBox(Message)
         Throw New FormatException(Message)
         Return GetType(Void).ToString
     End Function
@@ -890,12 +896,16 @@ Retry:  Try
         Dim Selected As Object = List.SelectedItem
         List.Items.Clear()
         If String.IsNullOrEmpty(Query.Text) Then
+            For Each Item In Names.Keys
+                List.Items.Add(Item)
+            Next
+        ElseIf QueryVideo Then
             For Each Item In Names
-                List.Items.Add(Item.Key)
+                If Item.Value Like Query.Text Then List.Items.Add(Item.Key)
             Next
         Else
-            For Each Item In Names
-                If Item.Key Like Query.Text Then List.Items.Add(Item.Key)
+            For Each Item In Names.Keys
+                If Item Like Query.Text Then List.Items.Add(Item)
             Next
         End If
         List.Items.Remove(Empty)
@@ -927,6 +937,48 @@ Retry:  Try
     End Sub
 
     Private Sub LocalSearch_Click(sender As Object, e As EventArgs) Handles LocalSearch.Click
+        Dim Error404 As Boolean = True
+        For Each Drive As IO.DriveInfo In IO.DriveInfo.GetDrives
+            If Not Drive.IsReady Then Continue For
+            For Each File As IO.FileInfo In Drive.RootDirectory.GetFiles(
+                CStr(List.SelectedItem), IO.SearchOption.TopDirectoryOnly)
+                Process.Start("explorer.exe", $"/select, " + File.FullName)
+                Error404 = False
+            Next
+        Next
+        If Error404 Then MsgBox("404: File Not Found!", MsgBoxStyle.Exclamation)
+    End Sub
+    Private Iterator Function SearchFile(ByVal SearchDir As IEnumerable(Of IO.DirectoryInfo),
+                                ByVal searchFileName As String) As IEnumerable(Of String)
+        For Each Dir As IO.DirectoryInfo In SearchDir
+            For Each Item As String In SearchFile(Dir, searchFileName)
+                Yield Item
+            Next
+        Next
+    End Function
+    Private Iterator Function SearchFile(ByVal SearchDir As IO.DirectoryInfo,
+                                ByVal searchFileName As String) As IEnumerable(Of String)
+        Try
+            For Each Info As IO.FileInfo In SearchDir.GetFiles(searchFileName)
+                Yield Info.FullName
+            Next
+        Catch
+        End Try
+        Dim Directories() As IO.DirectoryInfo = {}
+        Try
+            Directories = SearchDir.GetDirectories(“*”, IO.SearchOption.AllDirectories)
+        Catch
+        End Try
+        For Each newDir As IO.DirectoryInfo In Directories
+            For Each Item As String In SearchFile(newDir, searchFileName)
+                Yield Item
+            Next
+        Next
+    End Function
+    Friend QueryVideo As Boolean
+    Private Sub QuerySwitch_Click(sender As Object, e As EventArgs) Handles QuerySwitch.Click
+        QueryVideo = Not QueryVideo
+        QuerySwitch.Text = If(QueryVideo, "Video", "File")
     End Sub
 End Class
 #If False Then
