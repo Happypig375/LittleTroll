@@ -940,13 +940,28 @@ Retry:  Try
         Dim Error404 As Boolean = True
         For Each Drive As IO.DriveInfo In IO.DriveInfo.GetDrives
             If Not Drive.IsReady Then Continue For
-            For Each File As IO.FileInfo In Drive.RootDirectory.GetFiles(
-                CStr(List.SelectedItem), IO.SearchOption.TopDirectoryOnly)
+            SearchFileShallow(Drive.RootDirectory.GetDirectories().Concat({Drive.RootDirectory}),
+                 CStr(List.SelectedItem), Error404)
+        Next
+        If Error404 Then MsgBox("404: File Not Found!", MsgBoxStyle.Exclamation)
+    End Sub
+    Private Sub SearchFileShallow(Directories As IEnumerable(Of IO.DirectoryInfo),
+                                  FileName As String, ByRef Error404 As Boolean)
+
+        For Each Files As IO.FileInfo() In Directories.Select(Function(Dir)
+                                                                  Try
+                                                                      Return Dir.GetFiles(FileName,
+                                                                          IO.SearchOption.TopDirectoryOnly)
+                                                                  Catch
+                                                                      Return Nothing
+                                                                  End Try
+                                                              End Function).TakeWhile(Function(x) x IsNot Nothing)
+            For Each File As IO.FileInfo In Files
+                If File Is Nothing Then Continue For
                 Process.Start("explorer.exe", $"/select, " + File.FullName)
                 Error404 = False
             Next
         Next
-        If Error404 Then MsgBox("404: File Not Found!", MsgBoxStyle.Exclamation)
     End Sub
     Private Iterator Function SearchFile(ByVal SearchDir As IEnumerable(Of IO.DirectoryInfo),
                                 ByVal searchFileName As String) As IEnumerable(Of String)
