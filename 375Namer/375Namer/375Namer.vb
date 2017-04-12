@@ -1,5 +1,5 @@
 ﻿Public Class Form
-    Friend ReadOnly Settings As String = My.Computer.FileSystem.CurrentDirectory & "\375Namer.settings"
+    Friend ReadOnly Settings As String = Environment.CurrentDirectory & "\375Namer.settings"
     Friend Const Delimiter As Char = ChrW(7)
     Friend Const DefaultName As String = "├Minecraft遊記┤1："
     Friend Const Empty As String = "<empty>"
@@ -121,12 +121,14 @@ Retry:  Try
     End Sub
     Private Sub ExpectedCut_CheckedChanged(sender As Object, e As EventArgs) Handles ExpectedCut.CheckedChanged, Me.Load
         If ExpectedCut.Checked Then
+            If NumberSuffix.Text.StartsWith("_") Then NumberSuffix.Text = ChrW(96 + CInt(NumberSuffix.Text.TrimStart("_"c)))
             NumberSuffix.Items.Clear()
             NumberSuffix.Items.Add("")
             For i = Asc("a"c) To Asc("z"c)
                 NumberSuffix.Items.Add(Chr(i))
             Next
         Else
+            If NumberSuffix.Text.Length = 1 Then NumberSuffix.Text = "_" & AscW(NumberSuffix.Text) - 96
             NumberSuffix.Items.Clear()
             NumberSuffix.Items.Add("")
             For i = 1 To 99
@@ -223,6 +225,7 @@ Retry:  Try
         ToCode = -1
         FromCode
     End Enum
+    <Obsolete(”Not used.“)>
     Friend Enum Serie As Byte
         Minecraft遊記
         Minecraft編輯遊記
@@ -234,6 +237,7 @@ Retry:  Try
         Minecraft玩人記
         Minecraft_Skyblock遊記
         Minecraft生存
+        Minecraft生存_2
         Minecraft村莊生存
         LAN連線記
         ___ = 255
@@ -254,6 +258,7 @@ Retry:  Try
             {"Minecraft玩人記", "MT"},
             {"Minecraft Skyblock遊記", "MB"},
             {"Minecraft生存", "MS"},
+            {"Minecraft生存 2", "MS2"},
             {"Minecraft村莊生存", "MVS"},
             {"---", ""},
             {"LAN連線記", "L"},
@@ -626,12 +631,14 @@ Retry:  Try
     Private Sub ContinuedFromExpectedCut_CheckedChanged(sender As Object, e As EventArgs) Handles ContinuedFromExpectedCut.CheckedChanged,
         Me.Load
         If ContinuedFromExpectedCut.Checked Then
+            If ContinuedFromSuffix.Text.StartsWith("_") Then ContinuedFromSuffix.Text = ChrW(96 + CInt(ContinuedFromSuffix.Text.TrimStart("_"c)))
             ContinuedFromSuffix.Items.Clear()
             ContinuedFromSuffix.Items.Add("")
             For i = Asc("a"c) To Asc("z"c)
                 ContinuedFromSuffix.Items.Add(Chr(i))
             Next
         Else
+            If ContinuedFromSuffix.Text.Length = 1 Then ContinuedFromSuffix.Text = "_" & AscW(ContinuedFromSuffix.Text) - 96
             ContinuedFromSuffix.Items.Clear()
             ContinuedFromSuffix.Items.Add("")
             For i = 1 To 99
@@ -704,7 +711,7 @@ Retry:  Try
             End If
             Number.Value = CDec(Val(New String(Input.TakeWhile(Function(Ch As Char) Char.IsDigit(Ch)).ToArray)))
             Dim Match As System.Text.RegularExpressions.Match =
-                System.Text.RegularExpressions.Regex.Match(Input, "(?<=\d+)([a-z]|[A-Z]|_\d{1,2)(?=：)")
+                System.Text.RegularExpressions.Regex.Match(Input, "(?<=\d+)([a-z]|[A-Z]|_\d{1,2})(?=：)")
             If Match.Success Then
                 If Match.Value.Length = 1 Then
                     ExpectedCut.Checked = True
@@ -885,9 +892,7 @@ Retry:  Try
         If MsgBox("Are you sure?", MsgBoxStyle.YesNo Or MsgBoxStyle.DefaultButton2) = MsgBoxResult.No Then Return
         Dim Selected As Object = List.SelectedItem
         Names.Remove(CStr(List.SelectedItem))
-        If List.Items.Count = 1 Then
-            Names.Add(Empty, DefaultName)
-        End If
+        If List.Items.Count = 1 Then List.Items.Add(Empty)
         If List.Items.Count = List.SelectedIndex + 1 Then List.SelectedIndex -= 1 Else List.SelectedIndex += 1
         List.Items.Remove(Selected)
     End Sub
@@ -955,7 +960,7 @@ Retry:  Try
                                                                   Catch
                                                                       Return Nothing
                                                                   End Try
-                                                              End Function).TakeWhile(Function(x) x IsNot Nothing)
+                                                              End Function).Where(Function(x) x IsNot Nothing)
             For Each File As IO.FileInfo In Files
                 If File Is Nothing Then Continue For
                 Process.Start("explorer.exe", $"/select, " + File.FullName)
