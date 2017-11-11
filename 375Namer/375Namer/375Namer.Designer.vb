@@ -83,6 +83,7 @@ Partial Class Form
         Me.ParseName = New System.Windows.Forms.Button()
         Me.LocalSearch = New System.Windows.Forms.Button()
         Me.QuerySwitch = New System.Windows.Forms.Button()
+        Me.CopyFile = New System.Windows.Forms.Button()
         CType(Me.Number, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Specials.SuspendLayout()
         CType(Me.SubscribeCounter, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -99,6 +100,7 @@ Partial Class Form
         '
         Me.List.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.List.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
         Me.List.ForeColor = System.Drawing.SystemColors.WindowText
         Me.List.FormattingEnabled = True
         Me.List.Location = New System.Drawing.Point(13, 52)
@@ -507,7 +509,6 @@ Partial Class Form
         '
         Me.ContinuedFromSeries.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.ContinuedFromSeries.FormattingEnabled = True
-        Me.ContinuedFromSeries.Items.AddRange(New Object() {"Minecraft遊記", "Minecraft編輯遊記", "Minecraft Hide&Seek遊記", "Minecraft Universe遊記", "Minecraft版本遊記", "Minecraft玩人記", "Minecraft Skyblock遊記", "Minecraft生存", "Minecraft村莊生存", "LAN連線記", "---", "頻道更新", "Agar.io", " Vlog", "趣遊", "小遊戲時間", "VVVVVV"})
         Me.ContinuedFromSeries.Location = New System.Drawing.Point(32, 16)
         Me.ContinuedFromSeries.Name = "ContinuedFromSeries"
         Me.ContinuedFromSeries.Size = New System.Drawing.Size(121, 21)
@@ -665,10 +666,10 @@ Partial Class Form
         '
         Me.Output.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Output.Location = New System.Drawing.Point(12, 296)
+        Me.Output.Location = New System.Drawing.Point(115, 296)
         Me.Output.Name = "Output"
         Me.Output.ReadOnly = True
-        Me.Output.Size = New System.Drawing.Size(732, 20)
+        Me.Output.Size = New System.Drawing.Size(629, 20)
         Me.Output.TabIndex = 27
         '
         'Copy
@@ -808,11 +809,21 @@ Partial Class Form
         Me.QuerySwitch.Text = "File"
         Me.QuerySwitch.UseVisualStyleBackColor = True
         '
+        'CopyFile
+        '
+        Me.CopyFile.Location = New System.Drawing.Point(13, 296)
+        Me.CopyFile.Name = "CopyFile"
+        Me.CopyFile.Size = New System.Drawing.Size(96, 23)
+        Me.CopyFile.TabIndex = 42
+        Me.CopyFile.Text = "Copy File Name"
+        Me.CopyFile.UseVisualStyleBackColor = True
+        '
         'Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(868, 326)
+        Me.Controls.Add(Me.CopyFile)
         Me.Controls.Add(Me.QuerySwitch)
         Me.Controls.Add(Me.LocalSearch)
         Me.Controls.Add(Me.ParseName)
@@ -934,4 +945,5 @@ Partial Class Form
     Friend WithEvents ParseName As Button
     Friend WithEvents LocalSearch As Button
     Friend WithEvents QuerySwitch As Button
+    Friend WithEvents CopyFile As Button
 End Class

@@ -4,11 +4,42 @@
     Friend Const DefaultName As String = "├Minecraft遊記┤1："
     Friend Const Empty As String = "<empty>"
     Friend Names As New SortedDictionary(Of String, String) From {{Empty, DefaultName}}
+    Friend ShallowFiles As IEnumerable(Of String) = IO.DriveInfo.GetDrives().Where(Function(Drive) Drive.IsReady).
+        SelectMany(Function(Drive) Drive.RootDirectory.GetDirectories().Concat({Drive.RootDirectory})).
+        SelectMany(Function(Directory)
+                       Try
+                           Return Directory.GetFiles()
+                       Catch
+                           Return Nothing
+                       End Try
+                   End Function).Where(Function(x) x IsNot Nothing).Select(Function(File) File.FullName)
+    Dim Codes As New Dictionary(Of String, String) From {
+            {"Minecraft遊記", "M"},
+            {"Minecraft編輯遊記", "ME"},
+            {"Minecraft Factions遊記", "MF"},
+            {"Minecraft Factions 2", "MF2"},
+            {"Minecraft Hide&Seek遊記", "MH"},
+            {"Minecraft Universe遊記", "MU"},
+            {"Minecraft版本遊記", "MV"},
+            {"Minecraft玩人記", "MT"},
+            {"Minecraft Skyblock遊記", "MB"},
+            {"Minecraft生存", "MS"},
+            {"Minecraft生存 2", "MS2"},
+            {"Minecraft村莊生存", "MVS"},
+            {"---", ""},
+            {"LAN連線記", "L"},
+            {"頻道更新", "U"},
+            {"Agar.io", "A"},
+            {"Bonk.io", "B"},
+            {"Vlog", "V"},
+            {"趣遊", "F"},
+            {"小遊戲時間", "G"},
+            {"VVVVVV", "VV"}
+        }
     Private Sub Form_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
         Using Writer As New IO.StreamWriter(Settings, False, System.Text.Encoding.Unicode) With {.NewLine = vbCrLf}
             Names.Remove(Empty)
             For Each Pair In Names
-
                 Writer.WriteLine(Pair.Key & Delimiter & Pair.Value)
             Next
             Writer.Flush()
@@ -85,6 +116,7 @@
         Version.Text = "Version: " & My.Application.Info.Version.ToString(3)
         CodesInit()
         Series.SelectedIndex = 0
+        ContinuedFromSeries.Items.AddRange(Codes.Keys.ToArray())
         ContinuedFromSeries.SelectedIndex = 0
         Title.Text = Chr(0)
 Retry:  Try
@@ -247,29 +279,6 @@ Retry:  Try
         趣遊
         小遊戲時間
     End Enum
-    Dim Codes As New Dictionary(Of String, String) From {
-            {"Minecraft遊記", "M"},
-            {"Minecraft編輯遊記", "ME"},
-            {"Minecraft Factions遊記", "MF"},
-            {"Minecraft Factions 2", "MF2"},
-            {"Minecraft Hide&Seek遊記", "MH"},
-            {"Minecraft Universe遊記", "MU"},
-            {"Minecraft版本遊記", "MV"},
-            {"Minecraft玩人記", "MT"},
-            {"Minecraft Skyblock遊記", "MB"},
-            {"Minecraft生存", "MS"},
-            {"Minecraft生存 2", "MS2"},
-            {"Minecraft村莊生存", "MVS"},
-            {"---", ""},
-            {"LAN連線記", "L"},
-            {"頻道更新", "U"},
-            {"Agar.io", "A"},
-            {"Vlog", "V"},
-            {"趣遊", "F"},
-            {"小遊戲時間", "G"},
-            {"VVVVVV", "VV"},
-            {"", ""}
-        }
     Sub CodesInit()
         Series.Items.Clear()
         Series.Items.AddRange(Codes.Keys.Where(Function(s As String)
@@ -942,16 +951,21 @@ Retry:  Try
     End Sub
 
     Private Sub LocalSearch_Click(sender As Object, e As EventArgs) Handles LocalSearch.Click
-        Dim Error404 As Boolean = True
-        For Each Drive As IO.DriveInfo In IO.DriveInfo.GetDrives
-            If Not Drive.IsReady Then Continue For
-            SearchFileShallow(Drive.RootDirectory.GetDirectories().Concat({Drive.RootDirectory}),
-                 CStr(List.SelectedItem), Error404)
+        Dim Error404 = True
+        For Each File In ShallowFiles.Where(Function(ShallowFile) IO.Path.GetFileName(ShallowFile) = CStr(List.SelectedItem))
+            Process.Start("explorer.exe", $"/select, " + File)
+            Error404 = False
         Next
         If Error404 Then MsgBox("404: File Not Found!", MsgBoxStyle.Exclamation)
     End Sub
+    Private Sub DoLocalSearch(FileName As String, Found As Action(Of IO.FileInfo))
+        For Each Drive As IO.DriveInfo In IO.DriveInfo.GetDrives
+            If Not Drive.IsReady Then Continue For
+            SearchFileShallow(Drive.RootDirectory.GetDirectories().Concat({Drive.RootDirectory}), FileName, Found)
+        Next
+    End Sub
     Private Sub SearchFileShallow(Directories As IEnumerable(Of IO.DirectoryInfo),
-                                  FileName As String, ByRef Error404 As Boolean)
+                                  FileName As String, Found As Action(Of IO.FileInfo))
 
         For Each Files As IO.FileInfo() In Directories.Select(Function(Dir)
                                                                   Try
@@ -963,8 +977,7 @@ Retry:  Try
                                                               End Function).Where(Function(x) x IsNot Nothing)
             For Each File As IO.FileInfo In Files
                 If File Is Nothing Then Continue For
-                Process.Start("explorer.exe", $"/select, " + File.FullName)
-                Error404 = False
+                Found(File)
             Next
         Next
     End Sub
@@ -1000,6 +1013,56 @@ Retry:  Try
         QueryVideo = Not QueryVideo
         QuerySwitch.Text = If(QueryVideo, "Video", "File")
     End Sub
+
+    Private Sub CopyFile_Click(sender As Object, e As EventArgs) Handles CopyFile.Click
+        Clipboard.SetText(CStr(List.SelectedItem))
+    End Sub
+    'https://stackoverflow.com/questions/91747/background-color-of-a-listbox-item-winforms
+    'global brushes with ordinary/selected colors
+    ReadOnly ForegroundBrushSelected As New Drawing.SolidBrush(Drawing.Color.White)
+    ReadOnly ForegroundBrush As New Drawing.SolidBrush(Drawing.Color.Black)
+    ReadOnly BackgroundBrushSelected As New Drawing.SolidBrush(Drawing.Color.FromKnownColor(Drawing.KnownColor.Highlight))
+    ReadOnly BackgroundBrushNormal As New Drawing.SolidBrush(Drawing.Color.White)
+    ReadOnly BackgroundBrushExistInFileSystem As New Drawing.SolidBrush(Drawing.Color.Yellow)
+
+    'custom method to draw the items, don't forget to set DrawMode of the ListBox to OwnerDrawFixed
+    Private Sub List_DrawItem(sender As Object, e As DrawItemEventArgs) Handles List.DrawItem
+        e.DrawBackground()
+        Dim selected = (e.State And DrawItemState.Selected) = DrawItemState.Selected
+
+        Dim index = e.Index
+        If index >= 0 AndAlso index < List.Items.Count Then
+            Dim Text = List.Items(index).ToString()
+            Dim g = e.Graphics
+            'background
+            Dim backgroundBrush As Drawing.SolidBrush
+            If selected Then
+                backgroundBrush = BackgroundBrushSelected
+            ElseIf ShallowFiles.Contains(Text, New PathEqualityComparer) Then
+                backgroundBrush = BackgroundBrushExistInFileSystem
+            Else
+                backgroundBrush = BackgroundBrushNormal
+            End If
+            g.FillRectangle(backgroundBrush, e.Bounds)
+
+            'text
+            Dim foregroundBrush = If(selected, ForegroundBrushSelected, Me.ForegroundBrush)
+            g.DrawString(Text, e.Font, foregroundBrush, List.GetItemRectangle(index).Location)
+        End If
+
+        e.DrawFocusRectangle()
+    End Sub
+    Class PathEqualityComparer
+        Inherits EqualityComparer(Of String)
+
+        Public Overrides Function Equals(x As String, y As String) As Boolean
+            Return IO.Path.GetFileName(x) = y
+        End Function
+
+        Public Overrides Function GetHashCode(obj As String) As Integer
+            Return obj.GetHashCode()
+        End Function
+    End Class
 End Class
 #If False Then
 Public Module Extensions
