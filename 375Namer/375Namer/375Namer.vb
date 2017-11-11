@@ -4,15 +4,15 @@
     Friend Const DefaultName As String = "├Minecraft遊記┤1："
     Friend Const Empty As String = "<empty>"
     Friend Names As New SortedDictionary(Of String, String) From {{Empty, DefaultName}}
-    Friend ShallowFiles As IEnumerable(Of String) = IO.DriveInfo.GetDrives().Where(Function(Drive) Drive.IsReady).
+    Friend ShallowFiles As String() = IO.DriveInfo.GetDrives().Where(Function(Drive) Drive.IsReady).
         SelectMany(Function(Drive) Drive.RootDirectory.GetDirectories().Concat({Drive.RootDirectory})).
         SelectMany(Function(Directory)
                        Try
                            Return Directory.GetFiles()
                        Catch
-                           Return Nothing
+                           Return Enumerable.Empty(Of IO.FileInfo)
                        End Try
-                   End Function).Where(Function(x) x IsNot Nothing).Select(Function(File) File.FullName)
+                   End Function).Select(Function(File) File.FullName).ToArray()
     Dim Codes As New Dictionary(Of String, String) From {
             {"Minecraft遊記", "M"},
             {"Minecraft編輯遊記", "ME"},
@@ -913,7 +913,7 @@ Retry:  Try
             For Each Item In Names.Keys
                 List.Items.Add(Item)
             Next
-        ElseIf QueryVideo Then
+        ElseIf Query.Text = "Video" Then
             For Each Item In Names
                 If Item.Value Like Query.Text Then List.Items.Add(Item.Key)
             Next
@@ -958,6 +958,8 @@ Retry:  Try
         Next
         If Error404 Then MsgBox("404: File Not Found!", MsgBoxStyle.Exclamation)
     End Sub
+
+#If False Then
     Private Sub DoLocalSearch(FileName As String, Found As Action(Of IO.FileInfo))
         For Each Drive As IO.DriveInfo In IO.DriveInfo.GetDrives
             If Not Drive.IsReady Then Continue For
@@ -1008,10 +1010,10 @@ Retry:  Try
             Next
         Next
     End Function
-    Friend QueryVideo As Boolean
+#End If
+
     Private Sub QuerySwitch_Click(sender As Object, e As EventArgs) Handles QuerySwitch.Click
-        QueryVideo = Not QueryVideo
-        QuerySwitch.Text = If(QueryVideo, "Video", "File")
+        QuerySwitch.Text = If(QuerySwitch.Text = "File", "Video", "File")
     End Sub
 
     Private Sub CopyFile_Click(sender As Object, e As EventArgs) Handles CopyFile.Click
@@ -1019,11 +1021,12 @@ Retry:  Try
     End Sub
     'https://stackoverflow.com/questions/91747/background-color-of-a-listbox-item-winforms
     'global brushes with ordinary/selected colors
-    ReadOnly ForegroundBrushSelected As New Drawing.SolidBrush(Drawing.Color.White)
-    ReadOnly ForegroundBrush As New Drawing.SolidBrush(Drawing.Color.Black)
-    ReadOnly BackgroundBrushSelected As New Drawing.SolidBrush(Drawing.Color.FromKnownColor(Drawing.KnownColor.Highlight))
-    ReadOnly BackgroundBrushNormal As New Drawing.SolidBrush(Drawing.Color.White)
-    ReadOnly BackgroundBrushExistInFileSystem As New Drawing.SolidBrush(Drawing.Color.Yellow)
+    ReadOnly ForegroundBrushSelected As Drawing.Brush = Drawing.Brushes.White
+    ReadOnly ForegroundBrush As Drawing.Brush = Drawing.Brushes.Black
+    ReadOnly BackgroundBrushNormal As Drawing.Brush = Drawing.Brushes.White
+    ReadOnly BackgroundBrushSelected As Drawing.Brush = Drawing.SystemBrushes.Highlight
+    ReadOnly BackgroundBrushExistInFileSystem As Drawing.Brush = Drawing.Brushes.Yellow
+    'ReadOnly BackgroundBrushExistInFileSystemSelected As Drawing.Brush = New Drawing.SolidBrush(Drawing.Color.)
 
     'custom method to draw the items, don't forget to set DrawMode of the ListBox to OwnerDrawFixed
     Private Sub List_DrawItem(sender As Object, e As DrawItemEventArgs) Handles List.DrawItem
@@ -1035,10 +1038,10 @@ Retry:  Try
             Dim Text = List.Items(index).ToString()
             Dim g = e.Graphics
             'background
-            Dim backgroundBrush As Drawing.SolidBrush
+            Dim backgroundBrush As Drawing.Brush
             If selected Then
                 backgroundBrush = BackgroundBrushSelected
-            ElseIf ShallowFiles.Contains(Text, New PathEqualityComparer) Then
+            ElseIf ShallowFiles.Contains(Text, PathEqualityComparer.Instance) Then
                 backgroundBrush = BackgroundBrushExistInFileSystem
             Else
                 backgroundBrush = BackgroundBrushNormal
@@ -1053,13 +1056,15 @@ Retry:  Try
         e.DrawFocusRectangle()
     End Sub
     Class PathEqualityComparer
-        Inherits EqualityComparer(Of String)
+        Implements IEqualityComparer(Of String)
 
-        Public Overrides Function Equals(x As String, y As String) As Boolean
+        Public Shared ReadOnly Instance As New PathEqualityComparer
+
+        Public Overloads Function Equals(x As String, y As String) As Boolean Implements IEqualityComparer(Of String).Equals
             Return IO.Path.GetFileName(x) = y
         End Function
 
-        Public Overrides Function GetHashCode(obj As String) As Integer
+        Public Overloads Function GetHashCode(obj As String) As Integer Implements IEqualityComparer(Of String).GetHashCode
             Return obj.GetHashCode()
         End Function
     End Class
